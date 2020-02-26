@@ -177,7 +177,7 @@
             <MenuItem Header="Help">
                 <MenuItem Header="About" Command="{Binding HelpCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>
             </MenuItem>
-            <MenuItem Header="Help">
+            <MenuItem Header="Theme">
                 <MenuItem Header="Dark theme"  Click="SetTheme" Uid="0" Template="{DynamicResource DropDownMenuItemTemplate}"/>
                 <MenuItem Header="Light theme" Click="SetTheme" Uid="1" Template="{DynamicResource DropDownMenuItemTemplate}"/>
             </MenuItem>
