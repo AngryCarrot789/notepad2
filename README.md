@@ -1,4 +1,5 @@
 ## WARNING! I THINK THE LAST UPDATE HAD LIGHT THEME ON SO DONT GET BLINDED! 
+## EDIT NVM JUST REALISED THE SETTINGS ARE LOCAL TO YOUR PC SO IT WILL AUTO-GOTO DARK ON YOURS... I THINK
 click the theme menu at the top bar, click dark and enjoy the darker theme :)
 # Notepad # (Notepad Sharp, good name tbh)
 
