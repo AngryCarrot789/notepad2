@@ -1,4 +1,6 @@
-# Notepad2
+## WARNING! I THINK THE LAST UPDATE HAD LIGHT THEME ON SO DONT GET BLINDED! 
+click the theme menu at the top bar, click dark and enjoy the darker theme :)
+# Notepad # (Notepad Sharp, good name tbh)
 
 Window's notepad is blindingly light themed, so i decided to make my own dark theme version. It's fairly robust but it works
 
