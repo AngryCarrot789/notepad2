@@ -1,0 +1,83 @@
+﻿<Window x:Class="Notepad2.Views.FontDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Notepad2.Views"
+        xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
+        xmlns:win="clr-namespace:System.Windows;assembly=PresentationCore"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="Font Dialog" Height="500" Width="500"
+        WindowStartupLocation="CenterScreen" Background="{DynamicResource BackgroundColour}">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="FontFamilyOptions"
+                            ObjectType="{x:Type media:Fonts}"
+                            MethodName="get_SystemFontFamilies"/>
+
+        <x:Array x:Key="FontSizeOptions"
+                 Type="sys:Double">
+            <sys:Double>12</sys:Double>
+            <sys:Double>18</sys:Double>
+            <sys:Double>26</sys:Double>
+            <sys:Double>36</sys:Double>
+            <sys:Double>72</sys:Double>
+        </x:Array>
+
+        <x:Array x:Key="FontWeightOptions" Type="win:FontWeight">
+            <win:FontWeight>Normal</win:FontWeight>
+            <win:FontWeight>Bold</win:FontWeight>
+            <win:FontWeight>ExtraBold</win:FontWeight>
+        </x:Array>
+
+        <x:Array x:Key="FontStyleOptions" Type="win:FontStyle">
+            <win:FontStyle>Normal</win:FontStyle>
+            <win:FontStyle>Italic</win:FontStyle>
+            <win:FontStyle>Oblique</win:FontStyle>
+        </x:Array>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Row="0" Grid.Column="0">
+            <TextBlock DockPanel.Dock="Top" FontSize="16">Font Family</TextBlock>
+            <ListBox ItemsSource="{Binding Source={StaticResource FontFamilyOptions}}"
+                     SelectedItem="{Binding Family}"
+                     SelectedIndex="0" FontSize="16">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+
+        <DockPanel Grid.Row="0" Grid.Column="1">
+            <TextBlock DockPanel.Dock="Top" FontSize="16">Font Size</TextBlock>
+            <ListBox ItemsSource="{Binding Source={StaticResource FontSizeOptions}}"
+                     SelectedItem="{Binding Size}"
+                     SelectedIndex="0" FontSize="16"/>
+        </DockPanel>
+
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <TextBlock>Font Styles</TextBlock>
+            <ComboBox ItemsSource="{Binding Source={StaticResource FontStyleOptions}}"
+                      SelectedItem="{Binding Style}"
+                      SelectedIndex="0" FontSize="16"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <TextBlock>Font Weight</TextBlock>
+            <ComboBox ItemsSource="{Binding Source={StaticResource FontWeightOptions}}"
+                      SelectedItem="{Binding Weight}"
+                      SelectedIndex="0" FontSize="16"/>
+        </StackPanel>
+    </Grid>
+</Window>

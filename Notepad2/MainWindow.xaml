@@ -1,0 +1,186 @@
+﻿<Window x:Class="Notepad2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Notepad2"
+        xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
+        mc:Ignorable="d" Closing="Window_Closing" ResizeMode="CanResizeWithGrip"
+        xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
+        xmlns:win="clr-namespace:System.Windows;assembly=PresentationCore"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Title="Notepad" Height="547" Width="928.5" Background="{DynamicResource BackgroundColour}">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="FontFamilyOptions"
+                            ObjectType="{x:Type media:Fonts}"
+                            MethodName="get_SystemFontFamilies"/>
+
+        <x:Array x:Key="FontSizeOptions"
+                 Type="sys:Double">
+            <sys:Double>4</sys:Double>
+            <sys:Double>6</sys:Double>
+            <sys:Double>8</sys:Double>
+            <sys:Double>10</sys:Double>
+            <sys:Double>12</sys:Double>
+            <sys:Double>14</sys:Double>
+            <sys:Double>16</sys:Double>
+            <sys:Double>18</sys:Double>
+            <sys:Double>24</sys:Double>
+            <sys:Double>32</sys:Double>
+            <sys:Double>36</sys:Double>
+            <sys:Double>48</sys:Double>
+            <sys:Double>72</sys:Double>
+            <sys:Double>100</sys:Double>
+        </x:Array>
+
+        <x:Array x:Key="FontWeightOptions" Type="win:FontWeight">
+            <win:FontWeight>Normal</win:FontWeight>
+            <win:FontWeight>Bold</win:FontWeight>
+            <win:FontWeight>ExtraBold</win:FontWeight>
+        </x:Array>
+
+        <x:Array x:Key="FontStyleOptions" Type="win:FontStyle">
+            <win:FontStyle>Normal</win:FontStyle>
+            <win:FontStyle>Italic</win:FontStyle>
+            <win:FontStyle>Oblique</win:FontStyle>
+        </x:Array>
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding SaveCommand}" Gesture="CTRL+S"/>
+        <KeyBinding Command="{Binding CloseSelectedNotepadCommand}" Gesture="ESC"/>
+    </Window.InputBindings>
+    <Grid>
+        <DockPanel HorizontalAlignment="Stretch" Margin="0,54,0,0">
+            <Grid x:Name="FontDialogPanel" DataContext="{Binding Notepad.DocumentFormat}" DockPanel.Dock="Right" Width="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <DockPanel Grid.Row="0" Grid.Column="0">
+                    <TextBlock DockPanel.Dock="Top" FontSize="16">Font Family</TextBlock>
+                    <ListBox ItemsSource="{Binding Source={StaticResource FontFamilyOptions}}"
+                     SelectedItem="{Binding Family}"
+                     SelectedIndex="0" FontSize="16">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+
+                <DockPanel Grid.Row="0" Grid.Column="1">
+                    <TextBlock DockPanel.Dock="Top" FontSize="16">Font Size</TextBlock>
+                    <ListBox ItemsSource="{Binding Source={StaticResource FontSizeOptions}}"
+                     SelectedItem="{Binding Size}"
+                     SelectedIndex="0" FontSize="16"/>
+                </DockPanel>
+
+                <StackPanel Grid.Column="0" Grid.Row="1">
+                    <TextBlock>Font Styles</TextBlock>
+                    <ComboBox ItemsSource="{Binding Source={StaticResource FontStyleOptions}}"
+                      SelectedItem="{Binding Style}"
+                      SelectedIndex="0" FontSize="16"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Grid.Row="1">
+                    <TextBlock>Font Weight</TextBlock>
+                    <ComboBox ItemsSource="{Binding Source={StaticResource FontWeightOptions}}"
+                      SelectedItem="{Binding Weight}"
+                      SelectedIndex="0" FontSize="16"/>
+                </StackPanel>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120*" MaxWidth="320"/>
+                    <ColumnDefinition Width="3"/>
+                    <ColumnDefinition Width="500*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Background="{DynamicResource ContainerBackground}">
+                    <Button Command="{Binding ClearListAndNotepadCommand}" Content="Clear list and Notepad" Margin="10,0,10,10" VerticalAlignment="Bottom" Height="50"/>
+                    <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
+                         SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}" Margin="4,4,4,65"
+                         HorizontalContentAlignment="Stretch" BorderBrush="{DynamicResource ContainerBorder}" AllowDrop="True" Drop="ListBox_Drop"/>
+                </Grid>
+                <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+                <Grid Grid.Column="2" DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}">
+                    <Grid Margin="0,0,0,20">
+                        <TextBox
+                     FontFamily="{Binding   DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
+                     FontSize="{Binding     DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
+                     FontStyle="{Binding    DocumentFormat.Style, UpdateSourceTrigger=PropertyChanged}"
+                     FontWeight="{Binding   DocumentFormat.Weight, UpdateSourceTrigger=PropertyChanged}"
+                     TextWrapping="{Binding DocumentFormat.Wrap, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding         Document.Text, UpdateSourceTrigger=PropertyChanged}"
+                     Foreground="{StaticResource ControlDefaultForeground}"
+                     BorderBrush="{DynamicResource ControlDefaultBackground}"
+                     AcceptsReturn="True"
+                     AcceptsTab="True"
+                     HorizontalScrollBarVisibility="Visible"
+                     VerticalScrollBarVisibility="Visible"
+                     Language="en-UK"
+                     SpellCheck.IsEnabled="True" Background="{DynamicResource BackgroundColour}"/>
+                    </Grid>
+                    <Grid Background="{DynamicResource ControlDefaultBackground}" Height="20" VerticalAlignment="Bottom">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid>
+                            <TextBlock Text="Name:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBox VerticalAlignment="Center"
+                               DataContext="{Binding Document}"
+                               Text="{Binding FileName}" Background="Transparent" Margin="39,0,0,0"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <TextBlock Text="Path:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBox VerticalAlignment="Center"
+                               DataContext="{Binding Document}"
+                               Text="{Binding FilePath}" Background="Transparent" Margin="31,0,0,0"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </DockPanel>
+        <Grid Margin="0,18,0,0" Height="36" VerticalAlignment="Top" Background="{DynamicResource ContainerBackground}">
+            <Button Command="{Binding NewCommand}" HorizontalAlignment="Left" Margin="5,4,0,4" Width="28">
+                <Image Source="Resources/insert_drive_file_white_96x96.png"/>
+            </Button>
+            <Button Command="{Binding OpenCommand  }" HorizontalAlignment="Left" Margin="38,4,0,4" Width="28">
+                <Image Source="Resources/folder_open_white_96x96 (1).png"/>
+            </Button>
+            <Button Command="{Binding SaveCommand  }" HorizontalAlignment="Left" Margin="71,4,0,4" Width="28">
+                <Image Source="Resources/save_white_96x96.png"/>
+            </Button>
+            <Button Command="{Binding CloseSelectedNotepadCommand}" HorizontalAlignment="Left" Margin="104,4,0,4" Width="28">
+                <Image Source="Resources/highlight_off_white_96x96.png"/>
+            </Button>
+            <Button Click="ShowFontDialogPanel" Content="Show/Hide Fonts Dialog" HorizontalAlignment="Right" Margin="0,4,4,4" Width="160"/>
+
+        </Grid>
+        <Menu VerticalAlignment="Top" Background="{DynamicResource ControlDefaultBackground}" Grid.ColumnSpan="3">
+            <Menu.Items>
+                <MenuItem Header="File">
+                    <MenuItem Header="New" Command="{Binding NewCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>
+                    <MenuItem Header="Open" Command="{Binding OpenCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>
+                    <MenuItem Header="Save" Command="{Binding SaveCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>
+                    <MenuItem Header="Save as..." Command="{Binding SaveAsCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>
+                    <Separator/>
+                    <MenuItem Header="Close Selected Notepad" Command="{Binding CloseSelectedNotepadCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>
+                </MenuItem>
+                <MenuItem Header="Format">
+                    <MenuItem Header="Format" Click="ShowFontDialogPanel" Template="{DynamicResource DropDownMenuItemTemplate}"/>
+                    <CheckBox Content="Word wrap" IsChecked="{Binding Wrapping, UpdateSourceTrigger=PropertyChanged}"/>
+                </MenuItem>
+                <MenuItem Header="Help">
+                    <MenuItem Header="About" Command="{Binding HelpCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>
+                </MenuItem>
+            </Menu.Items>
+        </Menu>
+    </Grid>
+</Window>

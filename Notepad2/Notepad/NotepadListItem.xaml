@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="Notepad2.Notepad.NotepadListItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Notepad2.Notepad"
+             xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="150" Height="50">
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem Header="Open"  Uid="0" Click="MenuItem_Click" Template="{DynamicResource DropDownMenuItemTemplate}"/>
+            <MenuItem Header="Close" Uid="1" Click="MenuItem_Click" Template="{DynamicResource DropDownMenuItemTemplate}"/>
+        </ContextMenu>
+    </UserControl.ContextMenu>
+    <Grid Background="Transparent">
+        <TextBox Text="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" BorderBrush="Transparent" Margin="1,3,19,0" VerticalAlignment="Top" FontSize="14"/>
+        <TextBlock Text="{Binding Document.Text.Length, UpdateSourceTrigger=PropertyChanged}" Margin="33,0,0,3" VerticalAlignment="Bottom" FontSize="11" TextAlignment="Left" HorizontalAlignment="Left" Width="51" Height="15"/>
+        <TextBlock Text="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,16,4" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="50" TextAlignment="Right"/>
+        <TextBlock Text="Chars" Margin="4,0,118,3" VerticalAlignment="Bottom" FontSize="11" Height="15"/>
+        <TextBlock Text="KB" Margin="0,0,3,4" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="12" TextAlignment="Right"/>
+        <Button Background="Transparent" Content="X" HorizontalAlignment="Right" Margin="0,3,3,0" VerticalAlignment="Top" Width="16" Height="18" Click="Button_Click" FontSize="10"/>
+
+    </Grid>
+</UserControl>
