@@ -1,4 +1,4 @@
-# Notepad # (Notepad Sharp, good name tbh)
+# SharpPad
 Window's notepad is blindingly light themed, so i decided to make my own dark theme version. It's fairly robust but it works
 
 ## Errors:
