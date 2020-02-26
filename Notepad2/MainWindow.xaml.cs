@@ -80,8 +80,11 @@ namespace Notepad2
             }
 
             Properties.Settings.Default.DarkTheme = this.DarkThemeEnabled;
-            if(!this.ViewModel.CheckNotepadNull())
+            if (!this.ViewModel.CheckNotepadNull())
+            {
                 Properties.Settings.Default.DefaultFont = this.ViewModel.Notepad.DocumentFormat.Family.ToString();
+                Properties.Settings.Default.DefaultFontSize = this.ViewModel.Notepad.DocumentFormat.Size;
+            }
             Properties.Settings.Default.Save();
 
             ViewModel.Shutdown();

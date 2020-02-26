@@ -94,5 +94,17 @@ namespace Notepad2.Properties {
                 this["DefaultFont"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("16")]
+        public double DefaultFontSize {
+            get {
+                return ((double)(this["DefaultFontSize"]));
+            }
+            set {
+                this["DefaultFontSize"] = value;
+            }
+        }
     }
 }

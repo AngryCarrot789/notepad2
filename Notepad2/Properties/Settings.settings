@@ -20,5 +20,8 @@
     <Setting Name="DefaultFont" Type="System.String" Scope="User">
       <Value Profile="(Default)">Consolas</Value>
     </Setting>
+    <Setting Name="DefaultFontSize" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">16</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

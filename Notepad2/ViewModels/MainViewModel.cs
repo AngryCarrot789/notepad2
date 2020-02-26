@@ -140,13 +140,20 @@ namespace Notepad2.ViewModels
         {
             FontFamily font;
             if (string.IsNullOrEmpty(Properties.Settings.Default.DefaultFont))
-                font = new FontFamily("Consolas");
+                font = new FontFamily("Consolas"); //default font
             else
                 font = new FontFamily(Properties.Settings.Default.DefaultFont);
+            double fontSize = 16; //default fontsize
+
+            if (Properties.Settings.Default.DefaultFontSize > 0)
+                fontSize = Properties.Settings.Default.DefaultFontSize;
+            else
+                fontSize = 16; //default fontsize
+
             FormatModel fm = new FormatModel()
             {
                 Family = font,
-                Size = 16,
+                Size = fontSize,
                 Wrap = TextWrapping.Wrap
             };
             return CreateNotepadItem(text, itemName, itemPath, itemSize, fm);
