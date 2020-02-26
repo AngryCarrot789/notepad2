@@ -202,20 +202,16 @@ namespace Notepad2.ViewModels
 
         public void OpenNotepadFileFromPath(string path)
         {
-            try
+            if (File.Exists(path))
             {
-                if (File.Exists(path))
-                {
-                    string text = File.ReadAllText(path);
-                    AddNotepadItem(
-                        CreateDefaultStyleNotepadItem(
-                            text,
-                            Path.GetFileName(path),
-                            path,
-                            (double)text.Length / 1000.0));
-                }
+                string text = File.ReadAllText(path);
+                AddNotepadItem(
+                    CreateDefaultStyleNotepadItem(
+                        text,
+                        Path.GetFileName(path),
+                        path,
+                        (double)text.Length / 1000.0));
             }
-            catch(Exception e) { MessageBox.Show(e.ToString()); }
         }
 
         public void SaveCurrentNotepad()
@@ -225,10 +221,10 @@ namespace Notepad2.ViewModels
                 File.WriteAllText(Notepad.Document.FilePath, Notepad.Document.Text);
                 Notepad.Document.FileName = Path.GetFileName(Notepad.Document.FilePath);
                 Notepad.Document.FilePath = Notepad.Document.FilePath;
+                Notepad.Document.FileSize = (double)Notepad.Document.Text.Length / 1000.0;
             }
             else
                 SaveCurrentNotepadAs();
-
             UpdateNotepad();
         }
 
@@ -247,6 +243,7 @@ namespace Notepad2.ViewModels
                 File.WriteAllText(sfd.FileName, Notepad.Document.Text);
                 Notepad.Document.FileName = Path.GetFileName(sfd.FileName);
                 Notepad.Document.FilePath = sfd.FileName;
+                Notepad.Document.FileSize = (double)Notepad.Document.Text.Length / 1000.0;
             }
         }
 

@@ -2,7 +2,9 @@
 using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Animation;
+using static Notepad2.App;
 
 namespace Notepad2
 {
@@ -11,32 +13,49 @@ namespace Notepad2
     /// </summary>
     public partial class MainWindow : Window
     {
+        public bool DarkThemeEnabled { get; set; }
+        private static App CurrentApp;
         public MainViewModel ViewModel { get; set; }
-        public MainWindow()
+        public MainWindow(App currApp)
         {
+            CurrentApp = currApp;
             InitializeComponent();
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
             ViewModel.NewNotepad();
-            this.Top = Properties.Settings.Default.Top;
-            this.Left = Properties.Settings.Default.Left;
-            this.Height = Properties.Settings.Default.Height;
-            this.Width = Properties.Settings.Default.Width;
 
+            LoadSettings();
         }
 
-        public MainWindow(string filePath)
+        public MainWindow(string filePath, App currApp)
         {
+            CurrentApp = currApp;
             InitializeComponent();
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
 
+            ViewModel.OpenNotepadFileFromPath(filePath);
+
+            LoadSettings();
+        }
+
+        public void LoadSettings()
+        {
             this.Top = Properties.Settings.Default.Top;
             this.Left = Properties.Settings.Default.Left;
             this.Height = Properties.Settings.Default.Height;
             this.Width = Properties.Settings.Default.Width;
+            this.DarkThemeEnabled = Properties.Settings.Default.DarkTheme;
 
-            ViewModel.OpenNotepadFileFromPath(filePath);
+            if (DarkThemeEnabled)
+                SetTheme(Theme.Dark);
+            else
+                SetTheme(Theme.Light);
+        }
+
+        public static void SetTheme(Theme theme)
+        {
+            CurrentApp.SetTheme(theme);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -57,6 +76,7 @@ namespace Notepad2
                 Properties.Settings.Default.Width = this.Width;
             }
 
+            Properties.Settings.Default.DarkTheme = this.DarkThemeEnabled;
             Properties.Settings.Default.Save();
         }
         private bool panelShowing;
@@ -104,6 +124,18 @@ namespace Notepad2
                     }
                 }
             }
+        }
+
+        private void SetTheme(object sender, RoutedEventArgs e)
+        {
+            switch (int.Parse(((MenuItem)sender).Uid))
+            {
+                //dark
+                case 0: SetTheme(Theme.Dark); DarkThemeEnabled = true; break;
+                //light
+                case 1: SetTheme(Theme.Light); DarkThemeEnabled = false; break;
+            }
+
         }
     }
 }

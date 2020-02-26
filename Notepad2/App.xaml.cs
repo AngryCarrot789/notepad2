@@ -14,19 +14,37 @@ namespace Notepad2
     /// </summary>
     public partial class App : Application
     {
+        public enum Theme
+        {
+            Dark, Light
+        }
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             MainWindow mWnd;
             if (e.Args.Length == 1)
             {
-                mWnd = new MainWindow(e.Args[0]);
+                mWnd = new MainWindow(e.Args[0], this);
             }
             else
             {
-                mWnd = new MainWindow();
+                mWnd = new MainWindow(this);
             }
 
             mWnd.Show();
+        }
+
+        public void SetTheme(Theme theme)
+        {
+            string themeName = null;
+            switch (theme)
+            {
+                case Theme.Dark: themeName = "DarkTheme"; break;
+                case Theme.Light: themeName = "LightTheme"; break;
+            }
+
+            if (!string.IsNullOrEmpty(themeName))
+                this.Resources.MergedDictionaries[0].Source = new Uri($"/Themes/{themeName}.xaml", UriKind.Relative);
         }
     }
 }
