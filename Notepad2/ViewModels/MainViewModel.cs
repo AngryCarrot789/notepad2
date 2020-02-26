@@ -189,9 +189,14 @@ namespace Notepad2.ViewModels
         public void OpenNotepadFileFromFileExplorer()
         {
             OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Title = "Select Files to open";
+            ofd.Multiselect = true;
             if (ofd.ShowDialog() == true)
             {
-                OpenNotepadFileFromPath(ofd.FileName);
+                foreach(string paths in ofd.FileNames)
+                {
+                    OpenNotepadFileFromPath(paths);
+                }
             }
         }
 
@@ -218,6 +223,8 @@ namespace Notepad2.ViewModels
             if (File.Exists(Notepad.Document.FilePath))
             {
                 File.WriteAllText(Notepad.Document.FilePath, Notepad.Document.Text);
+                Notepad.Document.FileName = Path.GetFileName(Notepad.Document.FilePath);
+                Notepad.Document.FilePath = Notepad.Document.FilePath;
             }
             else
                 SaveCurrentNotepadAs();
@@ -229,6 +236,7 @@ namespace Notepad2.ViewModels
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            sfd.Title = "Select Files to save";
             sfd.FileName = Notepad.Document.FileName;
             sfd.FilterIndex = 1;
             sfd.DefaultExt = "txt";
