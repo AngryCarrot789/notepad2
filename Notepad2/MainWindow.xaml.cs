@@ -1,4 +1,5 @@
-﻿using Notepad2.ViewModels;
+﻿using Notepad2.Notepad;
+using Notepad2.ViewModels;
 using System;
 using System.IO;
 using System.Windows;
@@ -14,29 +15,30 @@ namespace Notepad2
     public partial class MainWindow : Window
     {
         public bool DarkThemeEnabled { get; set; }
-        private static App CurrentApp;
+        public App CurrentApp;
         public MainViewModel ViewModel { get; set; }
-        public MainWindow(App currApp)
+        public MainWindow()
         {
-            CurrentApp = currApp;
             InitializeComponent();
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
             ViewModel.NewNotepad();
-
-            LoadSettings();
         }
 
-        public MainWindow(string filePath, App currApp)
+        public MainWindow(string filePath)
         {
-            CurrentApp = currApp;
             InitializeComponent();
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
-
             ViewModel.OpenNotepadFileFromPath(filePath);
+        }
 
-            LoadSettings();
+        public MainWindow(NotepadListItem fileItem)
+        {
+            InitializeComponent();
+            ViewModel = new MainViewModel();
+            this.DataContext = ViewModel;
+            ViewModel.AddNotepadItem(fileItem);
         }
 
         public void LoadSettings()
@@ -53,9 +55,9 @@ namespace Notepad2
                 SetTheme(Theme.Light);
         }
 
-        public static void SetTheme(Theme theme)
+        public void SetTheme(Theme theme)
         {
-            CurrentApp.SetTheme(theme);
+            if (CurrentApp != null) CurrentApp.SetTheme(theme);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -78,6 +80,8 @@ namespace Notepad2
 
             Properties.Settings.Default.DarkTheme = this.DarkThemeEnabled;
             Properties.Settings.Default.Save();
+
+            ViewModel.Shutdown();
         }
         private bool panelShowing;
         private void ShowFontDialogPanel(object sender, RoutedEventArgs e)

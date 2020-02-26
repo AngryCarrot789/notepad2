@@ -72,9 +72,6 @@
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NotepadViewModel.cs" />
-    <Compile Include="Views\FontDialog.xaml.cs">
-      <DependentUpon>FontDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\HelpDialog.xaml.cs">
       <DependentUpon>HelpDialog.xaml</DependentUpon>
     </Compile>
@@ -101,10 +98,6 @@
     <Page Include="Themes\LightTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\FontDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\HelpDialog.xaml">
       <SubType>Designer</SubType>
@@ -139,25 +132,30 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\file.ico" />
-    <Resource Include="Resources\notepadIcon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="notepadIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\save_white_96x96.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\insert_drive_file_white_96x96.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\folder_open_white_96x96 %281%29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\highlight_off_white_96x96.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="file.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\openFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\newFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\saveFileAs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\saveFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\closeFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\openInNewWindow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

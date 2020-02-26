@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad2"
+        xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
         mc:Ignorable="d" Closing="Window_Closing" ResizeMode="CanResizeWithGrip"
         xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
         xmlns:win="clr-namespace:System.Windows;assembly=PresentationCore"
@@ -145,20 +146,27 @@
             </Grid>
         </DockPanel>
         <Grid Margin="0,18,0,0" Height="32" VerticalAlignment="Top" Background="{DynamicResource ContainerBackground}">
-            <Button Command="{Binding NewCommand}" HorizontalAlignment="Left" Margin="5,4,0,4" Width="24">
-                <Image Source="Resources/insert_drive_file_white_96x96.png"/>
+            <Button Command="{Binding NewCommand}"   HorizontalAlignment="Left" Margin="5,4,0,4" Width="24" ToolTip="Add New Blank File">
+                <Image Margin="2" Source="Resources/newFile.png"/>
             </Button>
-            <Button Command="{Binding OpenCommand  }" HorizontalAlignment="Left" Margin="34,4,0,4" Width="24">
-                <Image Source="Resources/folder_open_white_96x96 (1).png"/>
+            <Button Command="{Binding OpenCommand  }" HorizontalAlignment="Left" Margin="34,4,0,4" Width="24" ToolTip="Open File from File Explorer">
+                <Image Margin="2" Source="Resources/openFile.png"/>
             </Button>
-            <Button Command="{Binding SaveCommand  }" HorizontalAlignment="Left" Margin="63,4,0,4" Width="24">
-                <Image Source="Resources/save_white_96x96.png"/>
+            <Button Command="{Binding SaveCommand  }" HorizontalAlignment="Left" Margin="63,4,0,4" Width="24" ToolTip="Save current File">
+                <Image Margin="2" Source="Resources/saveFile.png"/>
             </Button>
-            <Button Command="{Binding CloseSelectedNotepadCommand}" HorizontalAlignment="Left" Margin="92,4,0,4" Width="24">
-                <Image Source="Resources/highlight_off_white_96x96.png"/>
+            <Button Command="{Binding SaveAsCommand}" HorizontalAlignment="Left" Margin="92,4,0,4" Width="24" ToolTip="Save current File As...">
+                <Image Margin="2" Source="Resources/saveFileAs.png"/>
+            </Button>
+            <Button Command="{Binding CloseSelectedNotepadCommand}" HorizontalAlignment="Left" Margin="121,4,0,4" Width="24" ToolTip="Close current File and Remove">
+                <Image Margin="2" Source="Resources/closeFile.png"/>
+            </Button>
+            <Separator Style="{DynamicResource VerticalSeparator}" HorizontalAlignment="Left" Margin="150,4,0,4"/>
+            <Button Command="{Binding OpenInNewWindowCommand}" HorizontalAlignment="Left" Margin="157,4,0,4" Width="24" 
+                    ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))">
+                <Image Margin="2" Source="Resources/openInNewWindow.png"/>
             </Button>
             <Button Click="ShowFontDialogPanel" Content="Show/Hide Font Menu" HorizontalAlignment="Right" Margin="0,4,4,4" Width="160"/>
-
         </Grid>
         <Menu VerticalAlignment="Top" Grid.ColumnSpan="3">
             <MenuItem Header="File">

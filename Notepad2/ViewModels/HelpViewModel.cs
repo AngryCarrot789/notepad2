@@ -24,5 +24,11 @@ namespace Notepad2.ViewModels
         {
             HelpWindow.Show();
         }
+
+        public void Shutdown()
+        {
+            HelpWindow.Close();
+            HelpWindow = null;
+        }
     }
 }

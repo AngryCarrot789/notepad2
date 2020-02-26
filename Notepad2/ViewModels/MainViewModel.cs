@@ -105,22 +105,27 @@ namespace Notepad2.ViewModels
         public ICommand SaveCommand   { get; set; }
         public ICommand SaveAsCommand { get; set; }
 
+        public ICommand OpenInNewWindowCommand { get; set; }
+        private void OpenInNewWindow()
+        {
+            MainWindow mWnd = new MainWindow(SelectedNotepadItem);
+            mWnd.Show();
+            CloseSelectedNotepad();
+        }
+
         public ICommand CloseSelectedNotepadCommand { get; set; }
         private void CloseSelectedNotepad()
         {
             CloseNotepadItem(SelectedNotepadItem);
         }
 
-        public FontDialog FontDialog = new FontDialog();
-        private void ShowFontDialog() { FontDialog.DataContext = this.Notepad.DocumentFormat; FontDialog.Show(); }
-
         public MainViewModel()
         {
-            FontDialog = new FontDialog();
             Notepad = new NotepadViewModel();
             Help = new HelpViewModel();
 
-            ShowFormatCommand = new Command(ShowFontDialog);
+            OpenInNewWindowCommand = new Command(OpenInNewWindow);
+
             ClearListAndNotepadCommand = new Command(ClearTextAndList);
             NewCommand = new Command(NewNotepad);
             OpenCommand = new Command(OpenNotepadFileFromFileExplorer);
@@ -146,13 +151,15 @@ namespace Notepad2.ViewModels
         {
             NotepadListItem nli = new NotepadListItem();
             FileItemViewModel fivm = new FileItemViewModel();
-
             fivm.Document.Text     = text;
             fivm.Document.FileName = itemName;
             fivm.Document.FilePath = itemPath;
             fivm.Document.FileSize = itemSize;
 
             fivm.DocumentFormat = fm;
+
+            fivm.HasMadeChanges = false;
+
             nli.DataContext = fivm;
 
             nli.Open = this.OpenNotepadItem;
@@ -199,6 +206,7 @@ namespace Notepad2.ViewModels
                 foreach(string paths in ofd.FileNames)
                 {
                     OpenNotepadFileFromPath(paths);
+                    SelectedNotepadViewModel.HasMadeChanges = false;
                 }
             }
         }
@@ -210,10 +218,40 @@ namespace Notepad2.ViewModels
                 string text = File.ReadAllText(path);
                 AddNotepadItem(
                     CreateDefaultStyleNotepadItem(
-                        text,
-                        Path.GetFileName(path),
-                        path,
-                        (double)text.Length / 1000.0));
+                       text,
+                       Path.GetFileName(path),
+                       path,
+                       (double)text.Length / 1000.0));
+            }
+        }
+
+        public void SaveFile(string path, string text)
+        {
+            File.WriteAllText(path, text);
+            SelectedNotepadViewModel.HasMadeChanges = false;
+        }
+
+        public void SaveAllNotepadItems()
+        {
+            foreach(NotepadListItem nli in NotepadItems)
+            {
+                SaveNotepad(nli);
+            }
+        }
+
+        public void SaveNotepad(NotepadListItem nli)
+        {
+            FileItemViewModel fivm = nli.DataContext as FileItemViewModel;
+            if (File.Exists(fivm.Document.FilePath))
+            {
+                SaveFile(fivm.Document.FilePath, fivm.Document.Text);
+                fivm.Document.FileName = Path.GetFileName(fivm.Document.FilePath);
+                fivm.Document.FilePath = fivm.Document.FilePath;
+                fivm.Document.FileSize = (double)fivm.Document.Text.Length / 1000.0;
+            }
+            else
+            {
+                SaveNotepadAs(nli);
             }
         }
 
@@ -221,7 +259,7 @@ namespace Notepad2.ViewModels
         {
             if (File.Exists(Notepad.Document.FilePath))
             {
-                File.WriteAllText(Notepad.Document.FilePath, Notepad.Document.Text);
+                SaveFile(Notepad.Document.FilePath, Notepad.Document.Text);
                 Notepad.Document.FileName = Path.GetFileName(Notepad.Document.FilePath);
                 Notepad.Document.FilePath = Notepad.Document.FilePath;
                 Notepad.Document.FileSize = (double)Notepad.Document.Text.Length / 1000.0;
@@ -243,10 +281,31 @@ namespace Notepad2.ViewModels
 
             if (sfd.ShowDialog() == true)
             {
-                File.WriteAllText(sfd.FileName, Notepad.Document.Text);
+                SaveFile(sfd.FileName, Notepad.Document.Text);
                 Notepad.Document.FileName = Path.GetFileName(sfd.FileName);
                 Notepad.Document.FilePath = sfd.FileName;
                 Notepad.Document.FileSize = (double)Notepad.Document.Text.Length / 1000.0;
+            }
+        }
+
+        public void SaveNotepadAs(NotepadListItem nli)
+        {
+            FileItemViewModel fivm = nli.DataContext as FileItemViewModel;
+
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            sfd.Title = "Select Files to save";
+            sfd.FileName = fivm.Document.FileName;
+            sfd.FilterIndex = 1;
+            sfd.DefaultExt = "txt";
+            sfd.RestoreDirectory = true;
+
+            if (sfd.ShowDialog() == true)
+            {
+                SaveFile(sfd.FileName, fivm.Document.Text);
+                fivm.Document.FileName = Path.GetFileName(sfd.FileName);
+                fivm.Document.FilePath = sfd.FileName;
+                fivm.Document.FileSize = (double)fivm.Document.Text.Length / 1000.0;
             }
         }
 
@@ -254,6 +313,38 @@ namespace Notepad2.ViewModels
         {
             NotepadItems.Remove(nli);
             UpdateNotepad();
+        }
+
+        public void Shutdown()
+        {
+            Help.Shutdown();
+            bool changesMade = false;
+            foreach(NotepadListItem nli in NotepadItems)
+            {
+                FileItemViewModel fivm = nli.DataContext as FileItemViewModel;
+
+                if (fivm.HasMadeChanges)
+                {
+                    changesMade = true;
+                }
+            }
+
+            if (changesMade)
+            {
+                MessageBoxResult mbr = MessageBox.Show(
+                    "You have unsaved work. Do you want to save it/them?", 
+                    "Unsaved Work", 
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Information);
+
+                if (mbr == MessageBoxResult.Yes)
+                    SaveAllNotepadItems();
+                else if (mbr == MessageBoxResult.No)
+                {
+                    //nothin ;)
+                }
+                    
+            }
         }
     }
 }

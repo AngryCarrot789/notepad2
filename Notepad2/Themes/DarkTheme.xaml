@@ -111,7 +111,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!--  List Box  -->
 
     <SolidColorBrush x:Key="ListBox.Static.Background" Color="#FFFFFFFF"/>
@@ -159,7 +159,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Padding" Value="4,1"/>
@@ -263,7 +263,7 @@
     </ControlTemplate>
     <SolidColorBrush x:Key="SliderThumb.Track.Border" Color="#FFD6D6D6"/>
     <SolidColorBrush x:Key="SliderThumb.Track.Background" Color="Red"/>
-    
+
     <Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
         <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Setter Property="Background" Value="{StaticResource ControlDefaultBackground}"/>
@@ -311,7 +311,7 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    
+
     <ControlTemplate x:Key="SliderHorizontal" TargetType="{x:Type Slider}">
         <Border x:Name="border" SnapsToDevicePixels="True">
             <Grid>
@@ -496,7 +496,7 @@
     </Style>
 
     <!--  Checkbox  -->
-    
+
     <Style TargetType="{x:Type CheckBox}">
         <Setter Property="MinHeight" Value="24"/>
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
@@ -632,7 +632,7 @@
     </Style>
 
     <!-- Textbox -->
-    
+
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="{StaticResource  ContainerBackground}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ControlDefaultBorderBrush}"/>
@@ -1549,7 +1549,7 @@
     </Style>
 
     <!-- ScrollViewer -->
-    
+
     <ControlTemplate x:Key="MainScrollViewerTemplate" TargetType="{x:Type ScrollViewer}">
         <Grid x:Name="Grid" Background="{TemplateBinding Background}">
             <Grid.ColumnDefinitions>
@@ -1566,9 +1566,9 @@
             <ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}"/>
         </Grid>
     </ControlTemplate>
-    
+
     <!-- Separator -->
-    
+
     <Style TargetType="{x:Type Separator}">
         <Setter Property="Background" Value="{StaticResource ControlBrightDefaultBackground}"/>
         <Setter Property="Margin" Value="0,2,0,2"/>
@@ -1581,7 +1581,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-        <Style x:Key="SeparatorStyle1" TargetType="{x:Type Separator}">
+    <Style x:Key="SeparatorStyle1" TargetType="{x:Type Separator}">
         <Setter Property="Background" Value="{StaticResource ControlBrightDefaultBorderBrush}"/>
         <Setter Property="Margin" Value="0,2,0,2"/>
         <Setter Property="Focusable" Value="false"/>
@@ -1593,9 +1593,9 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- Menu -->
-    
+
     <Style TargetType="{x:Type Menu}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static SystemFonts.MenuFontFamilyKey}}"/>
@@ -1711,7 +1711,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- DropDownMenu MenuItem -->
 
     <ControlTemplate x:Key="DropDownMenuItemTemplate" TargetType="{x:Type MenuItem}">
@@ -1826,7 +1826,7 @@
     </ControlTemplate>
 
     <!-- WindowTemplates -->
-    
+
     <ControlTemplate x:Key="WindowTemplateKey" TargetType="{x:Type Window}">
         <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
             <Grid>
@@ -1866,9 +1866,9 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
     <!-- GridSplitter -->
-    
+
     <Style x:Key="GridSplitterPreviewStyle">
         <Setter Property="Control.Template">
             <Setter.Value>
@@ -2069,9 +2069,9 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- Expander -->
-    
+
     <Style x:Key="ExpanderRightHeaderStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Foreground" Value="{DynamicResource ControlDefaultForeground}"/>
         <Setter Property="Template">
@@ -2327,9 +2327,9 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- ProgressBar -->
-    
+
     <Style TargetType="{x:Type ProgressBar}">
         <Setter Property="Foreground" Value="{StaticResource ControlPrimarySpecialColour}"/>
         <Setter Property="Background" Value="{StaticResource ControlDefaultBackground}"/>
@@ -2390,9 +2390,9 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!-- ComboBox -->
-    
+
     <Style x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
         <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Setter Property="IsTabStop" Value="false"/>
@@ -2576,7 +2576,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <ControlTemplate x:Key="ComboBoxEditableTemplate" TargetType="{x:Type ComboBox}">
         <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
             <Grid.ColumnDefinitions>
@@ -2642,7 +2642,7 @@
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    
+
     <!-- MainComboBoxStyle -->
 
     <Style TargetType="{x:Type ComboBox}">
@@ -2746,5 +2746,18 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+    <Style x:Key="VerticalSeparator" TargetType="{x:Type Separator}">
+        <Setter Property="Background" Value="{StaticResource ControlBrightDefaultBackground}"/>
+        <Setter Property="Width" Value="2"/>
+        <Setter Property="Margin" Value="2,0,2,0"/>
+        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Separator}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Height="Auto" SnapsToDevicePixels="true"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

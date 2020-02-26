@@ -24,11 +24,15 @@ namespace Notepad2
             MainWindow mWnd;
             if (e.Args.Length == 1)
             {
-                mWnd = new MainWindow(e.Args[0], this);
+                mWnd = new MainWindow(e.Args[0]);
+                mWnd.CurrentApp = this;
+                mWnd.LoadSettings();
             }
             else
             {
-                mWnd = new MainWindow(this);
+                mWnd = new MainWindow();
+                mWnd.CurrentApp = this;
+                mWnd.LoadSettings();
             }
 
             mWnd.Show();

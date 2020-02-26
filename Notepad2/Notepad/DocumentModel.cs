@@ -9,11 +9,12 @@ namespace Notepad2.Notepad
 {
     public class DocumentModel : BaseViewModel
     {
+        public Action TextChanged { get; set; }
         private string _text;
         public string Text
         {
             get { return _text; }
-            set { RaisePropertyChanged(ref _text, value); }
+            set { RaisePropertyChanged(ref _text, value); TextChanged?.Invoke(); }
         }
 
         private string _filePath;
