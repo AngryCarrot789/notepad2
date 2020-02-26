@@ -4,24 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad2.Views"
-        mc:Ignorable="d"
-        Title="HelpDialog" Height="250" Width="400" Background="{DynamicResource BackgroundColour}">
+        mc:Ignorable="d" Closing="Window_Closing"
+        Title="Help? Who needs help with notepad xDDDDD (jk)" Height="269.542" Width="454" Background="{DynamicResource BackgroundColour}">
     <Grid>
-        <StackPanel VerticalAlignment="Center"
-                HorizontalAlignment="Center">
-            <TextBlock FontSize="32" 
-                   HorizontalAlignment="Center"
-                   FontWeight="Bold">
-            Sample Pad
-            </TextBlock>
-            <TextBlock FontSize="24"
-                   FontWeight="SemiBold">
-            About
-            </TextBlock>
-            <TextBlock TextWrapping="Wrap" Text="Notepad but with tabs and a smoofy dark theme" FontSize="16"/>
-            <TextBlock FontSize="24"
-                    FontWeight="SemiBold" Text="Made by"/>
-            <TextBlock TextWrapping="Wrap" Text="TheR" FontSize="16"/>
+        <StackPanel VerticalAlignment="Center" Margin="10 0 10 0" HorizontalAlignment="Center">
+            <TextBlock Text="Notepad #" FontSize="32" HorizontalAlignment="Center" FontWeight="Bold"/>
+            <TextBlock Text="About" FontSize="24" FontWeight="SemiBold"/>
+            <TextBlock TextWrapping="Wrap" Text="Notepad but with nice tabs, a smoofy dark/light theme and... it's basically windows notepad but with tabs and dark theme." FontSize="16"/>
+            <Separator/>
+            <TextBlock FontSize="24" FontWeight="SemiBold" Text="Made by"/>
+            <TextBlock TextWrapping="Wrap" FontSize="16"><Run Text="TheR"/><Run Text="/Quad5914/Kettlesimulator"/></TextBlock>
         </StackPanel>
     </Grid>
 </Window>

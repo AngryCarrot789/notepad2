@@ -9,7 +9,7 @@
         xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
         xmlns:win="clr-namespace:System.Windows;assembly=PresentationCore"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        Title="Notepad" Height="547" Width="928.5" Style="{DynamicResource MainWindowStyle}">
+        Title="Notepad #" Height="547" Width="928.5" Style="{DynamicResource MainWindowStyle}">
     <Window.Resources>
         <ObjectDataProvider x:Key="FontFamilyOptions"
                             ObjectType="{x:Type media:Fonts}"
@@ -175,7 +175,7 @@
                 <CheckBox Content="Word wrap" IsChecked="{Binding Wrapping, UpdateSourceTrigger=PropertyChanged}"/>
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="About" Command="{Binding HelpCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>
+                <MenuItem Header="About" Command="{Binding Help.HelpCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>
             </MenuItem>
             <MenuItem Header="Theme">
                 <MenuItem Header="Dark theme"  Click="SetTheme" Uid="0" Template="{DynamicResource DropDownMenuItemTemplate}"/>

@@ -25,6 +25,8 @@ namespace Notepad2.ViewModels
             set => RaisePropertyChanged(ref _notepad, value);
         }
 
+        public HelpViewModel Help { get; set; }
+
         private ObservableCollection<NotepadListItem> _notepadItems = new ObservableCollection<NotepadListItem>();
         public ObservableCollection<NotepadListItem> NotepadItems
         {
@@ -116,6 +118,7 @@ namespace Notepad2.ViewModels
         {
             FontDialog = new FontDialog();
             Notepad = new NotepadViewModel();
+            Help = new HelpViewModel();
 
             ShowFormatCommand = new Command(ShowFontDialog);
             ClearListAndNotepadCommand = new Command(ClearTextAndList);
