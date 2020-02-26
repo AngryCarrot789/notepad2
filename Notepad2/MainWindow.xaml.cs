@@ -23,6 +23,7 @@ namespace Notepad2
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
             ViewModel.NewNotepad();
+
         }
 
         public MainWindow(string filePath)
@@ -79,6 +80,8 @@ namespace Notepad2
             }
 
             Properties.Settings.Default.DarkTheme = this.DarkThemeEnabled;
+            if(!this.ViewModel.CheckNotepadNull())
+                Properties.Settings.Default.DefaultFont = this.ViewModel.Notepad.DocumentFormat.Family.ToString();
             Properties.Settings.Default.Save();
 
             ViewModel.Shutdown();

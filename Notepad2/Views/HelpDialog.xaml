@@ -8,7 +8,7 @@
         Title="Help? Who needs help with notepad xDDDDD (jk)" Height="269.542" Width="454" Background="{DynamicResource BackgroundColour}">
     <Grid>
         <StackPanel VerticalAlignment="Center" Margin="10 0 10 0" HorizontalAlignment="Center">
-            <TextBlock Text="Notepad #" FontSize="32" HorizontalAlignment="Center" FontWeight="Bold"/>
+            <TextBlock Text="SharpPad" FontSize="32" HorizontalAlignment="Center" FontWeight="Bold"/>
             <TextBlock Text="About" FontSize="24" FontWeight="SemiBold"/>
             <TextBlock TextWrapping="Wrap" Text="Notepad but with nice tabs, a smoofy dark/light theme and... it's basically windows notepad but with tabs and dark theme." FontSize="16"/>
             <Separator/>

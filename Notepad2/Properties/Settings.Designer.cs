@@ -82,5 +82,17 @@ namespace Notepad2.Properties {
                 this["DarkTheme"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Consolas")]
+        public string DefaultFont {
+            get {
+                return ((string)(this["DefaultFont"]));
+            }
+            set {
+                this["DefaultFont"] = value;
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@
     <ProjectGuid>{4441374D-B286-4D17-8AB8-F906F01E4ECD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Notepad2</RootNamespace>
-    <AssemblyName>Notepad 2</AssemblyName>
+    <AssemblyName>SharpPad</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -156,6 +157,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\openInNewWindow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\sharpPadIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

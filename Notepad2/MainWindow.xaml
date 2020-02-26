@@ -8,7 +8,8 @@
         xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
         xmlns:win="clr-namespace:System.Windows;assembly=PresentationCore"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        Title="Notepad #" Height="547" Width="928.5" Style="{DynamicResource MainWindowStyle}">
+        Title="SharpPad" Height="547" Width="928.5" 
+        Style="{DynamicResource MainWindowStyle}" Icon="Resources/sharpPadIcon.png">
     <Window.Resources>
         <ObjectDataProvider x:Key="FontFamilyOptions"
                             ObjectType="{x:Type media:Fonts}"
@@ -63,7 +64,7 @@
                 <DockPanel Grid.Row="0" Grid.Column="0">
                     <TextBlock DockPanel.Dock="Top" FontSize="16">Font Family</TextBlock>
                     <ListBox ItemsSource="{Binding Source={StaticResource FontFamilyOptions}}"
-                     SelectedItem="{Binding Family}"
+                     SelectedItem="{Binding Family, UpdateSourceTrigger=PropertyChanged}"
                      SelectedIndex="0" FontSize="16">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -76,21 +77,21 @@
                 <DockPanel Grid.Row="0" Grid.Column="1">
                     <TextBlock DockPanel.Dock="Top" FontSize="16">Font Size</TextBlock>
                     <ListBox ItemsSource="{Binding Source={StaticResource FontSizeOptions}}"
-                     SelectedItem="{Binding Size}"
+                     SelectedItem="{Binding Size, UpdateSourceTrigger=PropertyChanged}"
                      SelectedIndex="0" FontSize="16"/>
                 </DockPanel>
 
                 <StackPanel Grid.Column="0" Grid.Row="1">
                     <TextBlock>Font Styles</TextBlock>
                     <ComboBox ItemsSource="{Binding Source={StaticResource FontStyleOptions}}"
-                      SelectedItem="{Binding Style}"
+                      SelectedItem="{Binding Style, UpdateSourceTrigger=PropertyChanged}"
                       SelectedIndex="0" FontSize="16"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Grid.Row="1">
                     <TextBlock>Font Weight</TextBlock>
                     <ComboBox ItemsSource="{Binding Source={StaticResource FontWeightOptions}}"
-                      SelectedItem="{Binding Weight}"
+                      SelectedItem="{Binding Weight, UpdateSourceTrigger=PropertyChanged}"
                       SelectedIndex="0" FontSize="16"/>
                 </StackPanel>
             </Grid>
@@ -161,7 +162,7 @@
                 <Image Margin="2" Source="Resources/closeFile.png"/>
             </Button>
             <Separator Style="{DynamicResource VerticalSeparator}" HorizontalAlignment="Left" Margin="150,4,0,4"/>
-            <Button Command="{Binding OpenInNewWindowCommand}" HorizontalAlignment="Left" Margin="157,4,0,4" Width="24" 
+            <Button IsEnabled="False" Command="{Binding OpenInNewWindowCommand}" HorizontalAlignment="Left" Margin="157,4,0,4" Width="24" 
                     ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))">
                 <Image Margin="2" Source="Resources/openInNewWindow.png"/>
             </Button>

@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Notepad2")]
-[assembly: AssemblyDescription("Notepad but with a dark theme")]
+[assembly: AssemblyTitle("SharpPad")]
+[assembly: AssemblyDescription("Notepad but with a dark theme and tabs and stuff")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("TheR")]
-[assembly: AssemblyProduct("Notepad2")]
+[assembly: AssemblyCompany("Kettlesimulator")]
+[assembly: AssemblyProduct("SharpPad")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -51,5 +51,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.6.2.2")]
+[assembly: AssemblyFileVersion("1.6.2.2")]

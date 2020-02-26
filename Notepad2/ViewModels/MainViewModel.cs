@@ -138,11 +138,16 @@ namespace Notepad2.ViewModels
         #region NotepadFunctions
         public NotepadListItem CreateDefaultStyleNotepadItem(string text, string itemName, string itemPath, double itemSize)
         {
+            FontFamily font;
+            if (string.IsNullOrEmpty(Properties.Settings.Default.DefaultFont))
+                font = new FontFamily("Consolas");
+            else
+                font = new FontFamily(Properties.Settings.Default.DefaultFont);
             FormatModel fm = new FormatModel()
             {
-                Family = new FontFamily("Consolas"),
+                Family = font,
                 Size = 16,
-                Wrap = System.Windows.TextWrapping.Wrap
+                Wrap = TextWrapping.Wrap
             };
             return CreateNotepadItem(text, itemName, itemPath, itemSize, fm);
         }
@@ -271,19 +276,31 @@ namespace Notepad2.ViewModels
             catch (Exception e) { MessageBox.Show(e.Message, "Error while saving a (manual) notepad item"); }
         }
 
+        /// <summary>
+        /// Returns true if null
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckNotepadNull()
+        {
+            return Notepad == null || Notepad.Document == null || Notepad.DocumentFormat == null;
+        }
+
         public void SaveCurrentNotepad()
         {
             try
             {
-                if (File.Exists(Notepad.Document.FilePath))
+                if (!CheckNotepadNull())
                 {
-                    SaveFile(Notepad.Document.FilePath, Notepad.Document.Text);
-                    Notepad.Document.FileName = Path.GetFileName(Notepad.Document.FilePath);
-                    Notepad.Document.FilePath = Notepad.Document.FilePath;
-                    Notepad.Document.FileSize = (double)Notepad.Document.Text.Length / 1000.0;
+                    if (File.Exists(Notepad.Document.FilePath))
+                    {
+                        SaveFile(Notepad.Document.FilePath, Notepad.Document.Text);
+                        Notepad.Document.FileName = Path.GetFileName(Notepad.Document.FilePath);
+                        Notepad.Document.FilePath = Notepad.Document.FilePath;
+                        Notepad.Document.FileSize = (double)Notepad.Document.Text.Length / 1000.0;
+                    }
+                    else
+                        SaveCurrentNotepadAs();
                 }
-                else
-                    SaveCurrentNotepadAs();
             }
             catch (Exception e) { MessageBox.Show(e.Message, "Error while saving currently selected notepad"); }
             UpdateNotepad();
@@ -293,20 +310,23 @@ namespace Notepad2.ViewModels
         {
             try
             {
-                SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-                sfd.Title = "Select Files to save";
-                sfd.FileName = Notepad.Document.FileName;
-                sfd.FilterIndex = 1;
-                sfd.DefaultExt = "txt";
-                sfd.RestoreDirectory = true;
-
-                if (sfd.ShowDialog() == true)
+                if (!CheckNotepadNull())
                 {
-                    SaveFile(sfd.FileName, Notepad.Document.Text);
-                    Notepad.Document.FileName = Path.GetFileName(sfd.FileName);
-                    Notepad.Document.FilePath = sfd.FileName;
-                    Notepad.Document.FileSize = (double)Notepad.Document.Text.Length / 1000.0;
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                    sfd.Title = "Select Files to save";
+                    sfd.FileName = Notepad.Document.FileName;
+                    sfd.FilterIndex = 1;
+                    sfd.DefaultExt = "txt";
+                    sfd.RestoreDirectory = true;
+
+                    if (sfd.ShowDialog() == true)
+                    {
+                        SaveFile(sfd.FileName, Notepad.Document.Text);
+                        Notepad.Document.FileName = Path.GetFileName(sfd.FileName);
+                        Notepad.Document.FilePath = sfd.FileName;
+                        Notepad.Document.FileSize = (double)Notepad.Document.Text.Length / 1000.0;
+                    }
                 }
             }
             catch (Exception e) { MessageBox.Show(e.Message, "Error while saving currently selected notepad as..."); }
