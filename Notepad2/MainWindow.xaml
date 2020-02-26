@@ -16,6 +16,7 @@
 
         <x:Array x:Key="FontSizeOptions"
                  Type="sys:Double">
+            <sys:Double>2</sys:Double>
             <sys:Double>4</sys:Double>
             <sys:Double>6</sys:Double>
             <sys:Double>8</sys:Double>
@@ -24,12 +25,16 @@
             <sys:Double>14</sys:Double>
             <sys:Double>16</sys:Double>
             <sys:Double>18</sys:Double>
+            <sys:Double>20</sys:Double>
             <sys:Double>24</sys:Double>
             <sys:Double>32</sys:Double>
             <sys:Double>36</sys:Double>
+            <sys:Double>40</sys:Double>
             <sys:Double>48</sys:Double>
+            <sys:Double>64</sys:Double>
             <sys:Double>72</sys:Double>
             <sys:Double>100</sys:Double>
+            <sys:Double>144</sys:Double>
         </x:Array>
 
         <x:Array x:Key="FontWeightOptions" Type="win:FontWeight">
@@ -56,7 +61,7 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="3*"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
