@@ -220,7 +220,7 @@ namespace Notepad2.ViewModels
                     foreach (string paths in ofd.FileNames)
                     {
                         OpenNotepadFileFromPath(paths);
-                        SelectedNotepadViewModel.HasMadeChanges = false;
+                        try { SelectedNotepadViewModel.HasMadeChanges = false; } catch { }
                     }
                 }
             }
