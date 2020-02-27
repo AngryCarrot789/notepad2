@@ -1916,8 +1916,9 @@
         <Setter Property="Background" Value="{StaticResource BackgroundColour}" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
-                <WindowChrome CornerRadius="2" 
+                <WindowChrome CornerRadius="5" 
                               CaptionHeight="39"
+                              ResizeBorderThickness="5"
                               GlassFrameThickness="2"/>
             </Setter.Value>
         </Setter>

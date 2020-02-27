@@ -54,8 +54,6 @@ namespace Notepad2
                 SetTheme(Theme.Dark);
             else
                 SetTheme(Theme.Light);
-
-            WindowStyle = WindowStyle.SingleBorderWindow;
         }
 
         public void SetTheme(Theme theme)

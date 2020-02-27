@@ -83,8 +83,9 @@
         <Setter Property="Background" Value="{StaticResource BackgroundColour}" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
-                <WindowChrome CornerRadius="2" 
+                <WindowChrome CornerRadius="5" 
                               CaptionHeight="39"
+                              ResizeBorderThickness="5"
                               GlassFrameThickness="2"/>
             </Setter.Value>
         </Setter>
@@ -129,7 +130,7 @@
                                         Width="50"
                                         VerticalContentAlignment="Bottom"
                                         WindowChrome.IsHitTestVisibleInChrome="True" Command="{Binding MinimizeWindowCommand}">
-                                    <Image Source="/Resources/minimizeWindow.png" Margin="7"/>
+                                    <Image Source="/Resources/minimizeWindowBlack.png" Margin="7"/>
                                 </Button>
 
                                 <Button x:Name="btnRestore"
@@ -137,7 +138,7 @@
                                         BorderBrush="Transparent"
                                         Width="50"
                                         WindowChrome.IsHitTestVisibleInChrome="True" Command="{Binding MaximizeRestoreCommand}">
-                                    <Image Source="/Resources/maximizeRestoreWindow.png" Margin="7"/>
+                                    <Image Source="/Resources/maximizeRestoreWindowBlack.png" Margin="7"/>
                                 </Button>
                                 <Button x:Name="btnClose"
                                         Background="Transparent"
@@ -145,7 +146,7 @@
                                         Template="{DynamicResource CloseWindowButton}"
                                         Width="50"
                                         WindowChrome.IsHitTestVisibleInChrome="True" Command="{Binding CloseWindowCommand}">
-                                    <Image Source="/Resources/closeWindow.png" Margin="7"/>
+                                    <Image Source="/Resources/closeWindowBlack.png" Margin="7"/>
                                 </Button>
 
                             </StackPanel>
