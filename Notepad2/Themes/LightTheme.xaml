@@ -96,7 +96,7 @@
                     <Grid>
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="7,39,7,8">
+                                BorderThickness="12,42,12,13">
                             <AdornerDecorator>
                                 <ContentPresenter />
                             </AdornerDecorator>
@@ -303,4 +303,43 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <ControlTemplate x:Key="CloseWindowButton" TargetType="{x:Type Button}">
+        <Border x:Name="border" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    Background="{TemplateBinding Background}" 
+                                    SnapsToDevicePixels="true"
+                                    HorizontalAlignment="Stretch" 
+                                    VerticalAlignment="Stretch">
+            <!-- <Border.BitmapEffect>
+                            <DropShadowBitmapEffect Color="Black" Direction="320" Softness="0.7" ShadowDepth="4" Opacity="0.5" />
+                        </Border.BitmapEffect>-->
+            <ContentPresenter x:Name="contentPresenter" 
+                                                  Focusable="False" 
+                                                  Margin="{TemplateBinding Padding}" 
+                                                  RecognizesAccessKey="True" 
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsDefaulted" Value="true">
+                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource ControlMouseOverBorderBrush}"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Background" TargetName="border" Value="#e81123"/>
+                <Setter Property="BorderBrush" TargetName="border" Value="#e81123"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter Property="Background" TargetName="border" Value="DarkRed"/>
+                <Setter Property="BorderBrush" TargetName="border" Value="DarkRed"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Background" TargetName="border" Value="{StaticResource ControlBrightDefaultBackground}"/>
+                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource ControlBrightDefaultBorderBrush}"/>
+                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource ControlDisabledGlythColour}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
 </ResourceDictionary>

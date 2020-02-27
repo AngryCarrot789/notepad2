@@ -1929,7 +1929,7 @@
                     <Grid>
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="7,39,7,8">
+                                BorderThickness="12,42,12,13">
                             <AdornerDecorator>
                                 <ContentPresenter />
                             </AdornerDecorator>

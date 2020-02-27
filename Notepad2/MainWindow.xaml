@@ -111,9 +111,9 @@
                     <ColumnDefinition Width="500*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Background="{DynamicResource ContainerBackground}">
-                    <Button Command="{Binding ClearListAndNotepadCommand}" Content="Clear list and Notepad" Margin="6,0,0,0" VerticalAlignment="Bottom" Height="50"/>
+                    <Button Command="{Binding ClearListAndNotepadCommand}" Content="Clear list and Notepad" VerticalAlignment="Bottom" Height="50"/>
                     <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
-                         SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,0,55"
+                         SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,55"
                          HorizontalContentAlignment="Stretch" AllowDrop="True" Drop="ListBox_Drop"/>
                 </Grid>
                 <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="{DynamicResource ContainerBackground}"/>
@@ -158,23 +158,23 @@
             </Grid>
         </DockPanel>
         <Grid Margin="0,18,0,0" Height="32" VerticalAlignment="Top" Background="{DynamicResource ContainerBackground}">
-            <Button Command="{Binding NewCommand}"   HorizontalAlignment="Left" Margin="5,4,0,4" Width="24" ToolTip="Add New Blank File">
+            <Button Command="{Binding NewCommand}"   HorizontalAlignment="Left" Margin="0,4" Width="24" ToolTip="Add New Blank File">
                 <Image Margin="2" Source="Resources/newFile.png"/>
             </Button>
-            <Button Command="{Binding OpenCommand  }" HorizontalAlignment="Left" Margin="34,4,0,4" Width="24" ToolTip="Open File from File Explorer">
+            <Button Command="{Binding OpenCommand  }" HorizontalAlignment="Left" Margin="29,4,0,4" Width="24" ToolTip="Open File from File Explorer">
                 <Image Margin="2" Source="Resources/openFile.png"/>
             </Button>
-            <Button Command="{Binding SaveCommand  }" HorizontalAlignment="Left" Margin="63,4,0,4" Width="24" ToolTip="Save current File">
+            <Button Command="{Binding SaveCommand  }" HorizontalAlignment="Left" Margin="58,4,0,4" Width="24" ToolTip="Save current File">
                 <Image Margin="2" Source="Resources/saveFile.png"/>
             </Button>
-            <Button Command="{Binding SaveAsCommand}" HorizontalAlignment="Left" Margin="92,4,0,4" Width="24" ToolTip="Save current File As...">
+            <Button Command="{Binding SaveAsCommand}" HorizontalAlignment="Left" Margin="87,4,0,4" Width="24" ToolTip="Save current File As...">
                 <Image Margin="2" Source="Resources/saveFileAs.png"/>
             </Button>
-            <Button Command="{Binding CloseSelectedNotepadCommand}" HorizontalAlignment="Left" Margin="121,4,0,4" Width="24" ToolTip="Close current File and Remove">
+            <Button Command="{Binding CloseSelectedNotepadCommand}" HorizontalAlignment="Left" Margin="116,4,0,4" Width="24" ToolTip="Close current File and Remove">
                 <Image Margin="2" Source="Resources/closeFile.png"/>
             </Button>
-            <Separator Style="{DynamicResource VerticalSeparator}" HorizontalAlignment="Left" Margin="150,4,0,4"/>
-            <Button IsEnabled="False" Command="{Binding OpenInNewWindowCommand}" HorizontalAlignment="Left" Margin="157,4,0,4" Width="24" 
+            <Separator Style="{DynamicResource VerticalSeparator}" HorizontalAlignment="Left" Margin="145,4,0,4" Background="{DynamicResource ControlDefaultBackground}"/>
+            <Button IsEnabled="False" Command="{Binding OpenInNewWindowCommand}" HorizontalAlignment="Left" Margin="152,4,0,4" Width="24" 
                     ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))">
                 <Image Margin="2" Source="Resources/openInNewWindow.png"/>
             </Button>
