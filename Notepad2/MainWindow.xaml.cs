@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
+using System.Windows.Shell;
 using static Notepad2.App;
 
 namespace Notepad2
@@ -23,7 +24,6 @@ namespace Notepad2
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
             ViewModel.NewNotepad();
-
         }
 
         public MainWindow(string filePath)
@@ -54,6 +54,8 @@ namespace Notepad2
                 SetTheme(Theme.Dark);
             else
                 SetTheme(Theme.Light);
+
+            WindowStyle = WindowStyle.SingleBorderWindow;
         }
 
         public void SetTheme(Theme theme)
@@ -146,6 +148,36 @@ namespace Notepad2
                 case 1: SetTheme(Theme.Light); DarkThemeEnabled = false; break;
             }
 
+        }
+
+        public void CloseWindow()
+        {
+            //WindowStyle = WindowStyle.SingleBorderWindow;
+            this.Close();
+        }
+
+        public void MaximizeRestore()
+        {
+            //WindowChrome chrome = WindowChrome.GetWindowChrome(this);
+            //chrome.ResizeBorderThickness = new Thickness(10, 10, 10, 10);
+            if (this.WindowState == WindowState.Maximized)
+            {
+                //WindowStyle = WindowStyle.SingleBorderWindow;
+                WindowState = WindowState.Normal;
+                //WindowStyle = WindowStyle.None;
+            }
+            else if (WindowState == WindowState.Normal)
+            {
+                //WindowStyle = WindowStyle.SingleBorderWindow;
+                WindowState = WindowState.Maximized;
+                //WindowStyle = WindowStyle.None;
+            }
+        }
+
+        public void Minimize()
+        {
+            //WindowStyle = WindowStyle.SingleBorderWindow;
+            this.WindowState = WindowState.Minimized;
         }
     }
 }

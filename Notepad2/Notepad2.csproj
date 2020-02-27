@@ -161,5 +161,14 @@
   <ItemGroup>
     <Resource Include="Resources\sharpPadIcon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\closeWindow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\maximizeRestoreWindow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\minimizeWindow.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

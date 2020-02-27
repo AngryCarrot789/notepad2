@@ -105,6 +105,10 @@ namespace Notepad2.ViewModels
         public ICommand SaveCommand   { get; set; }
         public ICommand SaveAsCommand { get; set; }
 
+        public ICommand CloseWindowCommand     { get; set; }
+        public ICommand MaximizeRestoreCommand { get; set; }
+        public ICommand MinimizeWindowCommand  { get; set; }
+
         public ICommand OpenInNewWindowCommand { get; set; }
         private void OpenInNewWindow()
         {
@@ -132,8 +136,16 @@ namespace Notepad2.ViewModels
             SaveCommand = new Command(SaveCurrentNotepad);
             SaveAsCommand = new Command(SaveCurrentNotepadAs);
 
+            CloseWindowCommand = new Command(CloseWindow);
+            MaximizeRestoreCommand = new Command(MaximRestre);
+            MinimizeWindowCommand = new Command(MinimWindow);
+
             CloseSelectedNotepadCommand = new Command(CloseSelectedNotepad);
         }
+
+        private void CloseWindow() { (Application.Current.MainWindow as MainWindow).CloseWindow(); }
+        private void MaximRestre() { (Application.Current.MainWindow as MainWindow).MaximizeRestore(); }
+        private void MinimWindow() { (Application.Current.MainWindow as MainWindow).Minimize(); }
 
         #region NotepadFunctions
         public NotepadListItem CreateDefaultStyleNotepadItem(string text, string itemName, string itemPath, double itemSize)

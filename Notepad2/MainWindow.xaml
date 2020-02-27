@@ -7,8 +7,13 @@
         xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
         xmlns:win="clr-namespace:System.Windows;assembly=PresentationCore"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        Title="SharpPad" Height="547" Width="928.5" 
-        Style="{DynamicResource MainWindowStyle}" Icon="Resources/sharpPadIcon.png">
+        xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
+        Title="SharpPad" Height="547" Width="928.5" WindowStyle="None" 
+        WindowChrome.IsHitTestVisibleInChrome="False"
+        Style="{DynamicResource CustomWindowStyle}" Icon="Resources/sharpPadIcon.png">
+    <Window.DataContext>
+        <viewmodels:MainViewModel/>
+    </Window.DataContext>
     <Window.Resources>
         <ObjectDataProvider x:Key="FontFamilyOptions"
                             ObjectType="{x:Type media:Fonts}"
@@ -106,12 +111,12 @@
                     <ColumnDefinition Width="500*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Background="{DynamicResource ContainerBackground}">
-                    <Button Command="{Binding ClearListAndNotepadCommand}" Content="Clear list and Notepad" Margin="6,0,6,6" VerticalAlignment="Bottom" Height="50"/>
+                    <Button Command="{Binding ClearListAndNotepadCommand}" Content="Clear list and Notepad" Margin="6,0" VerticalAlignment="Bottom" Height="50"/>
                     <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
-                         SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}" Margin="6,0,6,61"
+                         SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}" Margin="6,0,6,55"
                          HorizontalContentAlignment="Stretch" AllowDrop="True" Drop="ListBox_Drop"/>
                 </Grid>
-                <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+                <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="{DynamicResource ContainerBackground}"/>
                 <Grid Grid.Column="2" DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}">
                     <Grid Margin="0,0,0,20">
                         <TextBox
@@ -133,17 +138,20 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
+                        <Border BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1 0 1 1" Grid.ColumnSpan="2"/>
                         <Grid>
-                            <TextBlock Text="Name:" Margin="4 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock Text="Name:" Margin="4 0 0 1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <TextBox VerticalAlignment="Center"
+                                     BorderBrush="Transparent"
                                DataContext="{Binding Document}"
-                               Text="{Binding FileName}" Background="Transparent" Margin="43,1,2,1"/>
+                               Text="{Binding FileName}" Background="Transparent" Margin="43,1,1,2" Height="17"/>
                         </Grid>
                         <Grid Grid.Column="1">
                             <TextBlock Text="Path:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <TextBox VerticalAlignment="Center"
                                DataContext="{Binding Document}"
-                               Text="{Binding FilePath}" Background="Transparent" Margin="31,0,0,0"/>
+                                     BorderBrush="Transparent"
+                               Text="{Binding FilePath}" Background="Transparent" Margin="31,1,2,2" Height="17"/>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -172,7 +180,7 @@
             </Button>
             <Button Click="ShowFontDialogPanel" Content="Show/Hide Font Menu" HorizontalAlignment="Right" Margin="0,4,4,4" Width="160"/>
         </Grid>
-        <Menu VerticalAlignment="Top" Grid.ColumnSpan="3">
+        <Menu VerticalAlignment="Top" Grid.ColumnSpan="3" Background="{DynamicResource ContainerBackground}">
             <MenuItem Header="File">
                 <MenuItem Header="New" Command="{Binding NewCommand}"   Template="{DynamicResource DropDownMenuItemTemplate}"/>
                 <MenuItem Header="Open" Command="{Binding OpenCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>

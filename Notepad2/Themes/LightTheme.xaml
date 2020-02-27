@@ -3,6 +3,10 @@
                     xmlns:local="clr-namespace:PSWRDMGR.Themes">
 
     <SolidColorBrush x:Key="BackgroundColour"  Color="White" />
+
+    <SolidColorBrush x:Key="WindowBorderColour"  Color="WhiteSmoke" />
+    <SolidColorBrush x:Key="WindowTitleColour"  Color="WhiteSmoke" />
+
     <SolidColorBrush x:Key="ContainerBackground" Color="WhiteSmoke"/>
     <SolidColorBrush x:Key="ContainerBorder" Color="#FFE1E1E1"/>
 
@@ -73,8 +77,87 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
-    
+
+    <Style x:Key="CustomWindowStyle" TargetType="{x:Type Window}">
+        <Setter Property="BorderBrush" Value="{StaticResource ContainerBackground}" />
+        <Setter Property="Background" Value="{StaticResource BackgroundColour}" />
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CornerRadius="2" 
+                              CaptionHeight="39"
+                              GlassFrameThickness="2"/>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Window}">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="7,39,7,7">
+                            <AdornerDecorator>
+                                <ContentPresenter />
+                            </AdornerDecorator>
+                        </Border>
+
+                        <Grid Height="32"
+                              Background="{StaticResource WindowTitleColour}"
+                            VerticalAlignment="Top" Margin="7,7,7,0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="20" Margin="6" Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Icon}"  />
+                            <TextBlock Margin="5,0,0,0"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       FontSize="16"
+                                       Foreground="{DynamicResource ControlDefaultForeground}"
+                                       Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title}"   
+                                       Grid.Column="1"/>
+
+
+                            <StackPanel Orientation="Horizontal"
+                                        Grid.Column="2">
+                                <Button x:Name="btnMinimize"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        Width="50"
+                                        VerticalContentAlignment="Bottom"
+                                        WindowChrome.IsHitTestVisibleInChrome="True" Command="{Binding MinimizeWindowCommand}">
+                                    <Image Source="/Resources/minimizeWindow.png" Margin="7"/>
+                                </Button>
+
+                                <Button x:Name="btnRestore"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        Width="50"
+                                        WindowChrome.IsHitTestVisibleInChrome="True" Command="{Binding MaximizeRestoreCommand}">
+                                    <Image Source="/Resources/maximizeRestoreWindow.png" Margin="7"/>
+                                </Button>
+                                <Button x:Name="btnClose"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        Template="{DynamicResource CloseWindowButton}"
+                                        Width="50"
+                                        WindowChrome.IsHitTestVisibleInChrome="True" Command="{Binding CloseWindowCommand}">
+                                    <Image Source="/Resources/closeWindow.png" Margin="7"/>
+                                </Button>
+
+                            </StackPanel>
+                        </Grid>
+
+                    </Grid>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <ControlTemplate x:Key="DropDownMenuItemTemplate" TargetType="{x:Type MenuItem}">
         <Border x:Name="templateRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
             <Grid Margin="-1">
