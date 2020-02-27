@@ -107,13 +107,13 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="120*" MaxWidth="320"/>
-                    <ColumnDefinition Width="3"/>
+                    <ColumnDefinition Width="5"/>
                     <ColumnDefinition Width="500*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Background="{DynamicResource ContainerBackground}">
-                    <Button Command="{Binding ClearListAndNotepadCommand}" Content="Clear list and Notepad" Margin="6,0" VerticalAlignment="Bottom" Height="50"/>
+                    <Button Command="{Binding ClearListAndNotepadCommand}" Content="Clear list and Notepad" Margin="6,0,0,0" VerticalAlignment="Bottom" Height="50"/>
                     <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
-                         SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}" Margin="6,0,6,55"
+                         SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,0,55"
                          HorizontalContentAlignment="Stretch" AllowDrop="True" Drop="ListBox_Drop"/>
                 </Grid>
                 <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="{DynamicResource ContainerBackground}"/>
