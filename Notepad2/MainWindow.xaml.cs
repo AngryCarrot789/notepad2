@@ -15,6 +15,8 @@ namespace Notepad2
     /// </summary>
     public partial class MainWindow : Window
     {
+        //hannez u r a google
+        //(ignore this if you aren't hannez)
         public bool DarkThemeEnabled { get; set; }
         public App CurrentApp;
         public MainViewModel ViewModel { get; set; }
