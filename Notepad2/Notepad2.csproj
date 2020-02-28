@@ -60,6 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\TextChangedToUnsavedIndicatorConverter.cs" />
     <Compile Include="Notepad\DocumentModel.cs" />
     <Compile Include="Notepad\FormatModel.cs" />
     <Compile Include="Notepad\NotepadListItem.xaml.cs">
