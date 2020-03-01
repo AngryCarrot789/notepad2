@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -112,7 +113,7 @@ namespace Notepad2.ViewModels
         public ICommand OpenInNewWindowCommand { get; set; }
         private void OpenInNewWindow()
         {
-            MainWindow mWnd = new MainWindow(SelectedNotepadItem);
+            MainWindow mWnd = new MainWindow(SelectedNotepadItem, false);
             mWnd.Show();
             CloseSelectedNotepad();
         }
@@ -142,10 +143,10 @@ namespace Notepad2.ViewModels
 
             CloseSelectedNotepadCommand = new Command(CloseSelectedNotepad);
         }
-
-        private void CloseWindow() { (Application.Current.MainWindow as MainWindow).CloseWindow(); }
-        private void MaximRestre() { (Application.Current.MainWindow as MainWindow).MaximizeRestore(); }
-        private void MinimWindow() { (Application.Current.MainWindow as MainWindow).Minimize(); }
+        public MainWindow MainWind { get; set; }
+        private void CloseWindow() { if (MainWind != null) MainWind.CloseWindow(); else Application.Current.Shutdown(); }
+        private void MaximRestre() { if (MainWind != null) MainWind.MaximizeRestore(); }
+        private void MinimWindow() { if (MainWind != null) MainWind.Minimize(); }
 
         #region NotepadFunctions
         public NotepadListItem CreateDefaultStyleNotepadItem(string text, string itemName, string itemPath, double itemSize)

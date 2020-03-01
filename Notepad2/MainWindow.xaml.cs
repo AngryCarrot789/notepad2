@@ -1,9 +1,13 @@
 ﻿using Notepad2.Notepad;
 using Notepad2.ViewModels;
+using Notepad2.Views;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Shell;
 using static Notepad2.App;
@@ -15,6 +19,7 @@ namespace Notepad2
     /// </summary>
     public partial class MainWindow : Window
     {
+        public bool IsDuplicatedWindow { get; set; }
         public bool DarkThemeEnabled { get; set; }
         public App CurrentApp;
         public MainViewModel ViewModel { get; set; }
@@ -23,6 +28,7 @@ namespace Notepad2
             InitializeComponent();
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
+            ViewModel.MainWind = this;
             ViewModel.NewNotepad();
         }
 
@@ -31,15 +37,30 @@ namespace Notepad2
             InitializeComponent();
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
+            ViewModel.MainWind = this;
             ViewModel.OpenNotepadFileFromPath(filePath);
         }
 
-        public MainWindow(NotepadListItem fileItem)
+        public MainWindow(string filePath, bool enableSettingsSave)
         {
             InitializeComponent();
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
+            ViewModel.MainWind = this;
+            ViewModel.OpenNotepadFileFromPath(filePath);
+            IsDuplicatedWindow = true;
+            Title = "SharpPad";
+        }
+
+        public MainWindow(NotepadListItem fileItem, bool enableSettingsSave)
+        {
+            InitializeComponent();
+            ViewModel = new MainViewModel();
+            this.DataContext = ViewModel;
+            ViewModel.MainWind = this;
             ViewModel.AddNotepadItem(fileItem);
+            IsDuplicatedWindow = true;
+            Title = "SharpPad";
         }
 
         public void LoadSettings()
@@ -63,30 +84,32 @@ namespace Notepad2
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (WindowState == WindowState.Maximized)
+            if (!IsDuplicatedWindow)
             {
-                // Use the RestoreBounds as the current values will be 0, 0 and the size of the screen
-                Properties.Settings.Default.Top = RestoreBounds.Top;
-                Properties.Settings.Default.Left = RestoreBounds.Left;
-                Properties.Settings.Default.Height = RestoreBounds.Height;
-                Properties.Settings.Default.Width = RestoreBounds.Width;
-            }
-            else
-            {
-                Properties.Settings.Default.Top = this.Top;
-                Properties.Settings.Default.Left = this.Left;
-                Properties.Settings.Default.Height = this.Height;
-                Properties.Settings.Default.Width = this.Width;
-            }
+                if (WindowState == WindowState.Maximized)
+                {
+                    // Use the RestoreBounds as the current values will be 0, 0 and the size of the screen
+                    Properties.Settings.Default.Top = RestoreBounds.Top;
+                    Properties.Settings.Default.Left = RestoreBounds.Left;
+                    Properties.Settings.Default.Height = RestoreBounds.Height;
+                    Properties.Settings.Default.Width = RestoreBounds.Width;
+                }
+                else
+                {
+                    Properties.Settings.Default.Top = this.Top;
+                    Properties.Settings.Default.Left = this.Left;
+                    Properties.Settings.Default.Height = this.Height;
+                    Properties.Settings.Default.Width = this.Width;
+                }
 
-            Properties.Settings.Default.DarkTheme = this.DarkThemeEnabled;
-            if (!this.ViewModel.CheckNotepadNull())
-            {
-                Properties.Settings.Default.DefaultFont = this.ViewModel.Notepad.DocumentFormat.Family.ToString();
-                Properties.Settings.Default.DefaultFontSize = this.ViewModel.Notepad.DocumentFormat.Size;
+                Properties.Settings.Default.DarkTheme = this.DarkThemeEnabled;
+                if (!this.ViewModel.CheckNotepadNull())
+                {
+                    Properties.Settings.Default.DefaultFont = this.ViewModel.Notepad.DocumentFormat.Family.ToString();
+                    Properties.Settings.Default.DefaultFontSize = this.ViewModel.Notepad.DocumentFormat.Size;
+                }
+                Properties.Settings.Default.Save();
             }
-            Properties.Settings.Default.Save();
-
             ViewModel.Shutdown();
         }
         private bool panelShowing;
@@ -116,21 +139,35 @@ namespace Notepad2
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 // Note that you can have more than one file.
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                object droppedItem = e.Data.GetData(DataFormats.FileDrop);
 
-                // Assuming you have one file that you care about, pass it off to whatever
-                // handling code you have defined.
-                if (ViewModel != null)
+                //This isnt needed. Drag/Drop creates a temp file
+                //so droppedItem is considered a string array containing
+                //the path in %temp% :/. using the actual NotepadListitem would
+                //be harder; same object therefore binding happens therefore big errors.
+                //using strings... new objects/duplicated/sort of so no problems :)
+                //if (droppedItem is NotepadListItem)
+                //{
+                //    MessageBox.Show("dropped is notepad list item");
+                //    return;
+                //}
+
+                //checks if it's a string array, just incase ;)
+                if (droppedItem is string[])
                 {
-                    foreach (string path in files)
+                    //dont u blimin be null on me or no notepad for u
+                    if (ViewModel != null)
                     {
-                        string text = File.ReadAllText(path);
-                        ViewModel.AddNotepadItem(
-                            ViewModel.CreateDefaultStyleNotepadItem(
-                                text,
-                                Path.GetFileName(path),
-                                path,
-                                (double)text.Length / 1000.0));
+                        foreach (string path in droppedItem as string[])
+                        {
+                            string text = File.ReadAllText(path);
+                            ViewModel.AddNotepadItem(
+                                ViewModel.CreateDefaultStyleNotepadItem(
+                                    text,
+                                    Path.GetFileName(path),
+                                    path,
+                                    (double)text.Length / 1000.0));
+                        }
                     }
                 }
             }
@@ -177,5 +214,32 @@ namespace Notepad2
             //WindowStyle = WindowStyle.SingleBorderWindow;
             this.WindowState = WindowState.Minimized;
         }
+
+        //Drag drop
+
+        private Point start;
+        private void FileView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.start = e.GetPosition(null);
+        }
+        private void FileView_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point mpos = e.GetPosition(null);
+            Vector diff = this.start - mpos;
+
+            if (e.LeftButton == MouseButtonState.Pressed &&
+                Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance &&
+                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
+            {
+                //get selected notepad (aka one being dragged)
+                FileItemViewModel notepad = ViewModel.SelectedNotepadViewModel;
+                string tempFilePath = Path.Combine(Path.GetTempPath(), notepad.Document.FileName);
+                File.WriteAllText(tempFilePath, notepad.Document.Text);
+                string[] path = new string[1] { tempFilePath };
+                DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path), DragDropEffects.Copy);
+                File.Delete(tempFilePath);
+            }
+        }
+
     }
 }

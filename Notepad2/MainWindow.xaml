@@ -8,7 +8,7 @@
         xmlns:win="clr-namespace:System.Windows;assembly=PresentationCore"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
-        Title="SharpPad" Height="547" Width="928.5" WindowStyle="SingleBorderWindow" 
+        Title="SharpPad (Main Window)" Height="547" Width="928.5" WindowStyle="SingleBorderWindow" 
         WindowChrome.IsHitTestVisibleInChrome="False"
         Style="{DynamicResource CustomWindowStyle}" Icon="Resources/sharpPadIcon.png">
     <Window.DataContext>
@@ -113,6 +113,9 @@
                 <Grid Background="{DynamicResource ContainerBackground}">
                     <Button Command="{Binding ClearListAndNotepadCommand}" Content="Clear list and Notepad" VerticalAlignment="Bottom" Height="50"/>
                     <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
+                             x:Name="notepadLstBox" 
+                             PreviewMouseLeftButtonDown="FileView_PreviewMouseLeftButtonDown"
+                             MouseMove="FileView_MouseMove"
                          SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,55"
                          HorizontalContentAlignment="Stretch" AllowDrop="True" Drop="ListBox_Drop"/>
                 </Grid>
@@ -174,7 +177,7 @@
                 <Image Margin="2" Source="Resources/closeFile.png"/>
             </Button>
             <Separator Style="{DynamicResource VerticalSeparator}" HorizontalAlignment="Left" Margin="145,4,0,4" Background="{DynamicResource ControlDefaultBackground}"/>
-            <Button IsEnabled="False" Command="{Binding OpenInNewWindowCommand}" HorizontalAlignment="Left" Margin="152,4,0,4" Width="24" 
+            <Button IsEnabled="True" Command="{Binding OpenInNewWindowCommand}" HorizontalAlignment="Left" Margin="152,4,0,4" Width="24" 
                     ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))">
                 <Image Margin="2" Source="Resources/openInNewWindow.png"/>
             </Button>
