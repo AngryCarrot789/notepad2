@@ -119,7 +119,7 @@
                          SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,55"
                          HorizontalContentAlignment="Stretch" AllowDrop="True" Drop="ListBox_Drop"/>
                 </Grid>
-                <Border Grid.Column="1" Background="{StaticResource ContainerBackground}"/>
+                <Border Grid.Column="1" Background="{DynamicResource ContainerBackground}"/>
                 <Grid Grid.Column="2" DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}">
                     <Grid Margin="0,0,0,20">
                         <TextBox
