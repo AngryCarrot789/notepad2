@@ -153,12 +153,12 @@ namespace Notepad2
                 //}
 
                 //checks if it's a string array, just incase ;)
-                if (droppedItem is string[])
+                //dont u blimin be null on me or no notepad for u
+                if (ViewModel != null)
                 {
-                    //dont u blimin be null on me or no notepad for u
-                    if (ViewModel != null)
+                    if (droppedItem is string[] droppedItemArray)
                     {
-                        foreach (string path in droppedItem as string[])
+                        foreach (string path in droppedItemArray)
                         {
                             string text = File.ReadAllText(path);
                             ViewModel.AddNotepadItem(
@@ -172,7 +172,6 @@ namespace Notepad2
                 }
             }
         }
-
         private void SetTheme(object sender, RoutedEventArgs e)
         {
             switch (int.Parse(((MenuItem)sender).Uid))
