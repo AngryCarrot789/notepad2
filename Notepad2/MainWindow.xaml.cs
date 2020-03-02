@@ -232,12 +232,17 @@ namespace Notepad2
                 Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
                 //get selected notepad (aka one being dragged)
-                FileItemViewModel notepad = ViewModel.SelectedNotepadViewModel;
-                string tempFilePath = Path.Combine(Path.GetTempPath(), notepad.Document.FileName);
-                File.WriteAllText(tempFilePath, notepad.Document.Text);
-                string[] path = new string[1] { tempFilePath };
-                DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path), DragDropEffects.Copy);
-                File.Delete(tempFilePath);
+                try
+                {
+                    FileItemViewModel notepad = ViewModel.SelectedNotepadViewModel;
+                    string tempFilePath = Path.Combine(Path.GetTempPath(), notepad.Document.FileName);
+                    notepad.Document.FilePath = tempFilePath;
+                    File.WriteAllText(tempFilePath, notepad.Document.Text);
+                    string[] path = new string[1] { tempFilePath };
+                    DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path), DragDropEffects.Copy);
+                    File.Delete(tempFilePath);
+                }
+                catch { }
             }
         }
 

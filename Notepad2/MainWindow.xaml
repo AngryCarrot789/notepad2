@@ -106,7 +106,7 @@
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120*" MaxWidth="320"/>
+                    <ColumnDefinition Width="180"/>
                     <ColumnDefinition Width="5"/>
                     <ColumnDefinition Width="500*"/>
                 </Grid.ColumnDefinitions>
@@ -119,7 +119,7 @@
                          SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,55"
                          HorizontalContentAlignment="Stretch" AllowDrop="True" Drop="ListBox_Drop"/>
                 </Grid>
-                <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="{DynamicResource ContainerBackground}"/>
+                <Border Grid.Column="1" Background="{StaticResource ContainerBackground}"/>
                 <Grid Grid.Column="2" DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}">
                     <Grid Margin="0,0,0,20">
                         <TextBox
