@@ -123,6 +123,21 @@ namespace Notepad2.ViewModels
         {
             CloseNotepadItem(SelectedNotepadItem);
         }
+        public ICommand CloseAllNotepadsCommand { get; set; }
+        private void CloseAllNotepads()
+        {
+            try
+            {
+                foreach (NotepadListItem nli in NotepadItems)
+                {
+                    CloseNotepadItem(nli);
+                }
+            }
+            catch
+            {
+
+            }
+        }
 
         public MainViewModel()
         {
@@ -142,6 +157,7 @@ namespace Notepad2.ViewModels
             MinimizeWindowCommand = new Command(MinimWindow);
 
             CloseSelectedNotepadCommand = new Command(CloseSelectedNotepad);
+            CloseAllNotepadsCommand = new Command(CloseAllNotepads);
         }
         public MainWindow MainWind { get; set; }
         private void CloseWindow() { if (MainWind != null) MainWind.CloseWindow(); else Application.Current.Shutdown(); }

@@ -26,6 +26,7 @@ namespace Notepad2
         public MainWindow()
         {
             InitializeComponent();
+            NotepadActions.richTB = this.mainRTB;
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
             ViewModel.MainWind = this;
@@ -35,6 +36,7 @@ namespace Notepad2
         public MainWindow(string filePath)
         {
             InitializeComponent();
+            NotepadActions.richTB = this.mainRTB;
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
             ViewModel.MainWind = this;
@@ -44,6 +46,7 @@ namespace Notepad2
         public MainWindow(string filePath, bool enableSettingsSave)
         {
             InitializeComponent();
+            NotepadActions.richTB = this.mainRTB;
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
             ViewModel.MainWind = this;
@@ -55,6 +58,7 @@ namespace Notepad2
         public MainWindow(NotepadListItem fileItem, bool enableSettingsSave)
         {
             InitializeComponent();
+            NotepadActions.richTB = this.mainRTB;
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
             ViewModel.MainWind = this;

@@ -63,6 +63,7 @@
     <Compile Include="Converters\TextChangedToUnsavedIndicatorConverter.cs" />
     <Compile Include="Notepad\DocumentModel.cs" />
     <Compile Include="Notepad\FormatModel.cs" />
+    <Compile Include="Notepad\NotepadActions.cs" />
     <Compile Include="Notepad\NotepadListItem.xaml.cs">
       <DependentUpon>NotepadListItem.xaml</DependentUpon>
     </Compile>
@@ -142,24 +143,6 @@
     <Resource Include="file.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\openFile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\newFile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\saveFileAs.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\saveFile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\closeFile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\openInNewWindow.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\sharpPadIcon.png" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +162,32 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\minimizeWindowBlack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\closeAllFiles.png" />
+    <Resource Include="Resources\closeFile.png" />
+    <Resource Include="Resources\newFile.png" />
+    <Resource Include="Resources\openFile.png" />
+    <Resource Include="Resources\openInNewWindow.png" />
+    <Resource Include="Resources\saveFile.png" />
+    <Resource Include="Resources\saveFileAs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RTBIcons\alignCentre.png" />
+    <Resource Include="Resources\RTBIcons\alignJustify.png" />
+    <Resource Include="Resources\RTBIcons\alignLeft.png" />
+    <Resource Include="Resources\RTBIcons\alignRight.png" />
+    <Resource Include="Resources\RTBIcons\bulletList.png" />
+    <Resource Include="Resources\RTBIcons\copy.png" />
+    <Resource Include="Resources\RTBIcons\cut.png" />
+    <Resource Include="Resources\RTBIcons\fontDecrease.png" />
+    <Resource Include="Resources\RTBIcons\fontIncrease.png" />
+    <Resource Include="Resources\RTBIcons\indentationDecrease.png" />
+    <Resource Include="Resources\RTBIcons\indentationIncrease.png" />
+    <Resource Include="Resources\RTBIcons\numberedList.png" />
+    <Resource Include="Resources\RTBIcons\paste.png" />
+    <Resource Include="Resources\RTBIcons\redo.png" />
+    <Resource Include="Resources\RTBIcons\undo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
