@@ -285,13 +285,13 @@
                     <Image Margin="2" Source="Resources/closeAllFiles.png"/>
                 </Button>
             </StackPanel>
-            <StackPanel Margin="0 2 0 0" Orientation="Horizontal" Height="32" Background="{DynamicResource ContainerBackground}">
+            <Grid Margin="0 2 0 0" Height="32" Background="{DynamicResource ContainerBackground}">
                 <Button Command="{Binding OpenInNewWindowCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
-                    ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))">
+                    ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))" HorizontalAlignment="Left" Width="32">
                     <Image Margin="2" Source="Resources/openInNewWindow.png"/>
                 </Button>
-                <Button Margin="2 0 0 0" Click="ShowFontDialogPanel" Content="Show/Hide Font Menu" BorderBrush="Transparent" Background="Transparent"/>
-            </StackPanel>
+                <Button Click="ShowFontDialogPanel" Content="Show/Hide Font Menu" HorizontalAlignment="Right" Width="164"/>
+            </Grid>
         </ToolBarPanel>
         <Menu VerticalAlignment="Top" Grid.ColumnSpan="3" Background="{DynamicResource ContainerBackground}">
             <MenuItem Header="File">
