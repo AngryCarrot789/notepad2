@@ -179,14 +179,14 @@
     <Resource Include="Resources\RTBIcons\alignLeft.png" />
     <Resource Include="Resources\RTBIcons\alignRight.png" />
     <Resource Include="Resources\RTBIcons\bulletList.png" />
-    <Resource Include="Resources\RTBIcons\copy.png" />
+    <Resource Include="Resources\RTBIcons\paste.png" />
     <Resource Include="Resources\RTBIcons\cut.png" />
     <Resource Include="Resources\RTBIcons\fontDecrease.png" />
     <Resource Include="Resources\RTBIcons\fontIncrease.png" />
     <Resource Include="Resources\RTBIcons\indentationDecrease.png" />
     <Resource Include="Resources\RTBIcons\indentationIncrease.png" />
     <Resource Include="Resources\RTBIcons\numberedList.png" />
-    <Resource Include="Resources\RTBIcons\paste.png" />
+    <Resource Include="Resources\RTBIcons\copy.png" />
     <Resource Include="Resources\RTBIcons\redo.png" />
     <Resource Include="Resources\RTBIcons\undo.png" />
   </ItemGroup>
