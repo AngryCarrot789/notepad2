@@ -75,6 +75,7 @@
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NotepadViewModel.cs" />
+    <Compile Include="ViewModels\RichNotepadViewModel.cs" />
     <Compile Include="Views\HelpDialog.xaml.cs">
       <DependentUpon>HelpDialog.xaml</DependentUpon>
     </Compile>
@@ -169,8 +170,8 @@
     <Resource Include="Resources\newFile.png" />
     <Resource Include="Resources\openFile.png" />
     <Resource Include="Resources\openInNewWindow.png" />
-    <Resource Include="Resources\saveFile.png" />
     <Resource Include="Resources\saveFileAs.png" />
+    <Resource Include="Resources\saveFile.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\RTBIcons\alignCentre.png" />

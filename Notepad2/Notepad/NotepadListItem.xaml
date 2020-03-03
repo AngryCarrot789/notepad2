@@ -25,13 +25,13 @@
                  MaxHeight="60"
                  TextWrapping="Wrap"
                  AcceptsTab="False"
-                 FontSize="14" HorizontalAlignment="Left" Width="142" />
-        <TextBlock Text="{Binding Document.Text.Length, UpdateSourceTrigger=PropertyChanged}" Margin="34,0,0,3" VerticalAlignment="Bottom" FontSize="11" TextAlignment="Left" HorizontalAlignment="Left" Width="50" Height="15"/>
-        <TextBlock Text="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,16,4" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="50" TextAlignment="Right"/>
-        <TextBlock Margin="3,0,118,3" VerticalAlignment="Bottom" FontSize="11" Height="15"><Run Text="Chars"/><Run Text=":"/></TextBlock>
+                 FontSize="14" HorizontalAlignment="Left" Width="152" />
+        <TextBlock Text="{Binding Document.Text.Length, UpdateSourceTrigger=PropertyChanged}" Margin="36,0,0,3" VerticalAlignment="Bottom" FontSize="11" TextAlignment="Left" HorizontalAlignment="Left" Width="64" Height="15"/>
+        <TextBlock Text="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,16,4" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="59" TextAlignment="Right"/>
+        <TextBlock Margin="4,0,0,3" VerticalAlignment="Bottom" FontSize="11" Height="15" HorizontalAlignment="Left" Width="32"><Run Text="Chars"/><Run Text=":"/></TextBlock>
         <TextBlock Text="KB" Margin="0,0,3,4" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="12" TextAlignment="Right"/>
         <Button Background="Transparent" Content="X" HorizontalAlignment="Right" Margin="0,3,3,0" VerticalAlignment="Top" Width="16" Height="18" Click="Button_Click" FontSize="10"/>
-        <TextBlock Text="{Binding Path=HasMadeChanges, Converter={StaticResource tchanunsave}}" HorizontalAlignment="Left" Margin="3,0,0,18" VerticalAlignment="Bottom" Width="42" FontSize="10"/>
+        <TextBlock Text="{Binding Path=HasMadeChanges, Converter={StaticResource tchanunsave}}" HorizontalAlignment="Left" Margin="4,0,0,18" VerticalAlignment="Bottom" Width="50" FontSize="10"/>
 
     </Grid>
 </UserControl>

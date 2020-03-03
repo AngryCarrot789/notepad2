@@ -18,6 +18,35 @@ namespace Notepad2.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
+        private bool _normalTextBoxSelected;
+        public bool TextBoxSelected
+        {
+            get => _normalTextBoxSelected;
+            set
+            {
+                RaisePropertyChanged(ref _normalTextBoxSelected, value);
+            }
+        }
+
+        private int _textEditorsSelectedIndex;
+        public  int TextEditorsSelectedIndex
+        {
+            get => _textEditorsSelectedIndex;
+            set
+            {
+                RaisePropertyChanged(ref _textEditorsSelectedIndex, value);
+                if (value <= 0)
+                    TextBoxSelected = true;
+                else if (value > 0)
+                    TextBoxSelected = false;
+            }
+        }
+
+        public void RichTextChanged(string text)
+        {
+            SelectedNotepadViewModel.Document.Text = text;
+        }
+
         //Notepad View (text, format)
         private NotepadViewModel _notepad;
         public NotepadViewModel Notepad
@@ -128,10 +157,7 @@ namespace Notepad2.ViewModels
         {
             try
             {
-                foreach (NotepadListItem nli in NotepadItems)
-                {
-                    CloseNotepadItem(nli);
-                }
+                NotepadItems.Clear();
             }
             catch
             {
@@ -143,7 +169,7 @@ namespace Notepad2.ViewModels
         {
             Notepad = new NotepadViewModel();
             Help = new HelpViewModel();
-
+            TextEditorsSelectedIndex = 0;
             OpenInNewWindowCommand = new Command(OpenInNewWindow);
 
             ClearListAndNotepadCommand = new Command(ClearTextAndList);
@@ -262,7 +288,7 @@ namespace Notepad2.ViewModels
             {
                 if (File.Exists(path))
                 {
-                    string text = File.ReadAllText(path);
+                    string text = NotepadActions.ReadFile(path);
                     AddNotepadItem(
                         CreateDefaultStyleNotepadItem(
                            text,
@@ -278,7 +304,7 @@ namespace Notepad2.ViewModels
         {
             try
             {
-                File.WriteAllText(path, text);
+                NotepadActions.SaveFile(path, text);
                 SelectedNotepadViewModel.HasMadeChanges = false;
             }
             catch (Exception e) { MessageBox.Show(e.Message, "Error while saving text to file."); }
@@ -405,11 +431,13 @@ namespace Notepad2.ViewModels
             bool changesMade = false;
             foreach(NotepadListItem nli in NotepadItems)
             {
-                FileItemViewModel fivm = nli.DataContext as FileItemViewModel;
-
-                if (fivm.HasMadeChanges)
+                // if (nli's datacontext is a fileitemviewmode, it's called fivm.
+                if (nli != null && nli.DataContext is FileItemViewModel fivm)
                 {
-                    changesMade = true;
+                    if (fivm != null && fivm.HasMadeChanges)
+                    {
+                        changesMade = true;
+                    }
                 }
             }
 

@@ -249,5 +249,9 @@ namespace Notepad2
             }
         }
 
+        private void MainRTB_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

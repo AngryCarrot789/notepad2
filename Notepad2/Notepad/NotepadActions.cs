@@ -43,5 +43,15 @@ namespace Notepad2.Notepad
                 }
             }
         }
+
+        public static void SaveFile(string fileName, string fileContent)
+        {
+            File.WriteAllText(fileName, fileContent);
+        }
+
+        public static string ReadFile(string fileName)
+        {
+            return File.ReadAllText(fileName);
+        }
     }
 }
