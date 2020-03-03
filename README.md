@@ -10,7 +10,7 @@ I added a feature to open the selected notepad in another window. It's a bit bro
 ## Latest Updates
 - Added a RichTextBox bitt to it (still WIP, but you can have a look at it if you want; the 2 text editors are stuffed in a tabcontrol)#
 - Added even more colourful icons, better than the other ones
-- Added a Drag and Drop feature to the Notepaditems. you can drag them to a folder, and it creates a notepad at that location. can also be used to transfer notepaditems between different windows (be careful using relative-application windows... if thats even a real thing... i mean dont click the "Open in another window" button. open a new separate sharppad so they both say mainwindow and then dragdrop)
+- Added a Drag and Drop feature to the Notepaditems. you can drag them to a folder, and it creates a text file (.txt) at that location. can also be used to transfer notepaditems between different windows (be careful using relative-application windows... if thats even a real thing... i mean dont click the "Open in another window" button and then do it. open a new separate sharppad so they both say mainwindow and then dragdrop. that way you avoid some bugs im struggling to fix)
 - Added light theme
 - Can open selected notepad in another window (VERY BROKEN, DONT USE. BREAKS THINGS). Update: I disabled this as it's too broken 
 - Auto-prompts you to save unsaved/edited work/files when you exit. Click no to just exit
