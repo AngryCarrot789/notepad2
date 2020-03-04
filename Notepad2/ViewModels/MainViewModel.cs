@@ -128,6 +128,8 @@ namespace Notepad2.ViewModels
         // ViewModel for the help window (idk why it needs a view model...)
         public HelpViewModel Help { get; set; }
 
+        public Action<NotepadListItem, AnimationFlag> AnimateAddCallback { get; set; }
+
         public MainViewModel()
         {
             Notepad = new NotepadViewModel();
@@ -253,11 +255,13 @@ namespace Notepad2.ViewModels
         public void AddNotepadItem(NotepadListItem nli)
         {
             NotepadItems.Add(nli);
+            AnimateAddCallback?.Invoke(nli, AnimationFlag.NotepadItemOPEN);
             UpdateNotepad();
         }
 
         public void CloseNotepadItem(NotepadListItem nli)
         {
+            //AnimateAddCallback?.Invoke(nli, AnimationFlag.NotepadItemCLOSE);
             NotepadItems.Remove(nli);
             UpdateNotepad();
         }

@@ -265,26 +265,26 @@
             </TabControl>
         </Grid>
         <ToolBarPanel Margin="0,18,0,0" Height="69" VerticalAlignment="Top" HorizontalAlignment="Left" Width="196" >
-            <StackPanel Orientation="Horizontal" Height="32" Background="{DynamicResource ContainerBackground}">
-                <Button Command="{Binding NewCommand}" ToolTip="Add New Blank File" BorderBrush="Transparent" Background="Transparent">
+            <Grid Height="32" Background="{DynamicResource ContainerBackground}">
+                <Button Command="{Binding NewCommand}" HorizontalAlignment="Left" ToolTip="Add New Blank File" BorderBrush="Transparent" Background="Transparent" Height="32" VerticalAlignment="Top">
                     <Image Margin="2" Source="Resources/newFile.png"/>
                 </Button>
-                <Button Command="{Binding OpenCommand  }" ToolTip="Open File from File Explorer" BorderBrush="Transparent" Background="Transparent">
+                <Button Command="{Binding OpenCommand  }" ToolTip="Open File from File Explorer" HorizontalAlignment="Left" Margin="32,0,0,0" BorderBrush="Transparent" Background="Transparent" Height="32" VerticalAlignment="Top">
                     <Image Margin="2" Source="Resources/openFile.png"/>
                 </Button>
-                <Button Command="{Binding SaveCommand  }" ToolTip="Save current File" BorderBrush="Transparent" Background="Transparent">
+                <Button Command="{Binding SaveCommand  }" ToolTip="Save current File" BorderBrush="Transparent" Background="Transparent" Margin="64,0,0,0" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" Width="32">
                     <Image Margin="2" Source="Resources/saveFile.png"/>
                 </Button>
-                <Button Command="{Binding SaveAsCommand}" ToolTip="Save current File As..." BorderBrush="Transparent"  Background="Transparent">
+                <Button Command="{Binding SaveAsCommand}" ToolTip="Save current File As..." BorderBrush="Transparent"  Background="Transparent" Margin="96,0,0,0" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" Width="32">
                     <Image Margin="2" Source="Resources/saveFileAs.png"/>
                 </Button>
-                <Button Command="{Binding CloseSelectedNotepadCommand}" ToolTip="Close current File and Remove" BorderBrush="Transparent" Background="Transparent">
+                <Button Command="{Binding CloseSelectedNotepadCommand}" ToolTip="Close current File and Remove" BorderBrush="Transparent" Background="Transparent" Margin="128,0,0,0" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" Width="32">
                     <Image Margin="2" Source="Resources/closeFile.png"/>
                 </Button>
-                <Button Command="{Binding CloseAllNotepadsCommand}" ToolTip="Close ALL Files and Remove them" BorderBrush="Transparent" Background="Transparent">
+                <Button Command="{Binding CloseAllNotepadsCommand}" ToolTip="Close ALL Files and Remove them" BorderBrush="Transparent" Background="Transparent" Margin="160,0,0,0" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" Width="36">
                     <Image Margin="2" Source="Resources/closeAllFiles.png"/>
                 </Button>
-            </StackPanel>
+            </Grid>
             <Grid Margin="0 2 0 0" Height="32" Background="{DynamicResource ContainerBackground}">
                 <Button Command="{Binding OpenInNewWindowCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
                     ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))" HorizontalAlignment="Left" Width="32">

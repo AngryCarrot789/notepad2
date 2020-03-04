@@ -67,6 +67,8 @@
     <Compile Include="Notepad\NotepadListItem.xaml.cs">
       <DependentUpon>NotepadListItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\AnimationFlag.cs" />
+    <Compile Include="Utilities\AnimationLib.cs" />
     <Compile Include="Utilities\BaseViewModel.cs" />
     <Compile Include="Utilities\Command.cs" />
     <Compile Include="Utilities\CommandParam.cs" />
@@ -96,6 +98,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Notepad\NotepadListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ColourfulTheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

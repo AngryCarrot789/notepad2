@@ -24,33 +24,25 @@ namespace Notepad2
         public bool DarkThemeEnabled { get; set; }
         public App CurrentApp;
         public MainViewModel ViewModel { get; set; }
+        private double AnimationSpeedSeconds = 0.2;
         public MainWindow()
         {
             InitializeComponent();
-            NotepadActions.richTB = this.mainRTB;
-            ViewModel = new MainViewModel();
-            this.DataContext = ViewModel;
-            ViewModel.MainWind = this;
+            InitWindow();
             ViewModel.NewNotepad();
         }
 
         public MainWindow(string filePath)
         {
             InitializeComponent();
-            NotepadActions.richTB = this.mainRTB;
-            ViewModel = new MainViewModel();
-            this.DataContext = ViewModel;
-            ViewModel.MainWind = this;
+            InitWindow();
             ViewModel.OpenNotepadFileFromPath(filePath);
         }
 
         public MainWindow(string filePath, bool enableSettingsSave)
         {
             InitializeComponent();
-            NotepadActions.richTB = this.mainRTB;
-            ViewModel = new MainViewModel();
-            this.DataContext = ViewModel;
-            ViewModel.MainWind = this;
+            InitWindow();
             ViewModel.OpenNotepadFileFromPath(filePath);
             IsDuplicatedWindow = enableSettingsSave;
             Title = "SharpPad";
@@ -59,13 +51,19 @@ namespace Notepad2
         public MainWindow(NotepadListItem fileItem, bool enableSettingsSave)
         {
             InitializeComponent();
+            InitWindow();
+            ViewModel.AddNotepadItem(fileItem);
+            IsDuplicatedWindow = enableSettingsSave;
+            Title = "SharpPad";
+        }
+
+        public void InitWindow()
+        {
             NotepadActions.richTB = this.mainRTB;
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
             ViewModel.MainWind = this;
-            ViewModel.AddNotepadItem(fileItem);
-            IsDuplicatedWindow = enableSettingsSave;
-            Title = "SharpPad";
+            ViewModel.AnimateAddCallback = this.AnimateControl;
         }
 
         public void LoadSettings()
@@ -80,6 +78,30 @@ namespace Notepad2
                 SetTheme(Theme.Dark);
             else
                 SetTheme(Theme.Light);
+        }
+
+        public void AnimateControl(NotepadListItem nli, AnimationFlag af)
+        {
+            switch (af)
+            {
+                case AnimationFlag.NotepadItemOPEN:
+                {
+                    AnimationLib.OpacityControl(nli, 0, 1, AnimationSpeedSeconds);
+                    AnimationLib.MoveToTargetX(nli, -Width, AnimationSpeedSeconds);
+                }
+                break;
+
+                //Cant really do this. It's async so i'd have to have a timed delay when
+                //removing the item from the NotepadList, which would be... a bit complex.
+                //If anyone wants to try and add that delay (using tasks maybe, have a go)
+                //(and msg me or something with the code, and ill add it with your name in the code obviously ;) )
+                case AnimationFlag.NotepadItemCLOSE:
+                {
+                    //AnimationLib.OpacityControl(nli, 1, 0, 0.25);
+                    //AnimationLib.MoveToTargetX(nli, -Width, 0.25);
+                }
+                break;
+            }
         }
 
         public void SetTheme(Theme theme)

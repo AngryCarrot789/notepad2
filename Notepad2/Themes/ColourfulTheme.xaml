@@ -6,17 +6,17 @@
     <SolidColorBrush x:Key="WindowTitleColour"  Color="#FF1B1B1B" />
 
     <SolidColorBrush x:Key="ContainerBackground" Color="#FF1B1B1B"/>
-    <SolidColorBrush x:Key="ContainerBorder" Color="#FF1E1E1E"/>
+    <SolidColorBrush x:Key="ContainerBorder" Color="MediumPurple"/>
 
     <SolidColorBrush x:Key="ControlDarkerBackground"  Color="#FF1E1E1E" />
-    <SolidColorBrush x:Key="ControlDarkerBorderBrush" Color="#FF212121" />
+    <SolidColorBrush x:Key="ControlDarkerBorderBrush" Color="LightBlue" />
 
     <SolidColorBrush x:Key="ControlDefaultBackground"  Color="#ff212121" />
-    <SolidColorBrush x:Key="ControlDefaultBorderBrush" Color="#ff252525" />
+    <SolidColorBrush x:Key="ControlDefaultBorderBrush" Color="LightBlue" />
     <SolidColorBrush x:Key="ControlDefaultForeground"  Color="#FFE6E6F0" />
 
     <SolidColorBrush x:Key="ControlBrightDefaultBackground"  Color="#FF282828" />
-    <SolidColorBrush x:Key="ControlBrightDefaultBorderBrush"  Color="#FF303030" />
+    <SolidColorBrush x:Key="ControlBrightDefaultBorderBrush"  Color="LightBlue" />
 
     <SolidColorBrush x:Key="ControlDisabledBackground"  Color="#FF323232" />
     <SolidColorBrush x:Key="ControlDisabledBorderBrush"  Color="#FF323232" />
@@ -3274,5 +3274,4 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
-
 </ResourceDictionary>
