@@ -1,4 +1,5 @@
-﻿using Notepad2.ViewModels;
+﻿using Notepad2.Utilities;
+using Notepad2.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,12 @@ namespace Notepad2.Notepad
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Close?.Invoke(this);
+        }
+
+        private void ElePar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
+                Close?.Invoke(this);
         }
     }
 }

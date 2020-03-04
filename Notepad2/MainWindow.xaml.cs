@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -87,7 +88,7 @@ namespace Notepad2
                 case AnimationFlag.NotepadItemOPEN:
                 {
                     AnimationLib.OpacityControl(nli, 0, 1, AnimationSpeedSeconds);
-                    AnimationLib.MoveToTargetX(nli, -Width, AnimationSpeedSeconds);
+                    AnimationLib.MoveToTargetX(nli, 0, -ActualWidth, AnimationSpeedSeconds);
                 }
                 break;
 
@@ -97,8 +98,14 @@ namespace Notepad2
                 //(and msg me or something with the code, and ill add it with your name in the code obviously ;) )
                 case AnimationFlag.NotepadItemCLOSE:
                 {
-                    //AnimationLib.OpacityControl(nli, 1, 0, 0.25);
-                    //AnimationLib.MoveToTargetX(nli, -Width, 0.25);
+                    //AnimationLib.OpacityControl(nli, 1, 0, AnimationSpeedSeconds);
+                    //AnimationLib.MoveToTargetX(nli, -ActualWidth, 0, AnimationSpeedSeconds * 15);
+                    //
+                    //Task.Run(async () =>
+                    //{
+                    //    await Task.Delay(TimeSpan.FromSeconds(AnimationSpeedSeconds));
+                    //    await Application.Current.Dispatcher.InvokeAsync(() => { ViewModel.NotepadItems.Remove(nli); });
+                    //});
                 }
                 break;
             }
