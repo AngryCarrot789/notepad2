@@ -1,4 +1,5 @@
 ﻿using Notepad2.Notepad;
+using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using Notepad2.Views;
 using System;
@@ -51,7 +52,7 @@ namespace Notepad2
             this.DataContext = ViewModel;
             ViewModel.MainWind = this;
             ViewModel.OpenNotepadFileFromPath(filePath);
-            IsDuplicatedWindow = true;
+            IsDuplicatedWindow = enableSettingsSave;
             Title = "SharpPad";
         }
 
@@ -63,7 +64,7 @@ namespace Notepad2
             this.DataContext = ViewModel;
             ViewModel.MainWind = this;
             ViewModel.AddNotepadItem(fileItem);
-            IsDuplicatedWindow = true;
+            IsDuplicatedWindow = enableSettingsSave;
             Title = "SharpPad";
         }
 

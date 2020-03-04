@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using NamespaceHere;
 using Notepad2.Notepad;
+using Notepad2.Utilities;
 using Notepad2.Views;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -18,7 +20,53 @@ namespace Notepad2.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
+        #region Private Fields
+
+        private NotepadViewModel _notepad;
+        private ObservableCollection<NotepadListItem> _notepadItems = new ObservableCollection<NotepadListItem>();
+        private int _selectedIndex;
         private bool _normalTextBoxSelected;
+        private int _textEditorsSelectedIndex;
+        private bool _wrapping;
+
+        #endregion
+
+        #region Public Fields
+
+        public ObservableCollection<NotepadListItem> NotepadItems
+        {
+            get => _notepadItems;
+            set => RaisePropertyChanged(ref _notepadItems, value);
+        }
+        public int SelectedIndex
+        {
+            get => _selectedIndex;
+            set
+            {
+                RaisePropertyChanged(ref _selectedIndex, value);
+                UpdateNotepad();
+            }
+        }
+
+        public NotepadListItem SelectedNotepadItem
+        {
+            get
+            {
+                try { return NotepadItems[SelectedIndex]; }
+                catch { return null; }
+            }
+        }
+
+        public FileItemViewModel SelectedNotepadViewModel
+        {
+            get
+            {
+                try { return NotepadItems[SelectedIndex].DataContext as FileItemViewModel; }
+                catch { return null; }
+            }
+        }
+
+
         public bool TextBoxSelected
         {
             get => _normalTextBoxSelected;
@@ -28,8 +76,8 @@ namespace Notepad2.ViewModels
             }
         }
 
-        private int _textEditorsSelectedIndex;
-        public  int TextEditorsSelectedIndex
+
+        public int TextEditorsSelectedIndex
         {
             get => _textEditorsSelectedIndex;
             set
@@ -42,37 +90,204 @@ namespace Notepad2.ViewModels
             }
         }
 
-        public void RichTextChanged(string text)
+        public bool Wrapping
         {
-            SelectedNotepadViewModel.Document.Text = text;
+            get => _wrapping;
+            set
+            {
+                RaisePropertyChanged(ref _wrapping, value);
+                SetWrapping(value);
+            }
         }
 
-        //Notepad View (text, format)
-        private NotepadViewModel _notepad;
+        #endregion
+
+        public ICommand NewCommand { get; set; }
+        public ICommand OpenCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
+        public ICommand SaveAsCommand { get; set; }
+        public ICommand CloseSelectedNotepadCommand { get; set; }
+        public ICommand CloseAllNotepadsCommand { get; set; }
+        public ICommand OpenInNewWindowCommand { get; set; }
+        public ICommand PrintFileCommand { get; set; }
+
+        public ICommand ClearListAndNotepadCommand { get; set; }
+
+        public ICommand CloseWindowCommand { get; set; }
+        public ICommand MaximizeRestoreCommand { get; set; }
+        public ICommand MinimizeWindowCommand { get; set; }
+
+        // The ViewModel for the Notepad. This contains a DocumentModel and FormatModel, for holding
+        // Styles, Text, FilePath, etc.
         public NotepadViewModel Notepad
         {
             get => _notepad;
             set => RaisePropertyChanged(ref _notepad, value);
         }
 
+        // ViewModel for the help window (idk why it needs a view model...)
         public HelpViewModel Help { get; set; }
 
-        private ObservableCollection<NotepadListItem> _notepadItems = new ObservableCollection<NotepadListItem>();
-        public ObservableCollection<NotepadListItem> NotepadItems
+        public MainViewModel()
         {
-            get => _notepadItems;
-            set => RaisePropertyChanged(ref _notepadItems, value);
+            Notepad = new NotepadViewModel();
+            Help = new HelpViewModel();
+            TextEditorsSelectedIndex = 0;
+            SetupCommands();
         }
 
-        private int _selectedIndex;
-        public int SelectedIndex
+        public void SetupCommands()
         {
-            get => _selectedIndex;
-            set
+            NewCommand = new Command(NewNotepad);
+            OpenCommand = new Command(OpenNotepadFileFromFileExplorer);
+            SaveCommand = new Command(SaveCurrentNotepad);
+            SaveAsCommand = new Command(SaveCurrentNotepadAs);
+            CloseSelectedNotepadCommand = new Command(CloseSelectedNotepad);
+            CloseAllNotepadsCommand = new Command(CloseAllNotepads);
+            OpenInNewWindowCommand = new Command(OpenInNewWindow);
+            PrintFileCommand = new Command(PrintFile);
+
+            ClearListAndNotepadCommand = new Command(ClearTextAndList);
+
+            CloseWindowCommand = new Command(CloseWindow);
+            MaximizeRestoreCommand = new Command(MaximRestre);
+            MinimizeWindowCommand = new Command(MinimWindow);
+        }
+
+        #region MainWindow TitleTheme
+
+        public MainWindow MainWind { get; set; }
+        private void CloseWindow() { if (MainWind != null) MainWind.CloseWindow(); else Application.Current.Shutdown(); }
+        private void MaximRestre() { if (MainWind != null) MainWind.MaximizeRestore(); }
+        private void MinimWindow() { if (MainWind != null) MainWind.Minimize(); }
+
+        private void OpenInNewWindow()
+        {
+            MainWindow mWnd = new MainWindow(SelectedNotepadItem, false);
+            mWnd.Show();
+            mWnd.LoadSettings();
+            CloseSelectedNotepad();
+        }
+
+        #endregion
+
+        #region Helpers
+
+        /// <summary>
+        /// Returns true if null
+        /// </summary>
+        /// <returns></returns>
+        public bool CheckNotepadNull()
+        {
+            return Notepad == null || Notepad.Document == null || Notepad.DocumentFormat == null;
+        }
+        StreamReader streamToPrint;
+        public void PrintFile()
+        {
+            FileItemViewModel file = SelectedNotepadViewModel;
+            PrintDialog printDialog = new PrintDialog();
+            if (printDialog.ShowDialog() == true)
             {
-                RaisePropertyChanged(ref _selectedIndex, value);
-                UpdateNotepad();
+                FlowDocument flowDocument = new FlowDocument();
+                flowDocument.PagePadding = new Thickness(50);
+                flowDocument.Blocks.Add(new Paragraph(new Run(file.Document.Text)));
+
+                printDialog.PrintDocument((((IDocumentPaginatorSource)flowDocument).DocumentPaginator), "Using Paginator");
             }
+        }
+
+        public void Shutdown()
+        {
+            Help.Shutdown();
+            bool changesMade = false;
+            foreach (NotepadListItem nli in NotepadItems)
+            {
+                // if (nli's datacontext is a fileitemviewmode, it's called fivm.
+                if (nli != null && nli.DataContext is FileItemViewModel fivm)
+                {
+                    if (fivm != null && fivm.HasMadeChanges)
+                    {
+                        changesMade = true;
+                    }
+                }
+            }
+
+            if (changesMade)
+            {
+                MessageBoxResult mbr = MessageBox.Show(
+                    "You have unsaved work. Do you want to save it/them?",
+                    "Unsaved Work",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Information);
+
+                if (mbr == MessageBoxResult.Yes)
+                    SaveAllNotepadItems();
+                else if (mbr == MessageBoxResult.No)
+                {
+                    //nothin ;)
+                }
+
+            }
+        }
+
+        #endregion
+
+        #region RichTextBox
+
+        public void RichTextChanged(string text)
+        {
+            SelectedNotepadViewModel.Document.Text = text;
+        }
+
+        #endregion
+
+        #region Notepad Functions
+
+        #region New and Adding notepads
+
+        public void NewNotepad()
+        {
+            AddNotepadItem(CreateDefaultStyleNotepadItem("", "newNotepad.txt", null, 0));
+        }
+
+        public void AddNotepadItem(NotepadListItem nli)
+        {
+            NotepadItems.Add(nli);
+            UpdateNotepad();
+        }
+
+        public void CloseNotepadItem(NotepadListItem nli)
+        {
+            NotepadItems.Remove(nli);
+            UpdateNotepad();
+        }
+
+        private void CloseSelectedNotepad()
+        {
+            CloseNotepadItem(SelectedNotepadItem);
+        }
+
+        private void CloseAllNotepads()
+        {
+            NotepadItems.Clear();
+        }
+
+        #endregion
+
+        #region Other functions
+
+        public void SetWrapping(bool setWrap)
+        {
+            if (setWrap)
+                Notepad.DocumentFormat.Wrap = TextWrapping.Wrap;
+            else
+                Notepad.DocumentFormat.Wrap = TextWrapping.NoWrap;
+        }
+
+        private void ClearTextAndList()
+        {
+            NotepadItems.Clear();
+            Notepad = new NotepadViewModel();
         }
 
         /// <summary>
@@ -83,114 +298,10 @@ namespace Notepad2.ViewModels
             OpenNotepadItem(SelectedNotepadItem);
         }
 
-        public NotepadListItem SelectedNotepadItem
-        {
-            get
-            {
-                try { return NotepadItems[SelectedIndex]; }
-                catch
-                {
-                    return null;
-                }
-            }
-        }
+        #endregion
 
-        public FileItemViewModel SelectedNotepadViewModel
-        {
-            get
-            {
-                try { return NotepadItems[SelectedIndex].DataContext as FileItemViewModel; }
-                catch
-                {
-                    return null;
-                }
-            }
-        }
+        #region Create
 
-        public ICommand ClearListAndNotepadCommand { get; set; }
-        private void ClearTextAndList()
-        {
-            NotepadItems.Clear();
-            Notepad = new NotepadViewModel();
-        }
-        public ICommand ShowFormatCommand { get; set; }
-        private bool _wrapping;
-        public bool Wrapping
-        {
-            get => _wrapping; set
-            {
-                RaisePropertyChanged(ref _wrapping, value); SetWrapping(value);
-            }
-        }
-        private void SetWrapping(bool setWrap)
-        {
-            if (setWrap)
-                Notepad.DocumentFormat.Wrap = TextWrapping.Wrap;
-            else
-                Notepad.DocumentFormat.Wrap = TextWrapping.NoWrap;
-        }
-
-        public ICommand NewCommand    { get; set; }
-        public ICommand OpenCommand   { get; set; }
-        public ICommand SaveCommand   { get; set; }
-        public ICommand SaveAsCommand { get; set; }
-
-        public ICommand CloseWindowCommand     { get; set; }
-        public ICommand MaximizeRestoreCommand { get; set; }
-        public ICommand MinimizeWindowCommand  { get; set; }
-
-        public ICommand OpenInNewWindowCommand { get; set; }
-        private void OpenInNewWindow()
-        {
-            MainWindow mWnd = new MainWindow(SelectedNotepadItem, false);
-            mWnd.Show();
-            CloseSelectedNotepad();
-        }
-
-        public ICommand CloseSelectedNotepadCommand { get; set; }
-        private void CloseSelectedNotepad()
-        {
-            CloseNotepadItem(SelectedNotepadItem);
-        }
-        public ICommand CloseAllNotepadsCommand { get; set; }
-        private void CloseAllNotepads()
-        {
-            try
-            {
-                NotepadItems.Clear();
-            }
-            catch
-            {
-
-            }
-        }
-
-        public MainViewModel()
-        {
-            Notepad = new NotepadViewModel();
-            Help = new HelpViewModel();
-            TextEditorsSelectedIndex = 0;
-            OpenInNewWindowCommand = new Command(OpenInNewWindow);
-
-            ClearListAndNotepadCommand = new Command(ClearTextAndList);
-            NewCommand = new Command(NewNotepad);
-            OpenCommand = new Command(OpenNotepadFileFromFileExplorer);
-            SaveCommand = new Command(SaveCurrentNotepad);
-            SaveAsCommand = new Command(SaveCurrentNotepadAs);
-
-            CloseWindowCommand = new Command(CloseWindow);
-            MaximizeRestoreCommand = new Command(MaximRestre);
-            MinimizeWindowCommand = new Command(MinimWindow);
-
-            CloseSelectedNotepadCommand = new Command(CloseSelectedNotepad);
-            CloseAllNotepadsCommand = new Command(CloseAllNotepads);
-        }
-        public MainWindow MainWind { get; set; }
-        private void CloseWindow() { if (MainWind != null) MainWind.CloseWindow(); else Application.Current.Shutdown(); }
-        private void MaximRestre() { if (MainWind != null) MainWind.MaximizeRestore(); }
-        private void MinimWindow() { if (MainWind != null) MainWind.Minimize(); }
-
-        #region NotepadFunctions
         public NotepadListItem CreateDefaultStyleNotepadItem(string text, string itemName, string itemPath, double itemSize)
         {
             FontFamily font;
@@ -218,7 +329,7 @@ namespace Notepad2.ViewModels
         {
             NotepadListItem nli = new NotepadListItem();
             FileItemViewModel fivm = new FileItemViewModel();
-            fivm.Document.Text     = text;
+            fivm.Document.Text = text;
             fivm.Document.FileName = itemName;
             fivm.Document.FilePath = itemPath;
             fivm.Document.FileSize = itemSize;
@@ -236,6 +347,10 @@ namespace Notepad2.ViewModels
             return nli;
         }
 
+        #endregion
+
+        #region Opening
+
         public void OpenNotepadItem(NotepadListItem notepadItem)
         {
             if (notepadItem != null)
@@ -249,18 +364,6 @@ namespace Notepad2.ViewModels
                 Notepad.Document = null;
                 Notepad.DocumentFormat = null;
             }
-        }
-        #endregion
-
-        public void NewNotepad()
-        {
-            AddNotepadItem(CreateDefaultStyleNotepadItem("", "newNotepad.txt", null, 0));
-        }
-
-        public void AddNotepadItem(NotepadListItem nli)
-        {
-            NotepadItems.Add(nli);
-            UpdateNotepad();
         }
 
         public void OpenNotepadFileFromFileExplorer()
@@ -279,7 +382,7 @@ namespace Notepad2.ViewModels
                     }
                 }
             }
-            catch(Exception e) { MessageBox.Show(e.Message, "Error while opening file from f.explorer"); }
+            catch (Exception e) { Error.Show(e.Message, "Error while opening file from f.explorer"); }
         }
 
         public void OpenNotepadFileFromPath(string path)
@@ -297,26 +400,12 @@ namespace Notepad2.ViewModels
                            (double)text.Length / 1000.0));
                 }
             }
-            catch (Exception e) { MessageBox.Show(e.Message, "Error while opening file from path"); }
+            catch (Exception e) { Error.Show(e.Message, "Error while opening file from path"); }
         }
 
-        public void SaveFile(string path, string text)
-        {
-            try
-            {
-                NotepadActions.SaveFile(path, text);
-                SelectedNotepadViewModel.HasMadeChanges = false;
-            }
-            catch (Exception e) { MessageBox.Show(e.Message, "Error while saving text to file."); }
-        }
+        #endregion
 
-        public void SaveAllNotepadItems()
-        {
-            foreach(NotepadListItem nli in NotepadItems)
-            {
-                SaveNotepad(nli);
-            }
-        }
+        #region Saving
 
         public void SaveNotepad(NotepadListItem nli)
         {
@@ -335,16 +424,32 @@ namespace Notepad2.ViewModels
                     SaveNotepadAs(nli);
                 }
             }
-            catch (Exception e) { MessageBox.Show(e.Message, "Error while saving a (manual) notepad item"); }
+            catch (Exception e) { Error.Show(e.Message, "Error while saving a (manual) notepad item"); }
         }
 
-        /// <summary>
-        /// Returns true if null
-        /// </summary>
-        /// <returns></returns>
-        public bool CheckNotepadNull()
+        public void SaveNotepadAs(NotepadListItem nli)
         {
-            return Notepad == null || Notepad.Document == null || Notepad.DocumentFormat == null;
+            try
+            {
+                FileItemViewModel fivm = nli.DataContext as FileItemViewModel;
+
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                sfd.Title = "Select Files to save";
+                sfd.FileName = fivm.Document.FileName;
+                sfd.FilterIndex = 1;
+                sfd.DefaultExt = "txt";
+                sfd.RestoreDirectory = true;
+
+                if (sfd.ShowDialog() == true)
+                {
+                    SaveFile(sfd.FileName, fivm.Document.Text);
+                    fivm.Document.FileName = Path.GetFileName(sfd.FileName);
+                    fivm.Document.FilePath = sfd.FileName;
+                    fivm.Document.FileSize = (double)fivm.Document.Text.Length / 1000.0;
+                }
+            }
+            catch (Exception e) { Error.Show(e.Message, "Error while saving (manual) notepaditem as..."); }
         }
 
         public void SaveCurrentNotepad()
@@ -364,7 +469,7 @@ namespace Notepad2.ViewModels
                         SaveCurrentNotepadAs();
                 }
             }
-            catch (Exception e) { MessageBox.Show(e.Message, "Error while saving currently selected notepad"); }
+            catch (Exception e) { Error.Show(e.Message, "Error while saving currently selected notepad"); }
             UpdateNotepad();
         }
 
@@ -391,72 +496,29 @@ namespace Notepad2.ViewModels
                     }
                 }
             }
-            catch (Exception e) { MessageBox.Show(e.Message, "Error while saving currently selected notepad as..."); }
+            catch (Exception e) { Error.Show(e.Message, "Error while saving currently selected notepad as..."); }
         }
 
-        public void SaveNotepadAs(NotepadListItem nli)
+        public void SaveAllNotepadItems()
+        {
+            foreach (NotepadListItem nli in NotepadItems)
+            {
+                SaveNotepad(nli);
+            }
+        }
+
+        public void SaveFile(string path, string text)
         {
             try
             {
-                FileItemViewModel fivm = nli.DataContext as FileItemViewModel;
-
-                SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-                sfd.Title = "Select Files to save";
-                sfd.FileName = fivm.Document.FileName;
-                sfd.FilterIndex = 1;
-                sfd.DefaultExt = "txt";
-                sfd.RestoreDirectory = true;
-
-                if (sfd.ShowDialog() == true)
-                {
-                    SaveFile(sfd.FileName, fivm.Document.Text);
-                    fivm.Document.FileName = Path.GetFileName(sfd.FileName);
-                    fivm.Document.FilePath = sfd.FileName;
-                    fivm.Document.FileSize = (double)fivm.Document.Text.Length / 1000.0;
-                }
+                NotepadActions.SaveFile(path, text);
+                SelectedNotepadViewModel.HasMadeChanges = false;
             }
-            catch (Exception e) { MessageBox.Show(e.Message, "Error while saving (manual) notepaditem as..."); }
+            catch (Exception e) { Error.Show(e.Message, "Error while saving text to file."); }
         }
 
-        public void CloseNotepadItem(NotepadListItem nli)
-        {
-            NotepadItems.Remove(nli);
-            UpdateNotepad();
-        }
+        #endregion
 
-        public void Shutdown()
-        {
-            Help.Shutdown();
-            bool changesMade = false;
-            foreach(NotepadListItem nli in NotepadItems)
-            {
-                // if (nli's datacontext is a fileitemviewmode, it's called fivm.
-                if (nli != null && nli.DataContext is FileItemViewModel fivm)
-                {
-                    if (fivm != null && fivm.HasMadeChanges)
-                    {
-                        changesMade = true;
-                    }
-                }
-            }
-
-            if (changesMade)
-            {
-                MessageBoxResult mbr = MessageBox.Show(
-                    "You have unsaved work. Do you want to save it/them?", 
-                    "Unsaved Work", 
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Information);
-
-                if (mbr == MessageBoxResult.Yes)
-                    SaveAllNotepadItems();
-                else if (mbr == MessageBoxResult.No)
-                {
-                    //nothin ;)
-                }
-                    
-            }
-        }
+        #endregion
     }
 }

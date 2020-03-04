@@ -70,12 +70,16 @@
     <Compile Include="Utilities\BaseViewModel.cs" />
     <Compile Include="Utilities\Command.cs" />
     <Compile Include="Utilities\CommandParam.cs" />
+    <Compile Include="Utilities\Error.cs" />
     <Compile Include="Utilities\INotepad.cs" />
     <Compile Include="ViewModels\FileItemViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NotepadViewModel.cs" />
     <Compile Include="ViewModels\RichNotepadViewModel.cs" />
+    <Compile Include="Views\ErrorReporterWindow.xaml.cs">
+      <DependentUpon>ErrorReporterWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HelpDialog.xaml.cs">
       <DependentUpon>HelpDialog.xaml</DependentUpon>
     </Compile>
@@ -102,6 +106,10 @@
     <Page Include="Themes\LightTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ErrorReporterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\HelpDialog.xaml">
       <SubType>Designer</SubType>
@@ -189,6 +197,9 @@
     <Resource Include="Resources\RTBIcons\copy.png" />
     <Resource Include="Resources\RTBIcons\redo.png" />
     <Resource Include="Resources\RTBIcons\undo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\printIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
