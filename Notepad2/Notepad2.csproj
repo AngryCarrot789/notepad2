@@ -74,6 +74,7 @@
     <Compile Include="Utilities\CommandParam.cs" />
     <Compile Include="Utilities\Error.cs" />
     <Compile Include="Utilities\INotepad.cs" />
+    <Compile Include="Utilities\KeydownManager.cs" />
     <Compile Include="ViewModels\FileItemViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

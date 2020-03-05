@@ -118,6 +118,27 @@ namespace Notepad2
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (ViewModel.Shutdown())
+            {
+                MessageBoxResult mbr = MessageBox.Show(
+                    "You have unsaved work. Do you want to save it/them?",
+                    "Unsaved Work",
+                    MessageBoxButton.YesNoCancel,
+                    MessageBoxImage.Information);
+
+                if (mbr == MessageBoxResult.Yes)
+                {
+                    ViewModel.SaveAllNotepadItems();
+                }
+                if (mbr == MessageBoxResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+                else if (mbr == MessageBoxResult.No)
+                {
+                    //nothin ;)
+                }
+            }
             if (!IsDuplicatedWindow)
             {
                 if (WindowState == WindowState.Maximized)
@@ -144,7 +165,6 @@ namespace Notepad2
                 }
                 Properties.Settings.Default.Save();
             }
-            ViewModel.Shutdown();
         }
         private bool panelShowing;
         private void ShowFontDialogPanel(object sender, RoutedEventArgs e)
@@ -279,9 +299,30 @@ namespace Notepad2
             }
         }
 
-        private void MainRTB_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {
+            if (KeydownManager.Keydown(Key.LeftCtrl))
+            {
+                int fontChange = (e.Delta / 100);
+                if (ViewModel.Notepad.DocumentFormat.Size > 1)
+                {
+                    ViewModel.Notepad.DocumentFormat.Size += fontChange;
+                }
+                if (ViewModel.Notepad.DocumentFormat.Size == 1 && fontChange >= 1)
+                {
+                    ViewModel.Notepad.DocumentFormat.Size += fontChange;
+                }
+            }
+        }
 
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            KeydownManager.SetKeyDown(e.Key);
+        }
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            KeydownManager.SetKeyUp(e.Key);
         }
     }
 }

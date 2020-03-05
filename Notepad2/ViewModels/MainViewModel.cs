@@ -76,7 +76,6 @@ namespace Notepad2.ViewModels
             }
         }
 
-
         public int TextEditorsSelectedIndex
         {
             get => _textEditorsSelectedIndex;
@@ -183,7 +182,7 @@ namespace Notepad2.ViewModels
         {
             return Notepad == null || Notepad.Document == null || Notepad.DocumentFormat == null;
         }
-        StreamReader streamToPrint;
+
         public void PrintFile()
         {
             FileItemViewModel file = SelectedNotepadViewModel;
@@ -198,10 +197,8 @@ namespace Notepad2.ViewModels
             }
         }
 
-        public void Shutdown()
+        public bool Shutdown()
         {
-            Help.Shutdown();
-            bool changesMade = false;
             foreach (NotepadListItem nli in NotepadItems)
             {
                 // if (nli's datacontext is a fileitemviewmode, it's called fivm.
@@ -209,27 +206,12 @@ namespace Notepad2.ViewModels
                 {
                     if (fivm != null && fivm.HasMadeChanges)
                     {
-                        changesMade = true;
+                        return true;
                     }
                 }
             }
 
-            if (changesMade)
-            {
-                MessageBoxResult mbr = MessageBox.Show(
-                    "You have unsaved work. Do you want to save it/them?",
-                    "Unsaved Work",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Information);
-
-                if (mbr == MessageBoxResult.Yes)
-                    SaveAllNotepadItems();
-                else if (mbr == MessageBoxResult.No)
-                {
-                    //nothin ;)
-                }
-
-            }
+            return false;
         }
 
         #endregion
