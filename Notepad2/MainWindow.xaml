@@ -148,8 +148,10 @@
                                     AcceptsTab="True"
                                     HorizontalScrollBarVisibility="Visible"
                                     VerticalScrollBarVisibility="Visible"
-                                    Language="en-UK"
-                                    SpellCheck.IsEnabled="True" Margin="0,30,0,20"/>
+                                    Language="en"
+                                    SpellCheck.IsEnabled="True"
+                                    SpellCheck.SpellingReform="Postreform"
+                                    Margin="0,30,0,20"/>
                                 <Grid Background="{DynamicResource ContainerBackground}" Height="20" VerticalAlignment="Bottom">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="30*"/>

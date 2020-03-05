@@ -24,6 +24,7 @@ namespace Notepad2.Notepad
     {
         public Action<NotepadListItem> Close { get; set; }
         public Action<NotepadListItem> Open { get; set; }
+        public Action<NotepadListItem> OpenInFileExplorer { get; set; }
 
         public NotepadListItem()
         {
@@ -36,6 +37,7 @@ namespace Notepad2.Notepad
             {
                 case 0: Open?.Invoke(this); break;
                 case 1: Close?.Invoke(this); break;
+                case 2: OpenInFileExplorer?.Invoke(this); break;
             }
         }
 

@@ -6,6 +6,7 @@ using Notepad2.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -326,6 +327,7 @@ namespace Notepad2.ViewModels
 
             nli.DataContext = fivm;
 
+            nli.OpenInFileExplorer = this.OpenInFileExplorer;
             nli.Open = this.OpenNotepadItem;
             nli.Close = this.CloseNotepadItem;
             //fivm.DocumentFormat.Size = fm.Size;
@@ -336,6 +338,32 @@ namespace Notepad2.ViewModels
         #endregion
 
         #region Opening
+
+        public void OpenInFileExplorer(NotepadListItem nli)
+        {
+            if (nli != null && (nli.DataContext is FileItemViewModel fivm))
+            {
+                if (fivm != null)
+                {
+                    string folderPath = fivm.Document.FilePath;
+                    if (File.Exists(folderPath))
+                    {
+                        ProcessStartInfo info = new ProcessStartInfo()
+                        {
+                            FileName = "explorer.exe",
+                            Arguments = string.Format("/e, /select, \"{0}\"", folderPath)
+                        };
+
+                        Process.Start(info);
+                    }
+
+                    else
+                    {
+                        Error.Show("FilePath Doesn't Exist", "FilePath null");
+                    }
+                }
+            }
+        }
 
         public void OpenNotepadItem(NotepadListItem notepadItem)
         {

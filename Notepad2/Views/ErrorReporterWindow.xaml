@@ -15,7 +15,8 @@
         <Button Content="OK" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="120" Height="34" FontSize="16" Click="Button_Click"/>
         <TextBox x:Name="ErrorTextBox" Margin="10,10,10,49" TextWrapping="Wrap"
                  Background="Transparent"
-                 BorderBrush="Transparent"/>
+                 BorderBrush="Transparent"
+                 FontSize="24"/>
 
     </Grid>
 </Window>

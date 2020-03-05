@@ -14,6 +14,7 @@
         <ContextMenu>
             <MenuItem Header="Open"  Uid="0" Click="MenuItem_Click" Template="{DynamicResource DropDownMenuItemTemplate}"/>
             <MenuItem Header="Close" Uid="1" Click="MenuItem_Click" Template="{DynamicResource DropDownMenuItemTemplate}"/>
+            <MenuItem Header="Open in File Explorer" Uid="2" Click="MenuItem_Click" Template="{DynamicResource DropDownMenuItemTemplate}"/>
         </ContextMenu>
     </UserControl.ContextMenu>
     <Grid Background="Transparent">
