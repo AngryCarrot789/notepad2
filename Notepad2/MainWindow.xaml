@@ -11,7 +11,8 @@
         Title="SharpPad (Main Window)" Height="547" Width="928.5" WindowStyle="SingleBorderWindow" 
         KeyDown="Window_KeyDown" KeyUp="Window_KeyUp"
         WindowChrome.IsHitTestVisibleInChrome="False"
-        Style="{DynamicResource CustomWindowStyle}" Icon="Resources/sharpPadIcon.png" Background="{DynamicResource ContainerBackground}">
+        Style="{DynamicResource CustomWindowStyle}" 
+        Icon="Resources/sharpPadIcon.png" >
     <Window.DataContext>
         <viewmodels:MainViewModel/>
     </Window.DataContext>
@@ -60,7 +61,7 @@
         <KeyBinding Command="{Binding CloseSelectedNotepadCommand}" Gesture="ESC"/>
     </Window.InputBindings>
     <Grid>
-        <Grid Background="{DynamicResource ContainerBackground}" HorizontalAlignment="Left" Margin="0,87,0,0" Width="196">
+        <Grid HorizontalAlignment="Left" Margin="0,87,0,0" Width="196">
             <Button Command="{Binding ClearListAndNotepadCommand}" Content="Clear list and Notepad" VerticalAlignment="Bottom" Height="50"/>
             <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
                              x:Name="notepadLstBox" 
@@ -69,107 +70,108 @@
                          SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,55"
                          HorizontalContentAlignment="Stretch" AllowDrop="True" Drop="ListBox_Drop"/>
         </Grid>
-        <Grid Background="{DynamicResource ContainerBackground}" Margin="201,18,0,0">
-            <TabControl SelectedIndex="{Binding TextEditorsSelectedIndex, UpdateSourceTrigger=PropertyChanged}">
-                <TabItem Header="Regular Text Editor" DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}">
-                    <Grid Margin="0,0,0,0">
-                        <DockPanel HorizontalAlignment="Stretch" Margin="0,0,0,0">
-                            <Grid x:Name="FontDialogPanel" DataContext="{Binding DocumentFormat, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" Width="0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition Height="auto"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="3*"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
+        <Grid Margin="201,18,0,0">
+            <DockPanel HorizontalAlignment="Stretch" Margin="0">
+                <Grid x:Name="FontDialogPanel" DataContext="{Binding Notepad.DocumentFormat, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" Width="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-                                <DockPanel Grid.Row="0" Grid.Column="0">
-                                    <TextBlock DockPanel.Dock="Top" FontSize="16">Font Family</TextBlock>
-                                    <ListBox ItemsSource="{Binding Source={StaticResource FontFamilyOptions}}"
+                    <DockPanel Grid.Row="0" Grid.Column="0">
+                        <TextBlock DockPanel.Dock="Top" FontSize="16">Font Family</TextBlock>
+                        <ListBox ItemsSource="{Binding Source={StaticResource FontFamilyOptions}}"
                                              SelectedItem="{Binding Family, UpdateSourceTrigger=PropertyChanged}"
                                              SelectedIndex="0" FontSize="16">
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
-                                </DockPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DockPanel>
 
-                                <DockPanel Grid.Row="0" Grid.Column="1">
-                                    <TextBlock DockPanel.Dock="Top" FontSize="16">Font Size</TextBlock>
-                                    <ListBox ItemsSource="{Binding Source={StaticResource FontSizeOptions}}"
+                    <DockPanel Grid.Row="0" Grid.Column="1">
+                        <TextBlock DockPanel.Dock="Top" FontSize="16">Font Size</TextBlock>
+                        <ListBox ItemsSource="{Binding Source={StaticResource FontSizeOptions}}"
                                              SelectedItem="{Binding Size, UpdateSourceTrigger=PropertyChanged}"
                                              SelectedIndex="0" FontSize="16"/>
-                                </DockPanel>
+                    </DockPanel>
 
-                                <StackPanel Grid.Column="0" Grid.Row="1">
-                                    <TextBlock>Font Styles</TextBlock>
-                                    <ComboBox ItemsSource="{Binding Source={StaticResource FontStyleOptions}}"
+                    <StackPanel Grid.Column="0" Grid.Row="1">
+                        <TextBlock>Font Styles</TextBlock>
+                        <ComboBox ItemsSource="{Binding Source={StaticResource FontStyleOptions}}"
                                               SelectedItem="{Binding Style, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedIndex="0" FontSize="16"/>
-                                </StackPanel>
+                    </StackPanel>
 
-                                <StackPanel Grid.Column="1" Grid.Row="1">
-                                    <TextBlock>Font Weight</TextBlock>
-                                    <ComboBox ItemsSource="{Binding Source={StaticResource FontWeightOptions}}"
+                    <StackPanel Grid.Column="1" Grid.Row="1">
+                        <TextBlock>Font Weight</TextBlock>
+                        <ComboBox ItemsSource="{Binding Source={StaticResource FontWeightOptions}}"
                                               SelectedItem="{Binding Weight, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedIndex="0" FontSize="16"/>
-                                </StackPanel>
-                            </Grid>
+                    </StackPanel>
+                </Grid>
+                <TabControl SelectedIndex="{Binding TextEditorsSelectedIndex, UpdateSourceTrigger=PropertyChanged}">
+                    <TabItem Header="Regular Text Editor" DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}">
+                        <Grid Margin="0,0,0,0">
                             <Grid>
-                                <ToolBar Style="{DynamicResource CompleteFillToolBar}" Height="30" VerticalAlignment="Top">
-                                    <Button Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)">
+                                <ToolBar Height="30" VerticalAlignment="Top">
+                                    <Button Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" Width="27">
                                         <Image Source="Resources/RTBIcons/cut.png"/>
                                     </Button>
-                                    <Button Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)">
+                                    <Button Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)" Width="27">
                                         <Image Source="Resources/RTBIcons/copy.png"/>
                                     </Button>
-                                    <Button Command="ApplicationCommands.Paste" ToolTip="Paste (From Clipboard)">
+                                    <Button Command="ApplicationCommands.Paste" ToolTip="Paste (From Clipboard)" Width="27">
                                         <Image Source="Resources/RTBIcons/paste.png"/>
                                     </Button>
-                                    <Button Command="ApplicationCommands.Undo" ToolTip="Undo (Last Edit)">
+                                    <Button Command="ApplicationCommands.Undo" ToolTip="Undo (Last Edit)" Width="27">
                                         <Image Source="Resources/RTBIcons/undo.png"/>
                                     </Button>
-                                    <Button Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)">
+                                    <Button Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)" Width="27">
                                         <Image Source="Resources/RTBIcons/redo.png"/>
                                     </Button>
                                 </ToolBar>
-                                <TextBox
-                                    MouseWheel="TextBox_MouseWheel"
-                                    FontFamily="{Binding   DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
-                                    FontSize="{Binding     DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
-                                    FontStyle="{Binding    DocumentFormat.Style, UpdateSourceTrigger=PropertyChanged}"
-                                    FontWeight="{Binding   DocumentFormat.Weight, UpdateSourceTrigger=PropertyChanged}"
-                                    TextWrapping="{Binding DocumentFormat.Wrap, UpdateSourceTrigger=PropertyChanged}"
-                                    Text="{Binding         Document.Text, UpdateSourceTrigger=PropertyChanged}"
-                                    AcceptsReturn="True"
-                                    AcceptsTab="True"
-                                    HorizontalScrollBarVisibility="Visible"
-                                    VerticalScrollBarVisibility="Visible"
-                                    Language="en"
-                                    SpellCheck.IsEnabled="True"
-                                    SpellCheck.SpellingReform="Postreform"
-                                    Margin="0,30,0,20"/>
-                                <Grid Background="{DynamicResource ContainerBackground}" Height="20" VerticalAlignment="Bottom">
+                                <TextBox MouseWheel="TextBox_MouseWheel" BorderThickness="1 1 1 0"
+                                         FontFamily="{Binding   DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
+                                         FontSize="{Binding     DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
+                                         FontStyle="{Binding    DocumentFormat.Style, UpdateSourceTrigger=PropertyChanged}"
+                                         FontWeight="{Binding   DocumentFormat.Weight, UpdateSourceTrigger=PropertyChanged}"
+                                         TextWrapping="{Binding DocumentFormat.Wrap, UpdateSourceTrigger=PropertyChanged}"
+                                         Text="{Binding         Document.Text, UpdateSourceTrigger=PropertyChanged}"
+                                         AcceptsReturn="True"
+                                         AcceptsTab="True"
+                                         HorizontalScrollBarVisibility="Visible"
+                                         VerticalScrollBarVisibility="Visible"
+                                         Language="en"
+                                         SpellCheck.IsEnabled="True"
+                                         SpellCheck.SpellingReform="Postreform"
+                                         Margin="0,30,0,20"/>
+                                <Grid Height="20" VerticalAlignment="Bottom">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="30*"/>
                                         <ColumnDefinition Width="25*"/>
                                     </Grid.ColumnDefinitions>
                                     <Border BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1 0 1 1" Grid.ColumnSpan="2"/>
                                     <Grid>
+                                        <Border Background="{DynamicResource ContainerBackground}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1 1 0 1"/>
                                         <TextBlock Text="Name:" Margin="60,2,0,2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         <TextBox VerticalAlignment="Center"
-                                     BorderBrush="Transparent"
-                               DataContext="{Binding Document}"
-                               Text="{Binding FileName}" Background="Transparent" Margin="99,1,1,2" Height="17"/>
+                                                 BorderBrush="Transparent"
+                                                 DataContext="{Binding Document}"
+                                                 Text="{Binding FileName}" Background="Transparent" Margin="99,1,1,2" Height="17"/>
                                         <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="51" Margin="5,3,0,4" Height="13" ToolTip="CTRL + Scrollwheel to zoom. also, this is just the fontsize.">
                                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Zoom:" FontSize="10"/>
                                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}" Margin="31,0,0,0" FontSize="10"/>
                                         </Grid>
                                     </Grid>
                                     <Grid Grid.Column="1">
+                                        <Border Background="{DynamicResource ContainerBackground}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="0 1 1 1"/>
                                         <TextBlock Text="Path:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         <TextBox VerticalAlignment="Center"
                                DataContext="{Binding Document}"
@@ -178,101 +180,101 @@
                                     </Grid>
                                 </Grid>
                             </Grid>
-                        </DockPanel>
-                    </Grid>
-                </TabItem>
-                <TabItem DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}" Header="Rich (Highly WIP)" Margin="0,-2,0,0">
-                    <Grid Margin="0,0,0,0">
-                        <Grid.Resources>
-                            <Style TargetType="{x:Type Button}" x:Key="formatTextStyle">
-                                <Setter Property="FontFamily" Value="Palatino Linotype"/>
-                                <Setter Property="Width" Value="30"/>
-                                <Setter Property="FontSize" Value ="14"/>
-                                <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"/>
-                            </Style>
+                        </Grid>
+                    </TabItem>
+                    <TabItem DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}" Header="Rich (Highly WIP)" Margin="0,-2,0,0">
+                        <Grid Margin="0,0,0,0">
+                            <Grid.Resources>
+                                <Style TargetType="{x:Type Button}" x:Key="formatTextStyle">
+                                    <Setter Property="FontFamily" Value="Palatino Linotype"/>
+                                    <Setter Property="Width" Value="30"/>
+                                    <Setter Property="FontSize" Value ="14"/>
+                                    <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"/>
+                                </Style>
 
-                            <Style TargetType="{x:Type Button}" x:Key="formatImageStyle">
-                                <Setter Property="Width" Value="30"/>
-                                <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"/>
-                            </Style>
-                        </Grid.Resources>
+                                <Style TargetType="{x:Type Button}" x:Key="formatImageStyle">
+                                    <Setter Property="Width" Value="30"/>
+                                    <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"/>
+                                </Style>
+                            </Grid.Resources>
 
-                        <DockPanel x:Name="mainPanel">
+                            <DockPanel x:Name="mainPanel">
 
-                            <!-- This tool bar contains all the editing buttons. -->
-                            <ToolBar Style="{DynamicResource CompleteFillToolBar}" x:Name="mainToolBar" Height="30" DockPanel.Dock="Top">
-                                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)">
-                                    <Image Source="Resources/RTBIcons/cut.png"/>
-                                </Button>
-                                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)">
-                                    <Image Source="Resources/RTBIcons/copy.png"/>
-                                </Button>
-                                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="Paste (From Clipboard)">
-                                    <Image Source="Resources/RTBIcons/paste.png"/>
-                                </Button>
-                                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo (Last Edit)">
-                                    <Image Source="Resources/RTBIcons/undo.png"/>
-                                </Button>
-                                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)">
-                                    <Image Source="Resources/RTBIcons/redo.png"/>
-                                </Button>
+                                <!-- This tool bar contains all the editing buttons. -->
+                                <ToolBar Style="{DynamicResource CompleteFillToolBar}" x:Name="mainToolBar" Height="30" DockPanel.Dock="Top">
+                                    <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)"  Width="27">
+                                        <Image Source="Resources/RTBIcons/cut.png"/>
+                                    </Button>
+                                    <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)"  Width="27">
+                                        <Image Source="Resources/RTBIcons/copy.png"/>
+                                    </Button>
+                                    <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="Paste (From Clipboard)" Width="27">
+                                        <Image Source="Resources/RTBIcons/paste.png"/>
+                                    </Button>
+                                    <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo (Last Edit)"  Width="27">
+                                        <Image Source="Resources/RTBIcons/undo.png"/>
+                                    </Button>
+                                    <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)"  Width="27">
+                                        <Image Source="Resources/RTBIcons/redo.png"/>
+                                    </Button>
 
-                                <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold-ify (Selected Text)">
-                                    <TextBlock FontWeight="Bold"><Run Text="B"/></TextBlock>
-                                </Button>
-                                <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic-ify (Selected Text)">
-                                    <TextBlock FontStyle="Italic" FontWeight="Bold"><Run Text="I"/></TextBlock>
-                                </Button>
-                                <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline (Selected Text)">
-                                    <TextBlock TextDecorations="Underline" FontWeight="Bold"><Run Text="U"/></TextBlock>
-                                </Button>
-                                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font-ify (Selected Text)">
-                                    <Image Source="Resources/RTBIcons/fontIncrease.png"/>
-                                </Button>
-                                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font-ify (Selected Text)">
-                                    <Image Source="Resources/RTBIcons/fontDecrease.png"/>
-                                </Button>
+                                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold-ify (Selected Text)"  Width="27">
+                                        <TextBlock FontWeight="Bold"><Run Text="B"/></TextBlock>
+                                    </Button>
+                                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic-ify (Selected Text)"  Width="27">
+                                        <TextBlock FontStyle="Italic" FontWeight="Bold"><Run Text="I"/></TextBlock>
+                                    </Button>
+                                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline (Selected Text)"  Width="27">
+                                        <TextBlock TextDecorations="Underline" FontWeight="Bold"><Run Text="U"/></TextBlock>
+                                    </Button>
+                                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font-ify (Selected Text)"  Width="27">
+                                        <Image Source="Resources/RTBIcons/fontIncrease.png"/>
+                                    </Button>
+                                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font-ify (Selected Text)"  Width="27">
+                                        <Image Source="Resources/RTBIcons/fontDecrease.png"/>
+                                    </Button>
 
-                                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Add Bullet points">
-                                    <Image Source="Resources/RTBIcons/bulletList.png"/>
-                                </Button>
-                                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Add Number points">
-                                    <Image Source="Resources/RTBIcons/numberedList.png"/>
-                                </Button>
+                                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Add Bullet points" Width="27">
+                                        <Image Source="Resources/RTBIcons/bulletList.png"/>
+                                    </Button>
+                                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Add Number points" Width="27">
+                                        <Image Source="Resources/RTBIcons/numberedList.png"/>
+                                    </Button>
 
-                                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align (Single Line of) Text Left">
-                                    <Image Source="Resources/RTBIcons/alignLeft.png"/>
-                                </Button>
-                                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align (Single Line of) Text Center">
-                                    <Image Source="Resources/RTBIcons/alignCentre.png"/>
-                                </Button>
-                                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Align (Single Line of) Text Right">
-                                    <Image Source="Resources/RTBIcons/alignRight.png"/>
-                                </Button>
-                                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Align (Single Line of) Text to Stretch">
-                                    <Image Source="Resources/RTBIcons/alignJustify.png"/>
-                                </Button>
-                                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent (Spacing between left side)">
-                                    <Image Source="Resources/RTBIcons/indentationIncrease.png"/>
-                                </Button>
-                                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent (Spacing between left side)">
-                                    <Image Source="Resources/RTBIcons/indentationDecrease.png"/>
-                                </Button>
-                            </ToolBar>
-                            <!-- By default pressing tab moves focus to the next control. Setting AcceptsTab to true allows the 
+                                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align (Single Line of) Text Left" Width="27">
+                                        <Image Source="Resources/RTBIcons/alignLeft.png"/>
+                                    </Button>
+                                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align (Single Line of) Text Center" Width="27">
+                                        <Image Source="Resources/RTBIcons/alignCentre.png"/>
+                                    </Button>
+                                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Align (Single Line of) Text Right" Width="27">
+                                        <Image Source="Resources/RTBIcons/alignRight.png"/>
+                                    </Button>
+                                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Align (Single Line of) Text to Stretch" Width="27">
+                                        <Image Source="Resources/RTBIcons/alignJustify.png"/>
+                                    </Button>
+                                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent (Spacing between left side)" Width="27">
+                                        <Image Source="Resources/RTBIcons/indentationIncrease.png"/>
+                                    </Button>
+                                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent (Spacing between left side)" Width="27">
+                                        <Image Source="Resources/RTBIcons/indentationDecrease.png"/>
+                                    </Button>
+                                </ToolBar>
+                                <!-- By default pressing tab moves focus to the next control. Setting AcceptsTab to true allows the 
                                   RichTextBox to accept tab characters. -->
-                            <RichTextBox x:Name="mainRTB" AcceptsTab="True"
+                                <RichTextBox x:Name="mainRTB" AcceptsTab="True"
                                          FontFamily="{Binding DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
                                          FontSize="{Binding DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
                                          FontStyle="{Binding DocumentFormat.Style, UpdateSourceTrigger=PropertyChanged}"
                                          FontWeight="{Binding DocumentFormat.Weight, UpdateSourceTrigger=PropertyChanged}"/>
-                        </DockPanel>
-                    </Grid>
-                </TabItem>
-            </TabControl>
+                            </DockPanel>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </DockPanel>
         </Grid>
         <ToolBarPanel Margin="0,18,0,0" Height="69" VerticalAlignment="Top" HorizontalAlignment="Left" Width="196" >
-            <Grid Height="32" Background="{DynamicResource ContainerBackground}">
+            <Grid Height="32">
                 <Button Command="{Binding NewCommand}" HorizontalAlignment="Left" ToolTip="Add New Blank File" BorderBrush="Transparent" Background="Transparent" Height="32" VerticalAlignment="Top">
                     <Image Margin="2" Source="Resources/newFile.png"/>
                 </Button>
@@ -292,7 +294,7 @@
                     <Image Margin="2" Source="Resources/closeAllFiles.png"/>
                 </Button>
             </Grid>
-            <Grid Margin="0 2 0 0" Height="32" Background="{DynamicResource ContainerBackground}">
+            <Grid Margin="0 2 0 0" Height="32" >
                 <Button Command="{Binding OpenInNewWindowCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
                     ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))" HorizontalAlignment="Left" Width="32">
                     <Image Margin="2" Source="Resources/openInNewWindow.png"/>
@@ -304,7 +306,7 @@
                 </Button>
             </Grid>
         </ToolBarPanel>
-        <Menu VerticalAlignment="Top" Grid.ColumnSpan="3" Background="{DynamicResource ContainerBackground}">
+        <Menu VerticalAlignment="Top" Grid.ColumnSpan="3">
             <MenuItem Header="File">
                 <MenuItem Header="New" Command="{Binding NewCommand}"   Template="{DynamicResource DropDownMenuItemTemplate}"/>
                 <MenuItem Header="Open" Command="{Binding OpenCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>

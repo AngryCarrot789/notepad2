@@ -701,6 +701,8 @@
         <Setter Property="Background" Value="{StaticResource  ContainerBackground}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ControlDefaultBorderBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource  ControlDefaultForeground}"/>
+        <Setter Property="SelectionBrush" Value="{StaticResource ControlSelectedMouseOverBorderBrush}"/>
+        <Setter Property="SelectionOpacity" Value="0.7"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -775,7 +777,7 @@
         <Setter Property="Background" Value="{StaticResource ControlDefaultBackground}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ContainerBorder}"/>
         <Setter Property="BorderThickness" Value="1 0 1 1"/>
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="Foreground" Value="{StaticResource ControlDefaultForeground}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabControl}">
@@ -1942,7 +1944,7 @@
     </Style>
 
     <Style x:Key="CustomWindowStyle" TargetType="{x:Type Window}">
-        <Setter Property="BorderBrush" Value="{StaticResource ContainerBackground}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BackgroundColour}" />
         <Setter Property="Background" Value="{StaticResource BackgroundColour}" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
@@ -1966,7 +1968,7 @@
                         </Border>
 
                         <Grid Height="32"
-                              Background="{StaticResource WindowTitleColour}"
+                              Background="{TemplateBinding Background}"
                             VerticalAlignment="Top" Margin="7,7,7,0">
 
                             <Grid.ColumnDefinitions>
