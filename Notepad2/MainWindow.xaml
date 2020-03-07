@@ -72,7 +72,7 @@
         </Grid>
         <Grid Margin="201,18,0,0">
             <DockPanel HorizontalAlignment="Stretch" Margin="0">
-                <Grid x:Name="FontDialogPanel" DataContext="{Binding Notepad.DocumentFormat, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" Width="0">
+                <Grid x:Name="FontDialogPanel" DockPanel.Dock="Right" Width="0">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition Height="auto"/>
@@ -82,7 +82,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <DockPanel Grid.Row="0" Grid.Column="0">
+                    <DockPanel Grid.Row="0" Grid.Column="0"  DataContext="{Binding Notepad.DocumentFormat, UpdateSourceTrigger=PropertyChanged}" >
                         <TextBlock DockPanel.Dock="Top" FontSize="16">Font Family</TextBlock>
                         <ListBox ItemsSource="{Binding Source={StaticResource FontFamilyOptions}}"
                                              SelectedItem="{Binding Family, UpdateSourceTrigger=PropertyChanged}"
@@ -95,21 +95,25 @@
                         </ListBox>
                     </DockPanel>
 
-                    <DockPanel Grid.Row="0" Grid.Column="1">
+                    <DockPanel Grid.Row="0" Grid.Column="1" >
                         <TextBlock DockPanel.Dock="Top" FontSize="16">Font Size</TextBlock>
-                        <ListBox ItemsSource="{Binding Source={StaticResource FontSizeOptions}}"
-                                             SelectedItem="{Binding Size, UpdateSourceTrigger=PropertyChanged}"
-                                             SelectedIndex="0" FontSize="16"/>
+                        <Grid>
+                            <ListBox  DataContext="{Binding Notepad.DocumentFormat, UpdateSourceTrigger=PropertyChanged}"
+                                      ItemsSource="{Binding Source={StaticResource FontSizeOptions}}"
+                                      SelectedItem="{Binding Size, UpdateSourceTrigger=PropertyChanged}"
+                                      SelectedIndex="0" FontSize="16" Margin="0,0,0,20"/>
+                            <CheckBox VerticalAlignment="Bottom" Content="Word wrap" IsChecked="{Binding Wrapping, UpdateSourceTrigger=PropertyChanged}" Margin="2,0,0,0"/>
+                        </Grid>
                     </DockPanel>
 
-                    <StackPanel Grid.Column="0" Grid.Row="1">
+                    <StackPanel Grid.Column="0" Grid.Row="1"  DataContext="{Binding Notepad.DocumentFormat, UpdateSourceTrigger=PropertyChanged}">
                         <TextBlock>Font Styles</TextBlock>
                         <ComboBox ItemsSource="{Binding Source={StaticResource FontStyleOptions}}"
                                               SelectedItem="{Binding Style, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedIndex="0" FontSize="16"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1" Grid.Row="1">
+                    <StackPanel Grid.Column="1" Grid.Row="1"  DataContext="{Binding Notepad.DocumentFormat, UpdateSourceTrigger=PropertyChanged}">
                         <TextBlock>Font Weight</TextBlock>
                         <ComboBox ItemsSource="{Binding Source={StaticResource FontWeightOptions}}"
                                               SelectedItem="{Binding Weight, UpdateSourceTrigger=PropertyChanged}"
@@ -314,10 +318,6 @@
                 <MenuItem Header="Save as..." Command="{Binding SaveAsCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>
                 <Separator/>
                 <MenuItem Header="Close Selected Notepad" Command="{Binding CloseSelectedNotepadCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>
-            </MenuItem>
-            <MenuItem Header="Format">
-                <MenuItem Header="Format" Click="ShowFontDialogPanel" Template="{DynamicResource DropDownMenuItemTemplate}"/>
-                <CheckBox Content="Word wrap" IsChecked="{Binding Wrapping, UpdateSourceTrigger=PropertyChanged}"/>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Header="About" Command="{Binding Help.HelpCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>

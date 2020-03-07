@@ -45,7 +45,7 @@
             </ScrollViewer>
         </Border>
     </ControlTemplate>
-    
+
     <Style TargetType="{x:Type ContextMenu}">
         <Setter Property="Background" Value="{StaticResource ControlDefaultBackground}"/>
         <Setter Property="Foreground" Value="{StaticResource ControlDefaultForeground}"/>
@@ -523,7 +523,8 @@
     <!--  Checkbox  -->
 
     <Style TargetType="{x:Type CheckBox}">
-        <Setter Property="MinHeight" Value="24"/>
+        <Setter Property="MinHeight" Value="16"/>
+        <Setter Property="Height" Value="20"/>
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <Setter Property="Background" Value="{StaticResource ControlDefaultBackground}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ControlDefaultBorderBrush}"/>
@@ -542,7 +543,7 @@
                                         BorderThickness="{TemplateBinding BorderThickness}" 
                                         Background="{TemplateBinding Background}" 
                                         HorizontalAlignment="Center" 
-                                        VerticalAlignment="Center" Height="20" Width="20" Margin="0">
+                                        VerticalAlignment="Center" Height="16" Width="16" Margin="0">
                             <Grid x:Name="markGrid">
                                 <Path x:Name="optionMark" 
                                               Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " 
@@ -553,9 +554,9 @@
                         </Border>
                         <ContentPresenter x:Name="contentPresenter" 
                                                   Grid.Column="1" Focusable="False" 
-                                                  HorizontalAlignment="Stretch"  RecognizesAccessKey="True" 
+                                                  HorizontalAlignment="Left"  RecognizesAccessKey="True" 
                                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-                                                  VerticalAlignment="Center" Margin="3,3,0,2" Height="22"/>
+                                                  VerticalAlignment="Center" Margin="3,0,0,0"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasContent" Value="true">
@@ -701,7 +702,7 @@
         <Setter Property="Background" Value="{StaticResource  ContainerBackground}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ControlDefaultBorderBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource  ControlDefaultForeground}"/>
-        <Setter Property="SelectionBrush" Value="{StaticResource ControlSelectedMouseOverBorderBrush}"/>
+        <Setter Property="SelectionBrush" Value="{StaticResource ControlPrimarySpecialColour}"/>
         <Setter Property="SelectionOpacity" Value="0.7"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
@@ -737,7 +738,7 @@
                     <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true"/>
                     <Condition Property="IsSelectionActive" Value="false"/>
                 </MultiTrigger.Conditions>
-                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                <Setter Property="SelectionBrush" Value="{StaticResource ControlDisabledGlythColour}"/>
             </MultiTrigger>
         </Style.Triggers>
     </Style>
