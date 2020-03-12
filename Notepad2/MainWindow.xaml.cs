@@ -190,42 +190,25 @@ namespace Notepad2
 
         private void ListBox_Drop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (ViewModel != null && e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                // Note that you can have more than one file.
-                object droppedItem = e.Data.GetData(DataFormats.FileDrop);
-
-                //This isnt needed. Drag/Drop creates a temp file
-                //so droppedItem is considered a string array containing
-                //the path in %temp% :/. using the actual NotepadListitem would
-                //be harder; same object therefore binding happens therefore big errors.
-                //using strings... new objects/duplicated/sort of so no problems :)
-                //if (droppedItem is NotepadListItem)
-                //{
-                //    MessageBox.Show("dropped is notepad list item");
-                //    return;
-                //}
-
-                //checks if it's a string array, just incase ;)
-                //dont u blimin be null on me or no notepad for u
-                if (ViewModel != null)
+                if (e.Data.GetData(DataFormats.FileDrop) is string[] droppedItemArray)
                 {
-                    if (droppedItem is string[] droppedItemArray)
+                    foreach (string path in droppedItemArray)
                     {
-                        foreach (string path in droppedItemArray)
-                        {
-                            string text = File.ReadAllText(path);
-                            ViewModel.AddNotepadItem(
-                                ViewModel.CreateDefaultStyleNotepadItem(
-                                    text,
-                                    Path.GetFileName(path),
-                                    path,
-                                    (double)text.Length / 1000.0));
-                        }
+                        string text = File.ReadAllText(path);
+
+                        ViewModel.AddNotepadItem(
+                            ViewModel.CreateDefaultStyleNotepadItem(
+                                text,
+                                Path.GetFileName(path),
+                                path,
+                                text.Length / 1000.0));
                     }
                 }
             }
         }
+
         private void SetTheme(object sender, RoutedEventArgs e)
         {
             switch (int.Parse(((MenuItem)sender).Uid))
@@ -240,37 +223,30 @@ namespace Notepad2
 
         public void CloseWindow()
         {
-            //WindowStyle = WindowStyle.SingleBorderWindow;
             this.Close();
         }
 
         public void MaximizeRestore()
         {
-            //WindowChrome chrome = WindowChrome.GetWindowChrome(this);
-            //chrome.ResizeBorderThickness = new Thickness(10, 10, 10, 10);
             if (this.WindowState == WindowState.Maximized)
             {
-                //WindowStyle = WindowStyle.SingleBorderWindow;
                 WindowState = WindowState.Normal;
-                //WindowStyle = WindowStyle.None;
             }
             else if (WindowState == WindowState.Normal)
             {
-                //WindowStyle = WindowStyle.SingleBorderWindow;
                 WindowState = WindowState.Maximized;
-                //WindowStyle = WindowStyle.None;
             }
         }
 
         public void Minimize()
         {
-            //WindowStyle = WindowStyle.SingleBorderWindow;
             this.WindowState = WindowState.Minimized;
         }
 
         //Drag drop
 
-        private Point start;
+        Point start;
+
         private void FileView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             this.start = e.GetPosition(null);

@@ -232,7 +232,7 @@ namespace Notepad2.ViewModels
 
         public void NewNotepad()
         {
-            AddNotepadItem(CreateDefaultStyleNotepadItem("", "newNotepad.txt", null, 0));
+            AddNotepadItem(CreateDefaultStyleNotepadItem("", $"new{NotepadItems.Count()}.txt", null, 0));
         }
 
         public void AddNotepadItem(NotepadListItem nli)

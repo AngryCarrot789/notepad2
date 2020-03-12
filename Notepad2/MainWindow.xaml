@@ -65,10 +65,12 @@
             <Button Command="{Binding ClearListAndNotepadCommand}" Content="Clear list and Notepad" VerticalAlignment="Bottom" Height="50"/>
             <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
                      x:Name="notepadLstBox" 
-                     PreviewMouseLeftButtonDown="FileView_PreviewMouseLeftButtonDown"
                      MouseMove="FileView_MouseMove"
                      SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,55"
-                     HorizontalContentAlignment="Stretch" AllowDrop="True" Drop="ListBox_Drop"/>
+                     HorizontalContentAlignment="Stretch" 
+                     AllowDrop="True" 
+                     PreviewMouseLeftButtonDown="FileView_PreviewMouseLeftButtonDown"
+                     Drop="ListBox_Drop"/>
         </Grid>
         <Grid Margin="201,18,0,0">
             <DockPanel HorizontalAlignment="Stretch" Margin="0">
