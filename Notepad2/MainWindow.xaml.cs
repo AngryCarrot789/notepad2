@@ -26,6 +26,9 @@ namespace Notepad2
         public App CurrentApp;
         public MainViewModel ViewModel { get; set; }
         private double AnimationSpeedSeconds = 0.2;
+        // Find Window
+        public FindTextWindow FindWindow { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -65,6 +68,25 @@ namespace Notepad2
             this.DataContext = ViewModel;
             ViewModel.MainWind = this;
             ViewModel.AnimateAddCallback = this.AnimateControl;
+
+            FindWindow = new FindTextWindow();
+            FindWindow.FindNext = this.FindText;
+
+            KeydownManager.KeyDown += KeyPressedDown;
+        }
+
+        private void KeyPressedDown(Key key)
+        {
+            if (KeydownManager.Keydown(Key.LeftCtrl) && KeydownManager.Keydown(Key.F))
+            {
+                //WIP
+                //FindWindow.Show();
+            }
+        }
+
+        public void FindText(string textToBeFound)
+        {
+            MainTextBox.SelectedText = textToBeFound;
         }
 
         public void LoadSettings()

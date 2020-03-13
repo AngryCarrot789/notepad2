@@ -144,6 +144,7 @@
                                     </Button>
                                 </ToolBar>
                                 <TextBox MouseWheel="TextBox_MouseWheel" BorderThickness="1 1 1 0"
+                                         x:Name="MainTextBox"
                                          FontFamily="{Binding   DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
                                          FontSize="{Binding     DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
                                          FontStyle="{Binding    DocumentFormat.Style, UpdateSourceTrigger=PropertyChanged}"

@@ -1,0 +1,33 @@
+﻿<Window x:Class="Notepad2.Views.FindTextWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Notepad2.Views"
+        Closing="Window_Closing"
+        KeyDown="Window_KeyDown"
+        mc:Ignorable="d" Style="{DynamicResource MainWindowStyle}"
+        Title="Find" Height="125" Width="380">
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top"><Run Text="F" TextDecorations="Underline"/><Run Text="ind what:"/></TextBlock>
+        <TextBox Focusable="True" x:Name="FindText" Padding="2" Height="24" Margin="69,10,90,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Button x:Name="FindButton" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="75" Height="24" Click="FindButton_Click">
+            <TextBlock><Run Text="F" TextDecorations="Underline"/><Run Text="ind Next"/></TextBlock>
+        </Button>
+        <Button x:Name="CancelButton" HorizontalAlignment="Right" Margin="0,39,10,0" VerticalAlignment="Top" Width="75" Height="24" Click="CancelButton_Click">
+            <TextBlock><Run Text="C" TextDecorations="Underline"/><Run Text="ancel"/></TextBlock>
+        </Button>
+        <Grid Margin="10,39,90,10">
+            <TextBlock Text="eee" x:Name="PreviewText" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10 0 10 0" TextAlignment="Center">
+                <TextBlock.OpacityMask>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="Transparent" Offset="0.9"/>
+                        <GradientStop Offset="0.5" Color="#B2FFFFFF"/>
+                        <GradientStop Offset="0.1"/>
+                    </LinearGradientBrush>
+                </TextBlock.OpacityMask>
+            </TextBlock>
+        </Grid>
+
+    </Grid>
+</Window>
