@@ -271,16 +271,16 @@ namespace Notepad2
 
         private void FileView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            this.start = e.GetPosition(null);
+            //this.start = e.GetPosition(null);
         }
         private void FileView_MouseMove(object sender, MouseEventArgs e)
         {
             Point mpos = e.GetPosition(null);
-            Vector diff = this.start - mpos;
+            //Vector diff = this.start - mpos;
 
             if (e.LeftButton == MouseButtonState.Pressed &&
-                Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance &&
-                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
+                Math.Abs(mpos.X) > SystemParameters.MinimumHorizontalDragDistance &&
+                Math.Abs(mpos.Y) > SystemParameters.MinimumVerticalDragDistance)
             {
                 //get selected notepad (aka one being dragged)
                 try
