@@ -2,6 +2,7 @@
 using Notepad2.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Notepad2.Notepad
 {
@@ -50,6 +50,44 @@ namespace Notepad2.Notepad
         {
             if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
                 Close?.Invoke(this);
+        }
+
+        private void ElePar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        private bool MouseMoved = false;
+        private void ElePar_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                //get selected notepad (aka one being dragged)
+                if (DataContext is FileItemViewModel notepad)
+                {
+                    try
+                    {
+                        if (File.Exists(notepad.Document.FilePath))
+                        {
+                            string[] path1 = new string[1] { notepad.Document.FilePath };
+                            //GlobalVariables.IsDragDropping = true;
+                            DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path1), DragDropEffects.Copy);
+                            //GlobalVariables.IsDragDropping = false;
+                        }
+                        else
+                        {
+                            string tempFilePath = Path.Combine(Path.GetTempPath(), notepad.Document.FileName);
+                            notepad.Document.FilePath = tempFilePath;
+                            File.WriteAllText(tempFilePath, notepad.Document.Text);
+                            string[] path = new string[1] { tempFilePath };
+                            //GlobalVariables.IsDragDropping = true;
+                            DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path), DragDropEffects.Copy);
+                            //GlobalVariables.IsDragDropping = false;
+                            File.Delete(tempFilePath);
+                        }
+                    }
+                    catch { }
+                }
+            }
         }
     }
 }

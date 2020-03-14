@@ -265,46 +265,6 @@ namespace Notepad2
             this.WindowState = WindowState.Minimized;
         }
 
-        //Drag drop
-
-        Point start;
-
-        private void FileView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.start = e.GetPosition(null);
-        }
-        private void FileView_MouseMove(object sender, MouseEventArgs e)
-        {
-            Point mpos = e.GetPosition(null);
-            Vector diff = this.start - mpos;
-
-            if (e.LeftButton == MouseButtonState.Pressed &&
-                Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance &&
-                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
-            {
-                //get selected notepad (aka one being dragged)
-                try
-                {
-                    FileItemViewModel notepad = ViewModel.SelectedNotepadViewModel;
-                    if (File.Exists(notepad.Document.FilePath))
-                    {
-                        string[] path1 = new string[1] { notepad.Document.FilePath };
-                        DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path1), DragDropEffects.Copy);
-                    }
-                    else
-                    {
-                        string tempFilePath = Path.Combine(Path.GetTempPath(), notepad.Document.FileName);
-                        notepad.Document.FilePath = tempFilePath;
-                        File.WriteAllText(tempFilePath, notepad.Document.Text);
-                        string[] path = new string[1] { tempFilePath };
-                        DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path), DragDropEffects.Copy);
-                        File.Delete(tempFilePath);
-                    }
-                }
-                catch { }
-            }
-        }
-
         private void TextBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (KeydownManager.Keydown(Key.LeftCtrl))

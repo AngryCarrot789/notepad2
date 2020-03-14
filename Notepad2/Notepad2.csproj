@@ -73,6 +73,7 @@
     <Compile Include="Utilities\Command.cs" />
     <Compile Include="Utilities\CommandParam.cs" />
     <Compile Include="Utilities\Error.cs" />
+    <Compile Include="Utilities\GlobalVariables.cs" />
     <Compile Include="Utilities\INotepad.cs" />
     <Compile Include="Utilities\KeydownManager.cs" />
     <Compile Include="ViewModels\FileItemViewModel.cs" />

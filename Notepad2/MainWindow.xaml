@@ -8,7 +8,7 @@
         xmlns:win="clr-namespace:System.Windows;assembly=PresentationCore"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
-        Title="SharpPad (Main Window)" Height="547" Width="928.5" WindowStyle="SingleBorderWindow" 
+        Title="SharpPad (Main Window)" Height="547" Width="832.5" WindowStyle="SingleBorderWindow" 
         KeyDown="Window_KeyDown" KeyUp="Window_KeyUp"
         WindowChrome.IsHitTestVisibleInChrome="False"
         Style="{DynamicResource CustomWindowStyle}" 
@@ -65,11 +65,9 @@
             <Button Command="{Binding ClearListAndNotepadCommand}" Content="Clear list and Notepad" VerticalAlignment="Bottom" Height="50"/>
             <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
                      x:Name="notepadLstBox" 
-                     MouseMove="FileView_MouseMove"
                      SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,55"
                      HorizontalContentAlignment="Stretch" 
                      AllowDrop="True" 
-                     PreviewMouseLeftButtonDown="FileView_PreviewMouseLeftButtonDown"
                      Drop="ListBox_Drop"/>
         </Grid>
         <Grid Margin="201,18,0,0">

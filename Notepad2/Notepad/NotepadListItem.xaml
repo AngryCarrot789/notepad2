@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Notepad2.Notepad"
              xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
-             xmlns:converters="clr-namespace:Notepad2.Converters" MouseDown="ElePar_MouseDown"
+             xmlns:converters="clr-namespace:Notepad2.Converters" 
+             MouseDown="ElePar_MouseDown" MouseMove="ElePar_MouseMove"
+             MouseLeftButtonDown="ElePar_MouseLeftButtonDown"
              mc:Ignorable="d" d:DesignWidth="175" d:DesignHeight="54" MaxHeight="178" x:Name="elePar">
     <UserControl.Resources>
         <converters:TextChangedToUnsavedIndicatorConverter x:Key="tchanunsave"/>
@@ -33,6 +35,5 @@
         <TextBlock Text="KB" Margin="0,0,3,4" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="12" TextAlignment="Right"/>
         <Button Background="Transparent" Content="X" HorizontalAlignment="Right" Margin="0,3,3,0" VerticalAlignment="Top" Width="16" Height="18" Click="Button_Click" FontSize="10"/>
         <TextBlock Text="{Binding Path=HasMadeChanges, Converter={StaticResource tchanunsave}}" HorizontalAlignment="Left" Margin="4,0,0,18" VerticalAlignment="Bottom" Width="50" FontSize="10"/>
-
     </Grid>
 </UserControl>
