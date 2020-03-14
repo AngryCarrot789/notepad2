@@ -1,5 +1,6 @@
 ﻿using Notepad2.Utilities;
 using Notepad2.ViewModels;
+using Notepad2.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,6 +26,7 @@ namespace Notepad2.Notepad
         public Action<NotepadListItem> Close { get; set; }
         public Action<NotepadListItem> Open { get; set; }
         public Action<NotepadListItem> OpenInFileExplorer { get; set; }
+        public ListBox ParentListbox { get; set; }
 
         public NotepadListItem()
         {
@@ -52,16 +54,10 @@ namespace Notepad2.Notepad
                 Close?.Invoke(this);
         }
 
-        private void ElePar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-        private bool MouseMoved = false;
         private void ElePar_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (e.RightButton == MouseButtonState.Pressed)
             {
-                //get selected notepad (aka one being dragged)
                 if (DataContext is FileItemViewModel notepad)
                 {
                     try
@@ -69,9 +65,7 @@ namespace Notepad2.Notepad
                         if (File.Exists(notepad.Document.FilePath))
                         {
                             string[] path1 = new string[1] { notepad.Document.FilePath };
-                            //GlobalVariables.IsDragDropping = true;
                             DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path1), DragDropEffects.Copy);
-                            //GlobalVariables.IsDragDropping = false;
                         }
                         else
                         {
@@ -79,15 +73,18 @@ namespace Notepad2.Notepad
                             notepad.Document.FilePath = tempFilePath;
                             File.WriteAllText(tempFilePath, notepad.Document.Text);
                             string[] path = new string[1] { tempFilePath };
-                            //GlobalVariables.IsDragDropping = true;
                             DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path), DragDropEffects.Copy);
-                            //GlobalVariables.IsDragDropping = false;
                             File.Delete(tempFilePath);
                         }
                     }
                     catch { }
                 }
             }
+        }
+
+        private void ElePar_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

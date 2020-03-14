@@ -315,6 +315,7 @@ namespace Notepad2.ViewModels
         public NotepadListItem CreateNotepadItem(string text, string itemName, string itemPath, double itemSize, FormatModel fm)
         {
             NotepadListItem nli = new NotepadListItem();
+            nli.ParentListbox = MainWind.notepadLstBox;
             FileItemViewModel fivm = new FileItemViewModel();
             fivm.Document.Text = text;
             fivm.Document.FileName = itemName;
