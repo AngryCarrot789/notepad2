@@ -286,13 +286,20 @@ namespace Notepad2
                 try
                 {
                     FileItemViewModel notepad = ViewModel.SelectedNotepadViewModel;
-
-                   string tempFilePath = Path.Combine(Path.GetTempPath(), notepad.Document.FileName);
-                    notepad.Document.FilePath = tempFilePath;
-                    File.WriteAllText(tempFilePath, notepad.Document.Text);
-                    string[] path = new string[1] { tempFilePath };
-                    DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path), DragDropEffects.Copy);
-                    File.Delete(tempFilePath);
+                    if (File.Exists(notepad.Document.FilePath))
+                    {
+                        string[] path1 = new string[1] { notepad.Document.FilePath };
+                        DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path1), DragDropEffects.Copy);
+                    }
+                    else
+                    {
+                        string tempFilePath = Path.Combine(Path.GetTempPath(), notepad.Document.FileName);
+                        notepad.Document.FilePath = tempFilePath;
+                        File.WriteAllText(tempFilePath, notepad.Document.Text);
+                        string[] path = new string[1] { tempFilePath };
+                        DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path), DragDropEffects.Copy);
+                        File.Delete(tempFilePath);
+                    }
                 }
                 catch { }
             }
