@@ -54,9 +54,9 @@ namespace Notepad2.Notepad
                 Close?.Invoke(this);
         }
 
-        private void ElePar_MouseMove(object sender, MouseEventArgs e)
+        private void ElePar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.RightButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Pressed && ParentListbox.SelectedItem == this)
             {
                 if (DataContext is FileItemViewModel notepad)
                 {
@@ -80,11 +80,6 @@ namespace Notepad2.Notepad
                     catch { }
                 }
             }
-        }
-
-        private void ElePar_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
         }
     }
 }
