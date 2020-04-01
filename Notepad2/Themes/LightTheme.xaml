@@ -79,84 +79,89 @@
     </Style>
 
     <Style x:Key="CustomWindowStyle" TargetType="{x:Type Window}">
-        <Setter Property="BorderBrush" Value="{StaticResource BackgroundColour}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ContainerBorder}" />
         <Setter Property="Background" Value="{StaticResource BackgroundColour}" />
+        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
-                <WindowChrome CornerRadius="5" 
-                              CaptionHeight="39"
-                              ResizeBorderThickness="5"
-                              GlassFrameThickness="2"/>
+                <WindowChrome CaptionHeight="26"
+                              CornerRadius="0"
+                              GlassFrameThickness="0"
+                              NonClientFrameEdges="None"
+                              ResizeBorderThickness="4"
+                              UseAeroCaptionButtons="False"/>
             </Setter.Value>
         </Setter>
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">
                     <Grid>
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="12,42,12,13">
-                            <AdornerDecorator>
-                                <ContentPresenter />
-                            </AdornerDecorator>
-                        </Border>
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <AdornerDecorator Margin="0,30,0,0">
+                                    <ContentPresenter />
+                                </AdornerDecorator>
 
-                        <Grid Height="32"
-                              Background="{TemplateBinding Background}"
-                            VerticalAlignment="Top" Margin="7,7,7,0">
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="32"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Image HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="20" Margin="6" Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Icon}"  />
-                            <TextBlock Margin="5,0,0,0"
+                                <Grid Height="30" x:Name="titlebar"
+                                      Background="{TemplateBinding BorderBrush}"
+                                      VerticalAlignment="Top" Margin="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image HorizontalAlignment="Left" VerticalAlignment="Top" Width="22" Margin="4,4,0,0" Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Icon}" Height="22"  />
+                                    <TextBlock Margin="5,3"
                                        VerticalAlignment="Center"
-                                       HorizontalAlignment="Left"
-                                       FontSize="16"
+                                       HorizontalAlignment="Stretch"
+                                       FontSize="14" Width="Auto"
                                        Foreground="{DynamicResource ControlDefaultForeground}"
                                        Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title}"   
-                                       Grid.Column="1"/>
-
-
-                            <StackPanel Orientation="Horizontal"
+                                       Grid.Column="1" TextAlignment="Left"/>
+                                    <StackPanel Orientation="Horizontal"
                                         Grid.Column="2">
-                                <Button x:Name="btnMinimize"
+                                        <Button x:Name="btnMinimize"
                                         Background="Transparent"
                                         BorderBrush="Transparent"
-                                        Width="50"
+                                        Width="40"
                                         VerticalContentAlignment="Bottom"
                                         WindowChrome.IsHitTestVisibleInChrome="True" Command="{Binding MinimizeWindowCommand}">
-                                    <Image Source="/Resources/minimizeWindowBlack.png" Margin="7"/>
-                                </Button>
+                                            <Image Source="/Resources/minimizeWindow.png" Margin="7"/>
+                                        </Button>
 
-                                <Button x:Name="btnRestore"
+                                        <Button x:Name="btnRestore"
                                         Background="Transparent"
                                         BorderBrush="Transparent"
-                                        Width="50"
+                                        Width="40"
                                         WindowChrome.IsHitTestVisibleInChrome="True" Command="{Binding MaximizeRestoreCommand}">
-                                    <Image Source="/Resources/maximizeRestoreWindowBlack.png" Margin="7"/>
-                                </Button>
-                                <Button x:Name="btnClose"
+                                            <Image Source="/Resources/maximizeRestoreWindow.png" Margin="7"/>
+                                        </Button>
+                                        <Button x:Name="btnClose"
                                         Background="Transparent"
                                         BorderBrush="Transparent"
                                         Template="{DynamicResource CloseWindowButton}"
-                                        Width="50"
+                                        Width="40"
                                         WindowChrome.IsHitTestVisibleInChrome="True" Command="{Binding CloseWindowCommand}">
-                                    <Image Source="/Resources/closeWindowBlack.png" Margin="7"/>
-                                </Button>
-
-                            </StackPanel>
-                        </Grid>
-
+                                            <Image Source="/Resources/closeWindow.png" Margin="7"/>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </Border>
                     </Grid>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="WindowState" Value="Maximized">
+                <Setter Property="BorderThickness" Value="9"/>
+            </Trigger>
+            <Trigger Property="WindowState" Value="Normal">
+                <Setter Property="BorderThickness" Value="1"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <ControlTemplate x:Key="DropDownMenuItemTemplate" TargetType="{x:Type MenuItem}">

@@ -253,10 +253,12 @@ namespace Notepad2
             if (this.WindowState == WindowState.Maximized)
             {
                 WindowState = WindowState.Normal;
+                //Margin = new Thickness(0, 0, 0, 0);
             }
             else if (WindowState == WindowState.Normal)
             {
                 WindowState = WindowState.Maximized;
+                //WindowChrome Margin = new Thickness(8,8,8,8);
             }
         }
 
