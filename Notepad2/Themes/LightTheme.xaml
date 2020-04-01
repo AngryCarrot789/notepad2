@@ -128,7 +128,7 @@
                                         Width="40"
                                         VerticalContentAlignment="Bottom"
                                         WindowChrome.IsHitTestVisibleInChrome="True" Command="{Binding MinimizeWindowCommand}">
-                                            <Image Source="/Resources/minimizeWindow.png" Margin="7"/>
+                                            <Image Source="/Resources/minimizeWindowBlack.png" Margin="7"/>
                                         </Button>
 
                                         <Button x:Name="btnRestore"
@@ -136,7 +136,7 @@
                                         BorderBrush="Transparent"
                                         Width="40"
                                         WindowChrome.IsHitTestVisibleInChrome="True" Command="{Binding MaximizeRestoreCommand}">
-                                            <Image Source="/Resources/maximizeRestoreWindow.png" Margin="7"/>
+                                            <Image Source="/Resources/maximizeRestoreWindowBlack.png" Margin="7"/>
                                         </Button>
                                         <Button x:Name="btnClose"
                                         Background="Transparent"
@@ -144,7 +144,7 @@
                                         Template="{DynamicResource CloseWindowButton}"
                                         Width="40"
                                         WindowChrome.IsHitTestVisibleInChrome="True" Command="{Binding CloseWindowCommand}">
-                                            <Image Source="/Resources/closeWindow.png" Margin="7"/>
+                                            <Image Source="/Resources/closeWindowBlack.png" Margin="7"/>
                                         </Button>
                                     </StackPanel>
                                 </Grid>
