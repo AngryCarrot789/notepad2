@@ -141,21 +141,24 @@
                             </Button>
                         </ToolBar>
                         <TextBox MouseWheel="TextBox_MouseWheel"
-                                         x:Name="MainTextBox"
-                                         FontFamily="{Binding   DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
-                                         FontSize="{Binding     DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
-                                         FontStyle="{Binding    DocumentFormat.Style, UpdateSourceTrigger=PropertyChanged}"
-                                         FontWeight="{Binding   DocumentFormat.Weight, UpdateSourceTrigger=PropertyChanged}"
-                                         TextWrapping="{Binding DocumentFormat.Wrap, UpdateSourceTrigger=PropertyChanged}"
-                                         Text="{Binding         Document.Text, UpdateSourceTrigger=PropertyChanged}"
-                                         AcceptsReturn="True"
-                                         AcceptsTab="True"
-                                         HorizontalScrollBarVisibility="Visible"
-                                         VerticalScrollBarVisibility="Visible"
-                                         Language="en"
-                                         SpellCheck.IsEnabled="True"
-                                         SpellCheck.SpellingReform="Postreform"
-                                         Margin="0,30,0,20" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" Background="{DynamicResource BackgroundColour}"/>
+                                 x:Name="MainTextBox"
+                                 DataContext="{Binding Notepad}"
+                                 FontFamily="{Binding   DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
+                                 FontSize="{Binding     DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
+                                 FontStyle="{Binding    DocumentFormat.Style, UpdateSourceTrigger=PropertyChanged}"
+                                 FontWeight="{Binding   DocumentFormat.Weight, UpdateSourceTrigger=PropertyChanged}"
+                                 TextWrapping="{Binding DocumentFormat.Wrap, UpdateSourceTrigger=PropertyChanged}"
+                                 Text="{Binding         Document.Text, UpdateSourceTrigger=PropertyChanged}"
+                                 AcceptsReturn="True"
+                                 AcceptsTab="True"
+                                 HorizontalScrollBarVisibility="Visible"
+                                 VerticalScrollBarVisibility="Visible"
+                                 Language="en"
+                                 SpellCheck.IsEnabled="True"
+                                 SpellCheck.SpellingReform="Postreform"
+                                 Margin="0,30,0,20" 
+                                 BorderBrush="{DynamicResource ControlDefaultBorderBrush}" 
+                                 Background="{DynamicResource BackgroundColour}"/>
                         <Grid Height="20" VerticalAlignment="Bottom">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30*"/>
