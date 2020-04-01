@@ -63,7 +63,7 @@ namespace Notepad2
 
         public void InitWindow()
         {
-            NotepadActions.richTB = this.mainRTB;
+            //NotepadActions.richTB = this.mainRTB;
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
             ViewModel.MainWind = this;
