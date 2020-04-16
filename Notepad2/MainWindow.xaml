@@ -8,12 +8,13 @@
         xmlns:win="clr-namespace:System.Windows;assembly=PresentationCore"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
-        Title="SharpPad (Main Window)" Height="547" Width="832.5" 
+        Title="SharpPad (Main Window)" Height="576" Width="960" 
         WindowStyle="SingleBorderWindow" 
         KeyDown="Window_KeyDown" KeyUp="Window_KeyUp"
         WindowChrome.IsHitTestVisibleInChrome="False"
         Style="{DynamicResource CustomWindowStyle}"
-        Icon="Resources/sharpPadIcon.png" BorderBrush="{DynamicResource ControlDefaultBackground}" >
+        Icon="Resources/sharpPadIcon.png" 
+        BorderBrush="{DynamicResource ControlDefaultBackground}" >
     <Window.DataContext>
         <viewmodels:MainViewModel/>
     </Window.DataContext>
@@ -61,8 +62,8 @@
         <KeyBinding Command="{Binding SaveCommand}" Gesture="CTRL+S"/>
         <KeyBinding Command="{Binding CloseSelectedNotepadCommand}" Gesture="ESC"/>
     </Window.InputBindings>
-    <Grid Margin="10">
-        <Grid HorizontalAlignment="Left" Margin="0,87,0,0" Width="196">
+    <Grid>
+        <Grid HorizontalAlignment="Left" Margin="4,87,0,4" Width="196">
             <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
                      x:Name="notepadLstBox" 
                      SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
@@ -71,7 +72,7 @@
                      Drop="ListBox_Drop" Margin="0,0,0,40" BorderBrush="{DynamicResource ControlDefaultBorderBrush}"/>
             <Button Command="{Binding ClearListAndNotepadCommand}" BorderThickness="1 0 1 1" Content="Clear List" VerticalAlignment="Bottom" Height="40"/>
         </Grid>
-        <Grid Margin="201,18,0,0">
+        <Grid Margin="201,18,4,4">
             <DockPanel HorizontalAlignment="Stretch" Margin="0">
                 <Grid x:Name="FontDialogPanel" DockPanel.Dock="Right" Width="0">
                     <Grid.RowDefinitions>
@@ -122,15 +123,13 @@
                     </StackPanel>
                 </Grid>
 
-                <TabControl SelectedIndex="{Binding TextEditorsSelectedIndex, UpdateSourceTrigger=PropertyChanged}" 
-                            Background="{DynamicResource ContainerBorder}" 
-                            BorderBrush="{DynamicResource ContainerBorder}">
+                <TabControl SelectedIndex="{Binding TextEditorsSelectedIndex, UpdateSourceTrigger=PropertyChanged}">
                     <TabItem Header="Regular Text Editor" DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}">
                         <Grid Margin="0,0,0,0">
                             <Grid>
                                 <Border Background="Transparent" Margin="0,0,0,20" BorderBrush="{DynamicResource ContainerBorder}" BorderThickness="1">
                                     <Grid>
-                                        <ToolBar Height="30" VerticalAlignment="Top" Margin="0,0,0,0" Background="{DynamicResource ContainerBackground}">
+                                        <ToolBar Style="{DynamicResource CompleteFillToolBar}" Height="30" VerticalAlignment="Top" Margin="0,0,0,0" Background="{DynamicResource ContainerBackground}">
                                             <Button Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" Width="27">
                                                 <Image Source="Resources/RTBIcons/cut.png"/>
                                             </Button>
@@ -155,6 +154,7 @@
                                                  FontWeight="{Binding   DocumentFormat.Weight, UpdateSourceTrigger=PropertyChanged}"
                                                  TextWrapping="{Binding DocumentFormat.Wrap, UpdateSourceTrigger=PropertyChanged}"
                                                  Text="{Binding         Document.Text, UpdateSourceTrigger=PropertyChanged}"
+                                                 Focusable="True" LostFocus="MainTextBox_LostFocus"
                                                  AcceptsReturn="True"
                                                  AcceptsTab="True"
                                                  HorizontalScrollBarVisibility="Visible"
@@ -291,10 +291,10 @@
                 <Button Command="{Binding NewCommand}" HorizontalAlignment="Left" ToolTip="Add New Blank File" BorderBrush="Transparent" Background="Transparent" Height="32" VerticalAlignment="Top">
                     <Image Margin="2" Source="Resources/newFile.png"/>
                 </Button>
-                <Button Command="{Binding OpenCommand  }" ToolTip="Open File from File Explorer" HorizontalAlignment="Left" Margin="32,0,0,0" BorderBrush="Transparent" Background="Transparent" Height="32" VerticalAlignment="Top">
+                <Button Command="{Binding OpenCommand}" ToolTip="Open File from File Explorer" HorizontalAlignment="Left" Margin="32,0,0,0" BorderBrush="Transparent" Background="Transparent" Height="32" VerticalAlignment="Top">
                     <Image Margin="2" Source="Resources/openFile.png"/>
                 </Button>
-                <Button Command="{Binding SaveCommand  }" ToolTip="Save current File" BorderBrush="Transparent" Background="Transparent" Margin="64,0,0,0" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" Width="32">
+                <Button Command="{Binding SaveCommand}" ToolTip="Save current File" BorderBrush="Transparent" Background="Transparent" Margin="64,0,0,0" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" Width="32">
                     <Image Margin="2" Source="Resources/saveFile.png"/>
                 </Button>
                 <Button Command="{Binding SaveAsCommand}" ToolTip="Save current File As..." BorderBrush="Transparent"  Background="Transparent" Margin="96,0,0,0" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" Width="32">
@@ -312,9 +312,13 @@
                     ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))" HorizontalAlignment="Left" Width="32">
                     <Image Margin="2" Source="Resources/openInNewWindow.png"/>
                 </Button>
-                <Button Click="ShowFontDialogPanel" Content="Show/Hide Font Menu" HorizontalAlignment="Right" Width="132"/>
+                <Button Click="ShowFontDialogPanel" Content="Font Menu" Margin="96,0,0,0"/>
                 <Button Command="{Binding PrintFileCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
                     ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))" HorizontalAlignment="Left" Width="32" Margin="32,0,0,0">
+                    <Image Margin="2" Source="Resources/printIcon.png"/>
+                </Button>
+                <Button Command="{Binding ShowFindWindowCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
+                    ToolTip="Find text in notepad" HorizontalAlignment="Left" Width="32" Margin="64,0,0,0">
                     <Image Margin="2" Source="Resources/printIcon.png"/>
                 </Button>
             </Grid>

@@ -3,15 +3,11 @@ using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using Notepad2.Views;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using System.Windows.Shell;
 using static Notepad2.App;
 
 namespace Notepad2
@@ -68,9 +64,7 @@ namespace Notepad2
             this.DataContext = ViewModel;
             ViewModel.MainWind = this;
             ViewModel.AnimateAddCallback = this.AnimateControl;
-
-            FindWindow = new FindTextWindow();
-            FindWindow.FindNext = this.FindText;
+            ViewModel.FindTextCallback = FindAndSelect;
 
             KeydownManager.KeyDown += KeyPressedDown;
         }
@@ -83,10 +77,47 @@ namespace Notepad2
                 //FindWindow.Show();
             }
         }
+        public string CurrentlySelectedText { get; set; }
+        public int CurrentSelectingPosition { get; set; }
+        //public void FindAndSelect(string TextToFind, bool MatchCase)
+        //{
+        //    StringComparison mode = MatchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
+        //
+        //    int position = MainTextBox.Text.IndexOf(TextToFind, mode);
+        //
+        //    if (position == -1)
+        //        return;
+        //
+        //    //MainTextBox.SelectionStart = position;
+        //    //MainTextBox.SelectionLength = TextToFind.Length;
+        //    CurrentSelectingPosition = position;
+        //    CurrentlySelectedText = TextToFind;
+        //    MainTextBox.Select(position, TextToFind.Length);
+        //}
 
-        public void FindText(string textToBeFound)
+        public void FindAndSelect(string pSearchText, bool pMatchCase, bool pSearchDown)
         {
-            MainTextBox.SelectedText = textToBeFound;
+            //int Index;
+            //
+            //var eStringComparison = pMatchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
+            //
+            //// if (pSearchDown)
+            ////{
+            //    Index = MainTextBox.Text.IndexOf(
+            //        pSearchText, 
+            //        MainTextBox.SelectionStart,
+            //        MainTextBox.Text.Length - MainTextBox.SelectionStart,
+            //        eStringComparison);
+            ////}
+            //
+            //if (Index == -1) return;
+            //
+            //string _LastSearchText = pSearchText;
+            //bool _LastMatchCase = pMatchCase;
+            //bool _LastSearchDown = pSearchDown;
+            //
+            //MainTextBox.SelectionStart = Index;
+            //MainTextBox.SelectionLength = pSearchText.Length;
         }
 
         public void LoadSettings()
@@ -108,28 +139,28 @@ namespace Notepad2
             switch (af)
             {
                 case AnimationFlag.NotepadItemOPEN:
-                {
-                    AnimationLib.OpacityControl(nli, 0, 1, AnimationSpeedSeconds);
-                    AnimationLib.MoveToTargetX(nli, 0, -ActualWidth, AnimationSpeedSeconds);
-                }
-                break;
+                    {
+                        AnimationLib.OpacityControl(nli, 0, 1, AnimationSpeedSeconds);
+                        AnimationLib.MoveToTargetX(nli, 0, -ActualWidth, AnimationSpeedSeconds);
+                    }
+                    break;
 
                 //Cant really do this. It's async so i'd have to have a timed delay when
                 //removing the item from the NotepadList, which would be... a bit complex.
                 //If anyone wants to try and add that delay (using tasks maybe, have a go)
                 //(and msg me or something with the code, and ill add it with your name in the code obviously ;) )
                 case AnimationFlag.NotepadItemCLOSE:
-                {
-                    //AnimationLib.OpacityControl(nli, 1, 0, AnimationSpeedSeconds);
-                    //AnimationLib.MoveToTargetX(nli, -ActualWidth, 0, AnimationSpeedSeconds * 15);
-                    //
-                    //Task.Run(async () =>
-                    //{
-                    //    await Task.Delay(TimeSpan.FromSeconds(AnimationSpeedSeconds));
-                    //    await Application.Current.Dispatcher.InvokeAsync(() => { ViewModel.NotepadItems.Remove(nli); });
-                    //});
-                }
-                break;
+                    {
+                        //AnimationLib.OpacityControl(nli, 1, 0, AnimationSpeedSeconds);
+                        //AnimationLib.MoveToTargetX(nli, -ActualWidth, 0, AnimationSpeedSeconds * 15);
+                        //
+                        //Task.Run(async () =>
+                        //{
+                        //    await Task.Delay(TimeSpan.FromSeconds(AnimationSpeedSeconds));
+                        //    await Application.Current.Dispatcher.InvokeAsync(() => { ViewModel.NotepadItems.Remove(nli); });
+                        //});
+                    }
+                    break;
             }
         }
 
@@ -188,6 +219,7 @@ namespace Notepad2
                 Properties.Settings.Default.Save();
             }
         }
+
         private bool panelShowing;
         private void ShowFontDialogPanel(object sender, RoutedEventArgs e)
         {
@@ -291,6 +323,12 @@ namespace Notepad2
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
             KeydownManager.SetKeyUp(e.Key);
+        }
+
+        private void MainTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (CurrentSelectingPosition != 0 && !string.IsNullOrEmpty(CurrentlySelectedText))
+                MainTextBox.Select(CurrentSelectingPosition, CurrentlySelectedText.Length);
         }
     }
 }

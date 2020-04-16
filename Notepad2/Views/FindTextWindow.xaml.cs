@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Notepad2.Views
 {
@@ -19,7 +9,8 @@ namespace Notepad2.Views
     /// </summary>
     public partial class FindTextWindow : Window
     {
-        public Action<string> FindNext { get; set; }
+        public Action<string, bool, bool> FindNext { get; set; }
+
         public FindTextWindow()
         {
             InitializeComponent();
@@ -43,7 +34,7 @@ namespace Notepad2.Views
 
         public void Find()
         {
-            FindNext?.Invoke(FindText.Text);
+            FindNext?.Invoke(FindText.Text, matchCaseCBx.IsChecked ?? false, directionCBx.IsChecked ?? false);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)

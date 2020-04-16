@@ -2022,7 +2022,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="WindowState" Value="Maximized">
-                <Setter Property="BorderThickness" Value="9"/>
+                <Setter Property="BorderThickness" Value="8"/>
             </Trigger>
             <Trigger Property="WindowState" Value="Normal">
                 <Setter Property="BorderThickness" Value="1"/>

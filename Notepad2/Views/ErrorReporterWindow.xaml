@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:Notepad2.Views"
         mc:Ignorable="d"
         Title="Error" 
-        Height="200" 
-        Width="400"
+        Height="220" 
+        Width="450"
         KeyDown="Window_KeyDown"
-        ResizeMode="NoResize"
+        ResizeMode="CanResizeWithGrip"
         Style="{DynamicResource MainWindowStyle}">
     <Grid>
         <Button Content="OK" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="120" Height="34" FontSize="16" Click="Button_Click"/>

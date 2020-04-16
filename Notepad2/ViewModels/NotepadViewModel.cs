@@ -1,20 +1,14 @@
 ﻿using NamespaceHere;
 using Notepad2.Notepad;
-using Notepad2.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Notepad2.ViewModels
 {
     /// <summary>
     /// Contains everything a notepad would contain; text, wrapping, font size, font, ect
     /// </summary>
-    public class NotepadViewModel : BaseViewModel, INotepad
+    public class NotepadViewModel : BaseViewModel
     {
-        private FormatModel   _documentFormat;
+        private FormatModel _documentFormat;
         private DocumentModel _document;
         public FormatModel DocumentFormat
         {

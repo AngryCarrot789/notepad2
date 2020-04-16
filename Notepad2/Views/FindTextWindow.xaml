@@ -17,17 +17,24 @@
         <Button x:Name="CancelButton" HorizontalAlignment="Right" Margin="0,39,10,0" VerticalAlignment="Top" Width="75" Height="24" Click="CancelButton_Click">
             <TextBlock><Run Text="C" TextDecorations="Underline"/><Run Text="ancel"/></TextBlock>
         </Button>
-        <Grid Margin="10,39,90,10">
-            <TextBlock Text="eee" x:Name="PreviewText" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10 0 10 0" TextAlignment="Center">
+        <Grid Margin="10,60,90,10">
+            <TextBlock Text="hello there " x:Name="PreviewText" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10 0 10 0" TextAlignment="Center">
                 <TextBlock.OpacityMask>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="Transparent" Offset="0.9"/>
+                        <GradientStop Color="Transparent" Offset="1"/>
                         <GradientStop Offset="0.5" Color="#B2FFFFFF"/>
-                        <GradientStop Offset="0.1"/>
+                        <GradientStop/>
                     </LinearGradientBrush>
                 </TextBlock.OpacityMask>
             </TextBlock>
         </Grid>
-
+        <CheckBox Content="Match Case" x:Name="matchCaseCBx"
+                  ToolTip="If you want to find the exact text, including upper and lower cases, check this."
+                  HorizontalAlignment="Left" Margin="10,39,0,0" 
+                  VerticalAlignment="Top" Height="16"/>
+        <CheckBox Content="Direction DOWN" x:Name="directionCBx"
+            ToolTip="If you want to find the exact text, including upper and lower cases, check this."
+            HorizontalAlignment="Left" Margin="95,39,0,0" 
+            VerticalAlignment="Top" Height="16"/>
     </Grid>
 </Window>

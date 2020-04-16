@@ -4,13 +4,10 @@ using Notepad2.Notepad;
 using Notepad2.Utilities;
 using Notepad2.Views;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -110,6 +107,7 @@ namespace Notepad2.ViewModels
         public ICommand CloseAllNotepadsCommand { get; set; }
         public ICommand OpenInNewWindowCommand { get; set; }
         public ICommand PrintFileCommand { get; set; }
+        public ICommand ShowFindWindowCommand { get; set; }
 
         public ICommand ClearListAndNotepadCommand { get; set; }
 
@@ -127,8 +125,10 @@ namespace Notepad2.ViewModels
 
         // ViewModel for the help window (idk why it needs a view model...)
         public HelpViewModel Help { get; set; }
+        public FindTextWindow FindWindow { get; set; }
 
         public Action<NotepadListItem, AnimationFlag> AnimateAddCallback { get; set; }
+        public Action<string, bool, bool> FindTextCallback { get; set; }
 
         public MainViewModel()
         {
@@ -136,6 +136,9 @@ namespace Notepad2.ViewModels
             Help = new HelpViewModel();
             TextEditorsSelectedIndex = 0;
             SetupCommands();
+
+            FindWindow = new FindTextWindow();
+            FindWindow.FindNext = FindAndSelect;
         }
 
         public void SetupCommands()
@@ -148,6 +151,7 @@ namespace Notepad2.ViewModels
             CloseAllNotepadsCommand = new Command(CloseAllNotepads);
             OpenInNewWindowCommand = new Command(OpenInNewWindow);
             PrintFileCommand = new Command(PrintFile);
+            ShowFindWindowCommand = new Command(OpenFindWindow);
 
             ClearListAndNotepadCommand = new Command(ClearTextAndList);
 
@@ -412,7 +416,7 @@ namespace Notepad2.ViewModels
                            text,
                            Path.GetFileName(path),
                            path,
-                           (double)text.Length / 1000.0));
+                           text.Length / 1000.0));
                 }
             }
             catch (Exception e) { Error.Show(e.Message, "Error while opening file from path"); }
@@ -422,34 +426,63 @@ namespace Notepad2.ViewModels
 
         #region Saving
 
-        public void SaveNotepad(NotepadListItem nli)
+        public void SaveNotepad(FileItemViewModel fivm)
         {
             try
             {
-                FileItemViewModel fivm = nli.DataContext as FileItemViewModel;
                 if (File.Exists(fivm.Document.FilePath))
                 {
-                    SaveFile(fivm.Document.FilePath, fivm.Document.Text);
-                    fivm.Document.FileName = Path.GetFileName(fivm.Document.FilePath);
-                    fivm.Document.FilePath = fivm.Document.FilePath;
-                    fivm.Document.FileSize = (double)fivm.Document.Text.Length / 1000.0;
+                    string extension = Path.GetExtension(fivm.Document.FilePath);
+                    string folderName = Path.GetDirectoryName(fivm.Document.FilePath);
+                    string newFileName =
+                        Path.HasExtension(Path.Combine(folderName, fivm.Document.FileName)) 
+                        ? fivm.Document.FileName 
+                        : fivm.Document.FileName + extension;
+                    string newFilePath = Path.Combine(folderName, newFileName);
+                    if (fivm.Document.FilePath != newFilePath)
+                    {
+                        if (MessageBox.Show($"You are about to overwrite {fivm.Document.FilePath} " +
+                            $"with {newFilePath}, do you want to continue?", "Overrite file?",
+                            MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        {
+                            SaveFile(fivm.Document.FilePath, fivm.Document.Text);
+                            File.Move(fivm.Document.FilePath, newFilePath);
+                            fivm.Document.FileName = newFileName;
+                            fivm.Document.FilePath = newFilePath;
+                            fivm.Document.FileSize = fivm.Document.Text.Length / 1000.0;
+                        }
+                    }
+                    else
+                    {
+                        SaveFile(fivm.Document.FilePath, fivm.Document.Text);
+                        fivm.Document.FileName = newFileName;
+                        fivm.Document.FilePath = newFilePath;
+                        fivm.Document.FileSize = fivm.Document.Text.Length / 1000.0;
+                    }
                 }
                 else
                 {
-                    SaveNotepadAs(nli);
+                    SaveNotepadAs(fivm);
                 }
             }
             catch (Exception e) { Error.Show(e.Message, "Error while saving a (manual) notepad item"); }
         }
 
-        public void SaveNotepadAs(NotepadListItem nli)
+        public void SaveNotepadAs(FileItemViewModel fivm)
         {
             try
             {
-                FileItemViewModel fivm = nli.DataContext as FileItemViewModel;
-
                 SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                sfd.Filter =
+                        "Plain Text (.txt)|*.txt|" +
+                        "HTM File (.htm)|*.htm|" +
+                        "HTML File (.html)|*.html|" +
+                        "CSS File (.css)|*.css|" +
+                        "JS File (.js)|*.js|" +
+                        "CS File (.cs)|*.cs|" +
+                        "C++ File (.cpp)|*.cpp|" +
+                        "C/C++ Header File (.h)|*.h|" +
+                        "All files|*.*";
                 sfd.Title = "Select Files to save";
                 sfd.FileName = fivm.Document.FileName;
                 sfd.FilterIndex = 1;
@@ -458,10 +491,11 @@ namespace Notepad2.ViewModels
 
                 if (sfd.ShowDialog() == true)
                 {
-                    SaveFile(sfd.FileName, fivm.Document.Text);
-                    fivm.Document.FileName = Path.GetFileName(sfd.FileName);
-                    fivm.Document.FilePath = sfd.FileName;
-                    fivm.Document.FileSize = (double)fivm.Document.Text.Length / 1000.0;
+                    string newFilePath = sfd.FileName;
+                    SaveFile(newFilePath, fivm.Document.Text);
+                    fivm.Document.FileName = Path.GetFileName(newFilePath);
+                    fivm.Document.FilePath = newFilePath;
+                    fivm.Document.FileSize = fivm.Document.Text.Length / 1000.0;
                 }
             }
             catch (Exception e) { Error.Show(e.Message, "Error while saving (manual) notepaditem as..."); }
@@ -474,14 +508,9 @@ namespace Notepad2.ViewModels
                 if (!CheckNotepadNull())
                 {
                     if (File.Exists(Notepad.Document.FilePath))
-                    {
-                        SaveFile(Notepad.Document.FilePath, Notepad.Document.Text);
-                        Notepad.Document.FileName = Path.GetFileName(Notepad.Document.FilePath);
-                        Notepad.Document.FilePath = Notepad.Document.FilePath;
-                        Notepad.Document.FileSize = (double)Notepad.Document.Text.Length / 1000.0;
-                    }
+                        SaveNotepad(new FileItemViewModel(Notepad));
                     else
-                        SaveCurrentNotepadAs();
+                        SaveNotepadAs(new FileItemViewModel(Notepad));
                 }
             }
             catch (Exception e) { Error.Show(e.Message, "Error while saving currently selected notepad"); }
@@ -494,21 +523,7 @@ namespace Notepad2.ViewModels
             {
                 if (!CheckNotepadNull())
                 {
-                    SaveFileDialog sfd = new SaveFileDialog();
-                    sfd.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-                    sfd.Title = "Select Files to save";
-                    sfd.FileName = Notepad.Document.FileName;
-                    sfd.FilterIndex = 1;
-                    sfd.DefaultExt = "txt";
-                    sfd.RestoreDirectory = true;
-
-                    if (sfd.ShowDialog() == true)
-                    {
-                        SaveFile(sfd.FileName, Notepad.Document.Text);
-                        Notepad.Document.FileName = Path.GetFileName(sfd.FileName);
-                        Notepad.Document.FilePath = sfd.FileName;
-                        Notepad.Document.FileSize = (double)Notepad.Document.Text.Length / 1000.0;
-                    }
+                    SaveNotepadAs(new FileItemViewModel(Notepad));
                 }
             }
             catch (Exception e) { Error.Show(e.Message, "Error while saving currently selected notepad as..."); }
@@ -518,7 +533,8 @@ namespace Notepad2.ViewModels
         {
             foreach (NotepadListItem nli in NotepadItems)
             {
-                SaveNotepad(nli);
+                if (nli.DataContext is FileItemViewModel fivm)
+                    SaveNotepad(fivm);
             }
         }
 
@@ -530,6 +546,20 @@ namespace Notepad2.ViewModels
                 SelectedNotepadViewModel.HasMadeChanges = false;
             }
             catch (Exception e) { Error.Show(e.Message, "Error while saving text to file."); }
+        }
+
+        #endregion
+
+        #region Find text
+
+        public void OpenFindWindow()
+        {
+            FindWindow.Show();
+        }
+
+        public void FindAndSelect(string TextToFind, bool MatchCase, bool SearchDownOrUp)
+        {
+            FindTextCallback?.Invoke(TextToFind, MatchCase, SearchDownOrUp);
         }
 
         #endregion
