@@ -167,7 +167,7 @@
                                 </Border>
                                 <DockPanel Height="20" VerticalAlignment="Bottom">
                                     <Grid MinWidth="200">
-                                        <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ContainerBorder}" BorderThickness="1 1 0 1"/>
+                                        <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1 1 0 1"/>
                                         <TextBlock Text="Name:" Margin="60,2,0,2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         <TextBox VerticalAlignment="Center"
                                                  BorderBrush="Transparent"
@@ -179,7 +179,7 @@
                                         </Grid>
                                     </Grid>
                                     <Grid Grid.Column="1">
-                                        <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ContainerBorder}" BorderThickness="0 1 1 1"/>
+                                        <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="0 1 1 1"/>
                                         <TextBlock Text="Path:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         <TextBox VerticalAlignment="Center"
                                DataContext="{Binding Document}"

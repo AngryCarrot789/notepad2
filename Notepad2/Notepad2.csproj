@@ -174,24 +174,6 @@
     <Resource Include="Resources\sharpPadIcon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\closeWindow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\minimizeWindow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\closeWindowBlack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\maximizeRestoreWindowBlack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\maximizeRestoreWindow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\minimizeWindowBlack.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\closeAllFiles.png" />
     <Resource Include="Resources\closeFile.png" />
     <Resource Include="Resources\newFile.png" />
