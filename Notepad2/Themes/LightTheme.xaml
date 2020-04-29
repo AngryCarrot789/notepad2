@@ -590,8 +590,6 @@
     
     <!-- TabControl and items -->
 
-    <!-- Tab Control -->
-
     <Style TargetType="{x:Type TabControl}">
         <Setter Property="Padding" Value="2"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
