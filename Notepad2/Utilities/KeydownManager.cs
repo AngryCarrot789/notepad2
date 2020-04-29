@@ -8,6 +8,8 @@ namespace Notepad2.Utilities
         public static event KeydownEventHandler KeyDown;
         public static event KeydownEventHandler KeyUp;
         public static bool[] KeysDown = new bool[256];
+        public static bool CtrlPressed { get => Keydown(Key.LeftCtrl) || Keydown(Key.RightCtrl); }
+        public static bool ShiftPressed { get => Keydown(Key.LeftShift) || Keydown(Key.RightShift); }
 
         public static void SetKeyDown(Key key)
         {

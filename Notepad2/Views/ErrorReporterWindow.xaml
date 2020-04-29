@@ -6,11 +6,10 @@
         xmlns:local="clr-namespace:Notepad2.Views"
         mc:Ignorable="d"
         Title="Error" 
-        Height="220" 
+        Height="240" 
         Width="450"
         KeyDown="Window_KeyDown"
-        ResizeMode="CanResizeWithGrip"
-        Style="{DynamicResource MainWindowStyle}">
+        Style="{DynamicResource CustomWindowStyle}" WindowStyle="SingleBorderWindow">
     <Grid>
         <Button Content="OK" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="120" Height="34" FontSize="16" Click="Button_Click"/>
         <TextBox x:Name="ErrorTextBox" Margin="10,10,10,49" TextWrapping="Wrap"

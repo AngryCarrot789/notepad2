@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:Notepad2.Views"
         Closing="Window_Closing"
         KeyDown="Window_KeyDown"
-        mc:Ignorable="d" Style="{DynamicResource MainWindowStyle}"
-        Title="Find" Height="125" Width="380">
+        mc:Ignorable="d" 
+        Style="{DynamicResource CustomWindowStyle}" WindowStyle="SingleBorderWindow"
+        Title="Find" Height="150" Width="380">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top"><Run Text="F" TextDecorations="Underline"/><Run Text="ind what:"/></TextBlock>
         <TextBox Focusable="True" x:Name="FindText" Padding="2" Height="24" Margin="69,10,90,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
@@ -18,7 +19,7 @@
             <TextBlock><Run Text="C" TextDecorations="Underline"/><Run Text="ancel"/></TextBlock>
         </Button>
         <Grid Margin="10,60,90,10">
-            <TextBlock Text="hello there " x:Name="PreviewText" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10 0 10 0" TextAlignment="Center">
+            <TextBlock Text="" x:Name="PreviewText" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10 0 10 0" TextAlignment="Center">
                 <TextBlock.OpacityMask>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                         <GradientStop Color="Transparent" Offset="1"/>

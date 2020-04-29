@@ -46,7 +46,7 @@ namespace Notepad2
             }
 
             if (!string.IsNullOrEmpty(themeName))
-                this.Resources.MergedDictionaries[0].Source = new Uri($"/Themes/{themeName}.xaml", UriKind.Relative);
+                this.Resources.MergedDictionaries[0].Source = new Uri($"Themes/{themeName}.xaml", UriKind.Relative);
         }
     }
 }

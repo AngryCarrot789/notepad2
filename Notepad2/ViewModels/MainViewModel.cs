@@ -21,7 +21,6 @@ namespace Notepad2.ViewModels
         #region Private Fields
 
         private NotepadViewModel _notepad;
-        private ObservableCollection<NotepadListItem> _notepadItems = new ObservableCollection<NotepadListItem>();
         private int _selectedIndex;
         private bool _normalTextBoxSelected;
         private int _textEditorsSelectedIndex;
@@ -31,11 +30,7 @@ namespace Notepad2.ViewModels
 
         #region Public Fields
 
-        public ObservableCollection<NotepadListItem> NotepadItems
-        {
-            get => _notepadItems;
-            set => RaisePropertyChanged(ref _notepadItems, value);
-        }
+        public ObservableCollection<NotepadListItem> NotepadItems { get; set; }
         public int SelectedIndex
         {
             get => _selectedIndex;
@@ -45,7 +40,6 @@ namespace Notepad2.ViewModels
                 UpdateNotepad();
             }
         }
-
         public NotepadListItem SelectedNotepadItem
         {
             get
@@ -54,7 +48,6 @@ namespace Notepad2.ViewModels
                 catch { return null; }
             }
         }
-
         public FileItemViewModel SelectedNotepadViewModel
         {
             get
@@ -63,8 +56,6 @@ namespace Notepad2.ViewModels
                 catch { return null; }
             }
         }
-
-
         public bool TextBoxSelected
         {
             get => _normalTextBoxSelected;
@@ -73,7 +64,6 @@ namespace Notepad2.ViewModels
                 RaisePropertyChanged(ref _normalTextBoxSelected, value);
             }
         }
-
         public int TextEditorsSelectedIndex
         {
             get => _textEditorsSelectedIndex;
@@ -86,7 +76,6 @@ namespace Notepad2.ViewModels
                     TextBoxSelected = false;
             }
         }
-
         public bool Wrapping
         {
             get => _wrapping;
@@ -103,6 +92,7 @@ namespace Notepad2.ViewModels
         public ICommand OpenCommand { get; set; }
         public ICommand SaveCommand { get; set; }
         public ICommand SaveAsCommand { get; set; }
+        public ICommand SaveAllCommand { get; set; }
         public ICommand CloseSelectedNotepadCommand { get; set; }
         public ICommand CloseAllNotepadsCommand { get; set; }
         public ICommand OpenInNewWindowCommand { get; set; }
@@ -110,10 +100,6 @@ namespace Notepad2.ViewModels
         public ICommand ShowFindWindowCommand { get; set; }
 
         public ICommand ClearListAndNotepadCommand { get; set; }
-
-        public ICommand CloseWindowCommand { get; set; }
-        public ICommand MaximizeRestoreCommand { get; set; }
-        public ICommand MinimizeWindowCommand { get; set; }
 
         // The ViewModel for the Notepad. This contains a DocumentModel and FormatModel, for holding
         // Styles, Text, FilePath, etc.
@@ -126,19 +112,43 @@ namespace Notepad2.ViewModels
         // ViewModel for the help window (idk why it needs a view model...)
         public HelpViewModel Help { get; set; }
         public FindTextWindow FindWindow { get; set; }
+        public MainWindow MainWind { get; set; }
 
         public Action<NotepadListItem, AnimationFlag> AnimateAddCallback { get; set; }
-        public Action<string, bool, bool> FindTextCallback { get; set; }
+        public Action<string, string, bool, bool> FindTextCallback { get; set; }
 
         public MainViewModel()
         {
             Notepad = new NotepadViewModel();
             Help = new HelpViewModel();
+            NotepadItems = new ObservableCollection<NotepadListItem>();
             TextEditorsSelectedIndex = 0;
             SetupCommands();
 
             FindWindow = new FindTextWindow();
             FindWindow.FindNext = FindAndSelect;
+            KeydownManager.KeyDown += KeydownManager_KeyDown;
+        }
+
+        private void KeydownManager_KeyDown(Key key)
+        {
+            if (KeydownManager.CtrlPressed)
+            {
+                switch (key)
+                {
+                    case Key.N: SaveCurrentNotepad(); break;
+                    case Key.O: OpenNotepadFileFromFileExplorer(); break;
+                    case Key.S: SaveCurrentNotepad(); break;
+                    case Key.F: OpenFindWindow(); break;
+                }
+                if (KeydownManager.ShiftPressed)
+                {
+                    switch (key)
+                    {
+                        case Key.S: SaveAllNotepadItems(); break;
+                    }
+                }
+            }
         }
 
         public void SetupCommands()
@@ -147,6 +157,7 @@ namespace Notepad2.ViewModels
             OpenCommand = new Command(OpenNotepadFileFromFileExplorer);
             SaveCommand = new Command(SaveCurrentNotepad);
             SaveAsCommand = new Command(SaveCurrentNotepadAs);
+            SaveAllCommand = new Command(SaveAllNotepadItems);
             CloseSelectedNotepadCommand = new Command(CloseSelectedNotepad);
             CloseAllNotepadsCommand = new Command(CloseAllNotepads);
             OpenInNewWindowCommand = new Command(OpenInNewWindow);
@@ -154,18 +165,7 @@ namespace Notepad2.ViewModels
             ShowFindWindowCommand = new Command(OpenFindWindow);
 
             ClearListAndNotepadCommand = new Command(ClearTextAndList);
-
-            CloseWindowCommand = new Command(CloseWindow);
-            MaximizeRestoreCommand = new Command(MaximRestre);
-            MinimizeWindowCommand = new Command(MinimWindow);
         }
-
-        #region MainWindow TitleTheme
-
-        public MainWindow MainWind { get; set; }
-        private void CloseWindow() { if (MainWind != null) MainWind.CloseWindow(); else Application.Current.Shutdown(); }
-        private void MaximRestre() { if (MainWind != null) MainWind.MaximizeRestore(); }
-        private void MinimWindow() { if (MainWind != null) MainWind.Minimize(); }
 
         private void OpenInNewWindow()
         {
@@ -174,8 +174,6 @@ namespace Notepad2.ViewModels
             mWnd.LoadSettings();
             CloseSelectedNotepad();
         }
-
-        #endregion
 
         #region Helpers
 
@@ -346,7 +344,7 @@ namespace Notepad2.ViewModels
 
         public void OpenInFileExplorer(NotepadListItem nli)
         {
-            if (nli != null && (nli.DataContext is FileItemViewModel fivm))
+            if (nli != null && nli.DataContext is FileItemViewModel fivm)
             {
                 if (fivm != null)
                 {
@@ -559,7 +557,7 @@ namespace Notepad2.ViewModels
 
         public void FindAndSelect(string TextToFind, bool MatchCase, bool SearchDownOrUp)
         {
-            FindTextCallback?.Invoke(TextToFind, MatchCase, SearchDownOrUp);
+            FindTextCallback?.Invoke(TextToFind, Notepad.Document.Text, MatchCase, SearchDownOrUp);
         }
 
         #endregion

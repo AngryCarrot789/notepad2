@@ -8,16 +8,13 @@
         xmlns:win="clr-namespace:System.Windows;assembly=PresentationCore"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
-        Title="SharpPad (Main Window)" Height="576" Width="960" 
+        Title="SharpPad (Main Window)" 
+        Height="576" Width="1024" 
         WindowStyle="SingleBorderWindow" 
         KeyDown="Window_KeyDown" KeyUp="Window_KeyUp"
-        WindowChrome.IsHitTestVisibleInChrome="False"
         Style="{DynamicResource CustomWindowStyle}"
         Icon="Resources/sharpPadIcon.png" 
         BorderBrush="{DynamicResource ControlDefaultBackground}" >
-    <Window.DataContext>
-        <viewmodels:MainViewModel/>
-    </Window.DataContext>
     <Window.Resources>
         <ObjectDataProvider x:Key="FontFamilyOptions"
                             ObjectType="{x:Type media:Fonts}"
@@ -59,8 +56,7 @@
         </x:Array>
     </Window.Resources>
     <Window.InputBindings>
-        <KeyBinding Command="{Binding SaveCommand}" Gesture="CTRL+S"/>
-        <KeyBinding Command="{Binding CloseSelectedNotepadCommand}" Gesture="ESC"/>
+        <KeyBinding Command="{Binding CloseSelectedNotepadCommand}" Gesture="Del"/>
     </Window.InputBindings>
     <Grid>
         <Grid HorizontalAlignment="Left" Margin="4,87,0,4" Width="196">
@@ -72,7 +68,7 @@
                      Drop="ListBox_Drop" Margin="0,0,0,40" BorderBrush="{DynamicResource ControlDefaultBorderBrush}"/>
             <Button Command="{Binding ClearListAndNotepadCommand}" BorderThickness="1 0 1 1" Content="Clear List" VerticalAlignment="Bottom" Height="40"/>
         </Grid>
-        <Grid Margin="201,18,4,4">
+        <Grid Margin="205,18,4,4">
             <DockPanel HorizontalAlignment="Stretch" Margin="0">
                 <Grid x:Name="FontDialogPanel" DockPanel.Dock="Right" Width="0">
                     <Grid.RowDefinitions>
@@ -127,9 +123,9 @@
                     <TabItem Header="Regular Text Editor" DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}">
                         <Grid Margin="0,0,0,0">
                             <Grid>
-                                <Border Background="Transparent" Margin="0,0,0,20" BorderBrush="{DynamicResource ContainerBorder}" BorderThickness="1">
+                                <Border Background="Transparent" Margin="0,0,0,20" BorderThickness="0">
                                     <Grid>
-                                        <ToolBar Style="{DynamicResource CompleteFillToolBar}" Height="30" VerticalAlignment="Top" Margin="0,0,0,0" Background="{DynamicResource ContainerBackground}">
+                                        <ToolBar Style="{DynamicResource CompleteFillToolBar}" Height="30" VerticalAlignment="Top" Margin="0,0,0,0" Background="Transparent">
                                             <Button Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" Width="27">
                                                 <Image Source="Resources/RTBIcons/cut.png"/>
                                             </Button>
@@ -146,6 +142,7 @@
                                                 <Image Source="Resources/RTBIcons/redo.png"/>
                                             </Button>
                                         </ToolBar>
+                                        <Border BorderBrush="{DynamicResource ControlDarkerBorderBrush}" Background="Transparent" BorderThickness="0 1 0 0" Margin="0,30,0,0"/>
                                         <TextBox MouseWheel="TextBox_MouseWheel"
                                                  x:Name="MainTextBox"
                                                  FontFamily="{Binding   DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
@@ -162,19 +159,14 @@
                                                  Language="en"
                                                  SpellCheck.IsEnabled="True"
                                                  SpellCheck.SpellingReform="Postreform"
-                                                 Margin="0,30,0,0" 
+                                                 Margin="0,31,0,0" 
                                                  BorderBrush="Transparent" 
                                                  BorderThickness="0"
                                                  Background="{DynamicResource BackgroundColour}"/>
                                     </Grid>
                                 </Border>
-                                <Grid Height="20" VerticalAlignment="Bottom">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="30*"/>
-                                        <ColumnDefinition Width="25*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1 0 1 1" Grid.ColumnSpan="2"/>
-                                    <Grid>
+                                <DockPanel Height="20" VerticalAlignment="Bottom">
+                                    <Grid MinWidth="200">
                                         <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ContainerBorder}" BorderThickness="1 1 0 1"/>
                                         <TextBlock Text="Name:" Margin="60,2,0,2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         <TextBox VerticalAlignment="Center"
@@ -194,7 +186,7 @@
                                      BorderBrush="Transparent"
                                Text="{Binding FilePath}" Background="Transparent" Margin="31,1,2,2" Height="17"/>
                                     </Grid>
-                                </Grid>
+                                </DockPanel>
                             </Grid>
                         </Grid>
                     </TabItem>
@@ -275,10 +267,10 @@
                     </Button>
                 </ToolBar>
                 <RichTextBox x:Name="mainRTB" AcceptsTab="True"
-                                         FontFamily="{Binding DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
-                                         FontSize="{Binding DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
-                                         FontStyle="{Binding DocumentFormat.Style, UpdateSourceTrigger=PropertyChanged}"
-                                         FontWeight="{Binding DocumentFormat.Weight, UpdateSourceTrigger=PropertyChanged}"/>
+                             FontFamily="{Binding DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
+                             FontSize="{Binding DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
+                             FontStyle="{Binding DocumentFormat.Style, UpdateSourceTrigger=PropertyChanged}"
+                             FontWeight="{Binding DocumentFormat.Weight, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
         </Grid>
         </TabItem>
@@ -309,35 +301,36 @@
             </Grid>
             <Grid Margin="0 2 0 0" Height="32" >
                 <Button Command="{Binding OpenInNewWindowCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
-                    ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))" HorizontalAlignment="Left" Width="32">
+                        ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))" HorizontalAlignment="Left" Width="32">
                     <Image Margin="2" Source="Resources/openInNewWindow.png"/>
                 </Button>
-                <Button Click="ShowFontDialogPanel" Content="Font Menu" Margin="96,0,0,0"/>
+                <Button Click="ShowFontDialogPanel" Content="Font Menu" Margin="99,0,0,0"/>
                 <Button Command="{Binding PrintFileCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
-                    ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))" HorizontalAlignment="Left" Width="32" Margin="32,0,0,0">
+                        ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))" HorizontalAlignment="Left" Width="32" Margin="32,0,0,0">
                     <Image Margin="2" Source="Resources/printIcon.png"/>
                 </Button>
-                <Button Command="{Binding ShowFindWindowCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
-                    ToolTip="Find text in notepad" HorizontalAlignment="Left" Width="32" Margin="64,0,0,0">
-                    <Image Margin="2" Source="Resources/printIcon.png"/>
+                <Button Command="{Binding ShowFindWindowCommand}" IsEnabled="True"
+                        ToolTip="Find text in notepad" HorizontalAlignment="Left" Width="32" Margin="64,0,0,0">
+                    <TextBlock Text="Find" Margin="2"/>
                 </Button>
             </Grid>
         </ToolBarPanel>
-        <Menu VerticalAlignment="Top" Grid.ColumnSpan="3">
-            <MenuItem Header="File">
-                <MenuItem Header="New" Command="{Binding NewCommand}"   Template="{DynamicResource DropDownMenuItemTemplate}"/>
-                <MenuItem Header="Open" Command="{Binding OpenCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>
-                <MenuItem Header="Save" Command="{Binding SaveCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>
-                <MenuItem Header="Save as..." Command="{Binding SaveAsCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>
-                <Separator Style="{DynamicResource SeparatorStyle1}"/>
-                <MenuItem Header="Close Selected Notepad" Command="{Binding CloseSelectedNotepadCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>
+        <Menu VerticalAlignment="Top" HorizontalAlignment="Stretch" Grid.ColumnSpan="3">
+            <MenuItem Header="File" Template="{DynamicResource MenuItemStyle}">
+                <MenuItem Header="New" Command="{Binding NewCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + N"/>
+                <MenuItem Header="Open" Command="{Binding OpenCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + O"/>
+                <MenuItem Header="Save" Command="{Binding SaveCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + S"/>
+                <MenuItem Header="Save as..." Command="{Binding SaveAsCommand}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="Save all" Command="{Binding SaveAllCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + Shift + S"/>
+                <Separator Style="{DynamicResource SeparatorStyle1}" />
+                <MenuItem Header="Close Selected Notepad" Command="{Binding CloseSelectedNotepadCommand}" InputGestureText="Del" Template="{DynamicResource SingleDropDownMenuItem}"/>
             </MenuItem>
-            <MenuItem Header="Help">
-                <MenuItem Header="About" Command="{Binding Help.HelpCommand}" Template="{DynamicResource DropDownMenuItemTemplate}"/>
+            <MenuItem Header="Help" Template="{DynamicResource MenuItemStyle}">
+                <MenuItem Header="About" Command="{Binding Help.HelpCommand}" Template="{DynamicResource SingleDropDownMenuItem}"/>
             </MenuItem>
-            <MenuItem Header="Theme">
-                <MenuItem Header="Dark theme"  Click="SetTheme" Uid="0" Template="{DynamicResource DropDownMenuItemTemplate}"/>
-                <MenuItem Header="Light theme" Click="SetTheme" Uid="1" Template="{DynamicResource DropDownMenuItemTemplate}"/>
+            <MenuItem Header="Theme" Template="{DynamicResource MenuItemStyle}">
+                <MenuItem Header="Dark theme"  Click="SetTheme" Uid="0" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="Light theme" Click="SetTheme" Uid="1" Template="{DynamicResource SingleDropDownMenuItem}"/>
             </MenuItem>
         </Menu>
     </Grid>

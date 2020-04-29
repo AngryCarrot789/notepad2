@@ -3,6 +3,7 @@ using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using Notepad2.Views;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,8 +23,8 @@ namespace Notepad2
         public App CurrentApp;
         public MainViewModel ViewModel { get; set; }
         private double AnimationSpeedSeconds = 0.2;
+
         // Find Window
-        public FindTextWindow FindWindow { get; set; }
 
         public MainWindow()
         {
@@ -65,17 +66,6 @@ namespace Notepad2
             ViewModel.MainWind = this;
             ViewModel.AnimateAddCallback = this.AnimateControl;
             ViewModel.FindTextCallback = FindAndSelect;
-
-            KeydownManager.KeyDown += KeyPressedDown;
-        }
-
-        private void KeyPressedDown(Key key)
-        {
-            if (KeydownManager.Keydown(Key.LeftCtrl) && KeydownManager.Keydown(Key.F))
-            {
-                //WIP
-                //FindWindow.Show();
-            }
         }
         public string CurrentlySelectedText { get; set; }
         public int CurrentSelectingPosition { get; set; }
@@ -94,9 +84,32 @@ namespace Notepad2
         //    CurrentlySelectedText = TextToFind;
         //    MainTextBox.Select(position, TextToFind.Length);
         //}
-
-        public void FindAndSelect(string pSearchText, bool pMatchCase, bool pSearchDown)
+        public void FindAndSelect(string pSearchText, string totalText, bool pMatchCase, bool pSearchDown)
         {
+            if (!ViewModel.FindWindow.HasAlreadySearched)
+            {
+                ViewModel.FindWindow.FoundTextIndexes = totalText.AllIndexesOf(pSearchText);
+                ViewModel.FindWindow.HasAlreadySearched = true;
+            }
+            if (ViewModel.FindWindow.HasAlreadySearched)
+            {
+                //int firstIndex = MainTextBox.Text.ToLower().IndexOf(pSearchText);
+                MainTextBox.Select(ViewModel.FindWindow.FoundTextIndexes[ViewModel.FindWindow.CurrentFindIndex], pSearchText.Length);
+                int caretIndex = MainTextBox.CaretIndex;
+                int before = caretIndex - pSearchText.Length - 8;
+                int after = caretIndex + 8;
+                if (before >= 0 && after + 8 < totalText.Length)
+                {
+                    try
+                    {
+                        string charsBetweenWord = totalText.Substring(before, after);
+                        ViewModel.FindWindow.SetPreviewText(charsBetweenWord);
+                    }
+                    catch { }
+                }
+                ViewModel.FindWindow.CurrentFindIndex++;
+            }
+
             //int Index;
             //
             //var eStringComparison = pMatchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;

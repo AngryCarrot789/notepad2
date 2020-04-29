@@ -69,6 +69,12 @@
     <Compile Include="Notepad\NotepadListItem.xaml.cs">
       <DependentUpon>NotepadListItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Themes\DarkTheme.xaml.cs">
+      <DependentUpon>DarkTheme.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Themes\LightTheme.xaml.cs">
+      <DependentUpon>LightTheme.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\AnimationFlag.cs" />
     <Compile Include="Utilities\AnimationLib.cs" />
     <Compile Include="Utilities\BaseViewModel.cs" />
@@ -77,6 +83,7 @@
     <Compile Include="Utilities\Error.cs" />
     <Compile Include="Utilities\GlobalVariables.cs" />
     <Compile Include="Utilities\KeydownManager.cs" />
+    <Compile Include="Utilities\WordFinder.cs" />
     <Compile Include="ViewModels\FileItemViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
