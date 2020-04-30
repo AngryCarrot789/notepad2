@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Notepad2.Views"
         mc:Ignorable="d" Closing="Window_Closing"
         Title="Help? Who needs help with notepad xDDDDD (jk)" Height="537.209" Width="798"
-        Style="{DynamicResource CustomWindowStyle}" WindowStyle="SingleBorderWindow">
+        Style="{DynamicResource CustomToolWindowStyle}">
     <Grid>
         <StackPanel VerticalAlignment="Center" Margin="25 0 25 0" HorizontalAlignment="Center">
             <TextBlock Text="SharpPad" FontSize="32" HorizontalAlignment="Center" FontWeight="Bold"/>

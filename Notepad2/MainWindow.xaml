@@ -306,7 +306,7 @@
                 </Button>
                 <Button Click="ShowFontDialogPanel" Content="Font Menu" Margin="99,0,0,0"/>
                 <Button Command="{Binding PrintFileCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
-                        ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))" HorizontalAlignment="Left" Width="32" Margin="32,0,0,0">
+                        ToolTip="Print text" HorizontalAlignment="Left" Width="32" Margin="32,0,0,0">
                     <Image Margin="2" Source="Resources/printIcon.png"/>
                 </Button>
                 <Button Command="{Binding ShowFindWindowCommand}" IsEnabled="True"

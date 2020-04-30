@@ -110,10 +110,104 @@
         <Setter Property="Background" Value="{StaticResource BackgroundColour}" />
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
+        <Setter Property="WindowStyle" Value="SingleBorderWindow"/>
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome CaptionHeight="26"
                               ResizeBorderThickness="8"
+                              CornerRadius="0"
+                              GlassFrameThickness="0"
+                              NonClientFrameEdges="None"
+                              UseAeroCaptionButtons="False"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Window}">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <AdornerDecorator Margin="0,30,0,0">
+                                    <ContentPresenter />
+                                </AdornerDecorator>
+                                <Grid Height="30" x:Name="titlebar"
+                                      Background="{TemplateBinding BorderBrush}"
+                                      VerticalAlignment="Top" Margin="0">
+                                    <DockPanel Margin="0,0,130,0">
+                                        <Image HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,4,0,0" Source="{Binding Icon, RelativeSource={RelativeSource TemplatedParent}}" Height="24"  />
+                                        <TextBlock Margin="5,3"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Stretch"
+                                                   FontSize="14" Width="Auto"
+                                                   Foreground="{DynamicResource ControlDefaultForeground}"
+                                                   Text="{Binding Title, RelativeSource={RelativeSource TemplatedParent}}"   
+                                                   Grid.Column="1" TextAlignment="Left"/>
+                                    </DockPanel>
+                                    <StackPanel Orientation="Horizontal"
+                                                Grid.Column="0" HorizontalAlignment="Right">
+                                        <Button x:Name="btnMinimize"
+                                                Background="Transparent"
+                                                BorderBrush="Transparent"
+                                                Width="40"
+                                                VerticalContentAlignment="Bottom"
+                                                WindowChrome.IsHitTestVisibleInChrome="True" 
+                                                Click="Minimize_Event">
+                                            <Rectangle Width="10" VerticalAlignment="Center" Margin="1 0 0 10" Stroke="{StaticResource ControlGlythColour}" StrokeThickness="2"/>
+                                        </Button>
+
+                                        <Button x:Name="btnRestore"
+                                                Background="Transparent"
+                                                BorderBrush="Transparent"
+                                                Width="40"
+                                                WindowChrome.IsHitTestVisibleInChrome="True" 
+                                                Click="AutoMinimize_Event">
+                                            <Grid Width="12" Height="12">
+                                                <Rectangle StrokeThickness="2" Stroke="{StaticResource ControlGlythColour}" Margin="3,0,0,3"/>
+                                                <Rectangle StrokeThickness="2" Fill="{TemplateBinding BorderBrush}" Stroke="{StaticResource ControlGlythColour}" Margin="0 3 3 0"/>
+                                            </Grid>
+                                        </Button>
+                                        <Button x:Name="btnClose"
+                                                Background="Transparent"
+                                                BorderBrush="Transparent"
+                                                Template="{DynamicResource CloseWindowButton}"
+                                                Width="40"
+                                                WindowChrome.IsHitTestVisibleInChrome="True" 
+                                                Click="CloseWindow_Event">
+                                            <Grid Margin="0 1 0 0">
+                                                <Line X1="0" Y1="0" X2="11" Y2="11" Stroke="{StaticResource ControlGlythColour}" StrokeThickness="2" />
+                                                <Line X1="0" Y2="0" Y1="11" X2="11" Stroke="{StaticResource ControlGlythColour}" StrokeThickness="2" />
+                                            </Grid>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="WindowState" Value="Maximized">
+                <Setter Property="BorderThickness" Value="8"/>
+            </Trigger>
+            <Trigger Property="WindowState" Value="Normal">
+                <Setter Property="BorderThickness" Value="1"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="CustomToolWindowStyle" TargetType="{x:Type Window}">
+        <Setter Property="BorderBrush" Value="{StaticResource WindowBorderColour}" />
+        <Setter Property="Background" Value="{StaticResource BackgroundColour}" />
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="ResizeMode" Value="NoResize"/>
+        <Setter Property="WindowStyle" Value="SingleBorderWindow"/>
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="26"
+                              ResizeBorderThickness="0"
                               CornerRadius="0"
                               GlassFrameThickness="0"
                               NonClientFrameEdges="None"
@@ -154,18 +248,6 @@
                                                 WindowChrome.IsHitTestVisibleInChrome="True" 
                                                 Click="Minimize_Event">
                                             <Rectangle Width="10" VerticalAlignment="Center" Margin="1 0 0 10" Stroke="{StaticResource ControlGlythColour}" StrokeThickness="2"/>
-                                        </Button>
-
-                                        <Button x:Name="btnRestore"
-                                                Background="Transparent"
-                                                BorderBrush="Transparent"
-                                                Width="40"
-                                                WindowChrome.IsHitTestVisibleInChrome="True" 
-                                                Click="AutoMinimize_Event">
-                                            <Grid Width="12" Height="12">
-                                                <Rectangle StrokeThickness="2" Stroke="{StaticResource ControlGlythColour}" Margin="3,0,0,3"/>
-                                                <Rectangle StrokeThickness="2" Fill="{TemplateBinding BorderBrush}" Stroke="{StaticResource ControlGlythColour}" Margin="0 3 3 0"/>
-                                            </Grid>
                                         </Button>
                                         <Button x:Name="btnClose"
                                                 Background="Transparent"
@@ -590,12 +672,14 @@
     
     <!-- TabControl and items -->
 
+    <!-- Tab Control -->
+
     <Style TargetType="{x:Type TabControl}">
         <Setter Property="Padding" Value="2"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Background" Value="{StaticResource BackgroundColour}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource ControlDefaultBorderBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ContainerBorder}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Foreground" Value="{StaticResource ControlDefaultForeground}"/>
         <Setter Property="Template">
@@ -669,7 +753,7 @@
                     <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
                         <Border x:Name="mainBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,1,1,0" Background="{TemplateBinding Background}" Margin="0">
                             <Border x:Name="innerBorder" 
-                                    BorderBrush="{StaticResource ControlDefaultBorderBrush}" BorderThickness="1,1,1,0" 
+                                    BorderBrush="{StaticResource ContainerBorder}" BorderThickness="1,1,1,0" 
                                     Background="{StaticResource BackgroundColour}" Margin="-1" Opacity="0"/>
                         </Border>
                         <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>

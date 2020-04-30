@@ -7,8 +7,8 @@
         Closing="Window_Closing"
         KeyDown="Window_KeyDown"
         mc:Ignorable="d" 
-        Style="{DynamicResource CustomWindowStyle}" WindowStyle="SingleBorderWindow"
-        Title="Find" Height="150" Width="380">
+        Style="{DynamicResource CustomToolWindowStyle}"
+        Title="Find" Height="149.334" Width="380">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top"><Run Text="F" TextDecorations="Underline"/><Run Text="ind what:"/></TextBlock>
         <TextBox Focusable="True" x:Name="FindText" Padding="2" Height="24" Margin="69,10,90,0" TextWrapping="Wrap" VerticalAlignment="Top"/>

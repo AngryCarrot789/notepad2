@@ -45,8 +45,12 @@ namespace Notepad2
                 case Theme.Light: themeName = "LightTheme"; break;
             }
 
-            if (!string.IsNullOrEmpty(themeName))
-                this.Resources.MergedDictionaries[0].Source = new Uri($"Themes/{themeName}.xaml", UriKind.Relative);
+            try
+            {
+                if (!string.IsNullOrEmpty(themeName))
+                    Resources.MergedDictionaries[0].Source = new Uri($"Themes/{themeName}.xaml", UriKind.Relative);
+            }
+            catch { }
         }
     }
 }
