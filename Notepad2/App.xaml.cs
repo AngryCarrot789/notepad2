@@ -14,6 +14,20 @@ namespace Notepad2
     /// </summary>
     public partial class App : Application
     {
+        private ResourceDictionary ThemeDictionary
+        {
+            // You could probably get it via its name with some query logic as well.
+            get { return Resources.MergedDictionaries[0]; }
+            set { Resources.MergedDictionaries[0] = value; }
+        }
+
+        private void ChangeTheme(Uri uri)
+        {
+            //ThemeDictionary.MergedDictionaries.Clear();
+            ThemeDictionary = new ResourceDictionary() { Source = uri };
+            //ThemeDictionary.MergedDictionaries.Insert(0, new ResourceDictionary() { Source = uri });
+        }
+
         public enum Theme
         {
             Dark, Light
@@ -48,7 +62,7 @@ namespace Notepad2
             try
             {
                 if (!string.IsNullOrEmpty(themeName))
-                    Resources.MergedDictionaries[0].Source = new Uri($"Themes/{themeName}.xaml", UriKind.Relative);
+                    ChangeTheme(new Uri($"Themes/{themeName}.xaml", UriKind.Relative));
             }
             catch { }
         }

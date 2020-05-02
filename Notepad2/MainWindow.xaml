@@ -10,7 +10,6 @@
         xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
         Title="SharpPad (Main Window)" 
         Height="576" Width="1024" 
-        WindowStyle="SingleBorderWindow" 
         KeyDown="Window_KeyDown" KeyUp="Window_KeyUp"
         Style="{DynamicResource CustomWindowStyle}"
         Icon="Resources/sharpPadIcon.png" 
@@ -125,7 +124,7 @@
                             <Grid>
                                 <Border Background="Transparent" Margin="0,0,0,20" BorderThickness="0">
                                     <Grid>
-                                        <ToolBar Style="{DynamicResource CompleteFillToolBar}" Height="30" VerticalAlignment="Top" Margin="0,0,0,0" Background="Transparent">
+                                        <ToolBar Template="{DynamicResource NoCornersToolBar}" Height="30" VerticalAlignment="Top" Margin="0,0,0,0" Background="Transparent">
                                             <Button Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" Width="27">
                                                 <Image Source="Resources/RTBIcons/cut.png"/>
                                             </Button>
@@ -190,93 +189,9 @@
                             </Grid>
                         </Grid>
                     </TabItem>
-                    <TabItem DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}" Header="Rich (Highly WIP)" Margin="0,-2,0,0">
-                        <Grid Margin="0,0,0,0">
-                            <Grid.Resources>
-                                <Style TargetType="{x:Type Button}" x:Key="formatTextStyle">
-                                    <Setter Property="FontFamily" Value="Palatino Linotype"/>
-                                    <Setter Property="Width" Value="30"/>
-                                    <Setter Property="FontSize" Value ="14"/>
-                                    <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"/>
-                                </Style>
+                </TabControl>
 
-                                <Style TargetType="{x:Type Button}" x:Key="formatImageStyle">
-                                    <Setter Property="Width" Value="30"/>
-                                    <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"/>
-                                </Style>
-                            </Grid.Resources>
-
-                            <DockPanel x:Name="mainPanel">
-                <ToolBar Style="{DynamicResource CompleteFillToolBar}" x:Name="mainToolBar" Height="30" DockPanel.Dock="Top">
-                    <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)"  Width="27">
-                        <Image Source="Resources/RTBIcons/cut.png"/>
-                    </Button>
-                    <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)"  Width="27">
-                        <Image Source="Resources/RTBIcons/copy.png"/>
-                    </Button>
-                    <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="Paste (From Clipboard)" Width="27">
-                        <Image Source="Resources/RTBIcons/paste.png"/>
-                    </Button>
-                    <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo (Last Edit)"  Width="27">
-                        <Image Source="Resources/RTBIcons/undo.png"/>
-                    </Button>
-                    <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)"  Width="27">
-                        <Image Source="Resources/RTBIcons/redo.png"/>
-                    </Button>
-
-                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold-ify (Selected Text)"  Width="27">
-                        <TextBlock FontWeight="Bold"><Run Text="B"/></TextBlock>
-                    </Button>
-                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic-ify (Selected Text)"  Width="27">
-                        <TextBlock FontStyle="Italic" FontWeight="Bold"><Run Text="I"/></TextBlock>
-                    </Button>
-                    <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline (Selected Text)"  Width="27">
-                        <TextBlock TextDecorations="Underline" FontWeight="Bold"><Run Text="U"/></TextBlock>
-                    </Button>
-                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font-ify (Selected Text)"  Width="27">
-                        <Image Source="Resources/RTBIcons/fontIncrease.png"/>
-                    </Button>
-                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font-ify (Selected Text)"  Width="27">
-                        <Image Source="Resources/RTBIcons/fontDecrease.png"/>
-                    </Button>
-
-                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Add Bullet points" Width="27">
-                        <Image Source="Resources/RTBIcons/bulletList.png"/>
-                    </Button>
-                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Add Number points" Width="27">
-                        <Image Source="Resources/RTBIcons/numberedList.png"/>
-                    </Button>
-
-                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align (Single Line of) Text Left" Width="27">
-                        <Image Source="Resources/RTBIcons/alignLeft.png"/>
-                    </Button>
-                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align (Single Line of) Text Center" Width="27">
-                        <Image Source="Resources/RTBIcons/alignCentre.png"/>
-                    </Button>
-                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Align (Single Line of) Text Right" Width="27">
-                        <Image Source="Resources/RTBIcons/alignRight.png"/>
-                    </Button>
-                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Align (Single Line of) Text to Stretch" Width="27">
-                        <Image Source="Resources/RTBIcons/alignJustify.png"/>
-                    </Button>
-                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent (Spacing between left side)" Width="27">
-                        <Image Source="Resources/RTBIcons/indentationIncrease.png"/>
-                    </Button>
-                    <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent (Spacing between left side)" Width="27">
-                        <Image Source="Resources/RTBIcons/indentationDecrease.png"/>
-                    </Button>
-                </ToolBar>
-                <RichTextBox x:Name="mainRTB" AcceptsTab="True"
-                             FontFamily="{Binding DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
-                             FontSize="{Binding DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
-                             FontStyle="{Binding DocumentFormat.Style, UpdateSourceTrigger=PropertyChanged}"
-                             FontWeight="{Binding DocumentFormat.Weight, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
-        </Grid>
-        </TabItem>
-        </TabControl>
-                
-        </DockPanel>
         </Grid>
         <ToolBarPanel Margin="0,18,0,0" Height="69" VerticalAlignment="Top" HorizontalAlignment="Left" Width="196" >
             <Grid Height="32">
@@ -310,13 +225,13 @@
                     <Image Margin="2" Source="Resources/printIcon.png"/>
                 </Button>
                 <Button Command="{Binding ShowFindWindowCommand}" IsEnabled="True"
-                        ToolTip="Find text in notepad" HorizontalAlignment="Left" Width="32" Margin="64,0,0,0">
+                        ToolTip="Find text in notepad (works okayish, not fully reliable)" HorizontalAlignment="Left" Width="32" Margin="64,0,0,0">
                     <TextBlock Text="Find" Margin="2"/>
                 </Button>
             </Grid>
         </ToolBarPanel>
         <Menu VerticalAlignment="Top" HorizontalAlignment="Stretch" Grid.ColumnSpan="3">
-            <MenuItem Header="File" Template="{DynamicResource MenuItemStyle}">
+            <MenuItem Header="File">
                 <MenuItem Header="New" Command="{Binding NewCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + N"/>
                 <MenuItem Header="Open" Command="{Binding OpenCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + O"/>
                 <MenuItem Header="Save" Command="{Binding SaveCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + S"/>
@@ -325,10 +240,10 @@
                 <Separator Style="{DynamicResource SeparatorStyle1}" />
                 <MenuItem Header="Close Selected Notepad" Command="{Binding CloseSelectedNotepadCommand}" InputGestureText="Del" Template="{DynamicResource SingleDropDownMenuItem}"/>
             </MenuItem>
-            <MenuItem Header="Help" Template="{DynamicResource MenuItemStyle}">
+            <MenuItem Header="Help">
                 <MenuItem Header="About" Command="{Binding Help.HelpCommand}" Template="{DynamicResource SingleDropDownMenuItem}"/>
             </MenuItem>
-            <MenuItem Header="Theme" Template="{DynamicResource MenuItemStyle}">
+            <MenuItem Header="Theme">
                 <MenuItem Header="Dark theme"  Click="SetTheme" Uid="0" Template="{DynamicResource SingleDropDownMenuItem}"/>
                 <MenuItem Header="Light theme" Click="SetTheme" Uid="1" Template="{DynamicResource SingleDropDownMenuItem}"/>
             </MenuItem>
