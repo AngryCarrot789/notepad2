@@ -20,7 +20,7 @@ namespace Notepad2
     {
         public bool IsDuplicatedWindow { get; set; }
         public bool DarkThemeEnabled { get; set; }
-        public App CurrentApp;
+        public App CurrentApplication { get; set; }
         public MainViewModel ViewModel { get; set; }
         private double AnimationSpeedSeconds = 0.2;
 
@@ -67,23 +67,25 @@ namespace Notepad2
             ViewModel.AnimateAddCallback = this.AnimateControl;
             ViewModel.FindTextCallback = FindAndSelect;
         }
+
+        private void ChangeTheme(object sender, RoutedEventArgs e)
+        {
+            switch (int.Parse(((MenuItem)sender).Uid))
+            {
+                // light
+                case 0: CurrentApplication.SetTheme(App.Theme.Light); break;
+                // colourful light
+                case 1: CurrentApplication.SetTheme(App.Theme.ColourfulLight); break;
+                // dark
+                case 2: CurrentApplication.SetTheme(App.Theme.Dark); break;
+                // colourful dark
+                case 3: CurrentApplication.SetTheme(App.Theme.ColourfulDark); break;
+            }
+            e.Handled = true;
+        }
+
         public string CurrentlySelectedText { get; set; }
         public int CurrentSelectingPosition { get; set; }
-        //public void FindAndSelect(string TextToFind, bool MatchCase)
-        //{
-        //    StringComparison mode = MatchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
-        //
-        //    int position = MainTextBox.Text.IndexOf(TextToFind, mode);
-        //
-        //    if (position == -1)
-        //        return;
-        //
-        //    //MainTextBox.SelectionStart = position;
-        //    //MainTextBox.SelectionLength = TextToFind.Length;
-        //    CurrentSelectingPosition = position;
-        //    CurrentlySelectedText = TextToFind;
-        //    MainTextBox.Select(position, TextToFind.Length);
-        //}
         public void FindAndSelect(string pSearchText, string totalText, bool pMatchCase, bool pSearchDown)
         {
             if (!ViewModel.FindWindow.HasAlreadySearched)
@@ -109,28 +111,6 @@ namespace Notepad2
                 }
                 ViewModel.FindWindow.CurrentFindIndex++;
             }
-
-            //int Index;
-            //
-            //var eStringComparison = pMatchCase ? StringComparison.CurrentCulture : StringComparison.CurrentCultureIgnoreCase;
-            //
-            //// if (pSearchDown)
-            ////{
-            //    Index = MainTextBox.Text.IndexOf(
-            //        pSearchText, 
-            //        MainTextBox.SelectionStart,
-            //        MainTextBox.Text.Length - MainTextBox.SelectionStart,
-            //        eStringComparison);
-            ////}
-            //
-            //if (Index == -1) return;
-            //
-            //string _LastSearchText = pSearchText;
-            //bool _LastMatchCase = pMatchCase;
-            //bool _LastSearchDown = pSearchDown;
-            //
-            //MainTextBox.SelectionStart = Index;
-            //MainTextBox.SelectionLength = pSearchText.Length;
         }
 
         public void LoadSettings()
@@ -179,7 +159,7 @@ namespace Notepad2
 
         public void SetTheme(Theme theme)
         {
-            if (CurrentApp != null) CurrentApp.SetTheme(theme);
+            if (CurrentApplication != null) CurrentApplication.SetTheme(theme);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -274,42 +254,6 @@ namespace Notepad2
                     }
                 }
             }
-        }
-
-        private void SetTheme(object sender, RoutedEventArgs e)
-        {
-            switch (int.Parse(((MenuItem)sender).Uid))
-            {
-                //dark
-                case 0: SetTheme(Theme.Dark); DarkThemeEnabled = true; break;
-                //light
-                case 1: SetTheme(Theme.Light); DarkThemeEnabled = false; break;
-            }
-
-        }
-
-        public void CloseWindow()
-        {
-            this.Close();
-        }
-
-        public void MaximizeRestore()
-        {
-            if (this.WindowState == WindowState.Maximized)
-            {
-                WindowState = WindowState.Normal;
-                //Margin = new Thickness(0, 0, 0, 0);
-            }
-            else if (WindowState == WindowState.Normal)
-            {
-                WindowState = WindowState.Maximized;
-                //WindowChrome Margin = new Thickness(8,8,8,8);
-            }
-        }
-
-        public void Minimize()
-        {
-            this.WindowState = WindowState.Minimized;
         }
 
         private void TextBox_MouseWheel(object sender, MouseWheelEventArgs e)

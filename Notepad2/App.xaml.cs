@@ -14,6 +14,11 @@ namespace Notepad2
     /// </summary>
     public partial class App : Application
     {
+        public enum Theme
+        {
+            Light, ColourfulLight,
+            Dark, ColourfulDark
+        }
         private ResourceDictionary ThemeDictionary
         {
             // You could probably get it via its name with some query logic as well.
@@ -23,14 +28,7 @@ namespace Notepad2
 
         private void ChangeTheme(Uri uri)
         {
-            //ThemeDictionary.MergedDictionaries.Clear();
             ThemeDictionary = new ResourceDictionary() { Source = uri };
-            //ThemeDictionary.MergedDictionaries.Insert(0, new ResourceDictionary() { Source = uri });
-        }
-
-        public enum Theme
-        {
-            Dark, Light
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)
@@ -45,9 +43,10 @@ namespace Notepad2
                 mWnd = new MainWindow();
             }
 
-            mWnd.CurrentApp = this;
-            mWnd.LoadSettings();
+            mWnd.CurrentApplication = this;
+            MainWindow = mWnd;
             mWnd.Show();
+            mWnd.LoadSettings();
         }
 
         public void SetTheme(Theme theme)
@@ -57,6 +56,8 @@ namespace Notepad2
             {
                 case Theme.Dark: themeName = "DarkTheme"; break;
                 case Theme.Light: themeName = "LightTheme"; break;
+                case Theme.ColourfulDark: themeName = "ColourfulDarkTheme"; break;
+                case Theme.ColourfulLight: themeName = "ColourfulLightTheme"; break;
             }
 
             try
