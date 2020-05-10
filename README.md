@@ -1,7 +1,7 @@
 # SharpPad
 Window's notepad is blindingly light themed, so i decided to make my own dark theme version with tabs. It uses WPF and MVVM (no mvvm light or similar things, i did it all myself). It's fairly robust, but it works. 
 BTW, if anyone wants to help get the RichTextBox working then have a go. if you want to, you could improve the "messyness" too, cus i just splat things randomly into classes and never clean them up (most of the times)
-![](aaa.png)
+![](d.png)
 
 ## Some 'code-level' info about it
 the items on the left are a separate control (NotepadListitems) , and their datacontext is a FileItemViewModel which contains a DocumentModel (containing path, filename, text, etc) and FormatModel (fontsize, wrapping, etc). When you select an item, it sets the main notepad view's datacontext as the item's datacontext you selected. and through binding, it updates the view accordingly.
