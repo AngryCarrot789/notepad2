@@ -213,28 +213,6 @@ namespace Notepad2
             }
         }
 
-        private bool panelShowing;
-        private void ShowFontDialogPanel(object sender, RoutedEventArgs e)
-        {
-            if (!panelShowing)
-            {
-                DoubleAnimation da = new DoubleAnimation(0, 320, TimeSpan.FromMilliseconds(200));
-                da.AccelerationRatio = 0.3;
-                da.DecelerationRatio = 0.7;
-                FontDialogPanel.BeginAnimation(WidthProperty, da);
-                panelShowing = true;
-            }
-
-            else
-            {
-                DoubleAnimation da = new DoubleAnimation(320, 0, TimeSpan.FromMilliseconds(200));
-                da.AccelerationRatio = 0.3;
-                da.DecelerationRatio = 0.7;
-                FontDialogPanel.BeginAnimation(WidthProperty, da);
-                panelShowing = false;
-            }
-        }
-
         private void ListBox_Drop(object sender, DragEventArgs e)
         {
             if (ViewModel != null && e.Data.GetDataPresent(DataFormats.FileDrop))
