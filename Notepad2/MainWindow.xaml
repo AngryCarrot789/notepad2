@@ -120,19 +120,19 @@
                         BorderBrush="Transparent" Background="Transparent" Margin="0,0,2,0" Focusable="False">
                 <Image Margin="2" Source="Resources/closeAllFiles.png"/>
             </Button>
-            <Button Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" Margin="0,0,2,0" Focusable="False">
+            <Button Background="Transparent" Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
                 <Image Source="Resources/RTBIcons/cut.png"/>
             </Button>
-            <Button Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)" Margin="0,0,2,0" Focusable="False">
+            <Button Background="Transparent" Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
                 <Image Source="Resources/RTBIcons/copy.png"/>
             </Button>
-            <Button Command="ApplicationCommands.Paste" ToolTip="Paste (From Clipboard)" Margin="0,0,2,0" Focusable="False">
+            <Button Background="Transparent" Command="ApplicationCommands.Paste" ToolTip="Paste (From Clipboard)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
                 <Image Source="Resources/RTBIcons/paste.png"/>
             </Button>
-            <Button Command="ApplicationCommands.Undo" ToolTip="Undo (Last Edit)" Margin="0,0,2,0" Focusable="False">
+            <Button Background="Transparent" Command="ApplicationCommands.Undo" ToolTip="Undo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
                 <Image Source="Resources/RTBIcons/undo.png"/>
             </Button>
-            <Button Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)" Margin="0,0,2,0" Focusable="False">
+            <Button Background="Transparent" Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
                 <Image Source="Resources/RTBIcons/redo.png"/>
             </Button>
             <Button Command="{Binding OpenInNewWindowCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
