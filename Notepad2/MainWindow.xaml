@@ -101,97 +101,93 @@
             </MenuItem>
         </Menu>
         <DockPanel Margin="5,18,5,5">
-            <ToolBarTray DockPanel.Dock="Top" Background="Transparent">
-                <ToolBar Margin="0 0 5 0" Template="{DynamicResource NoCornersToolBar}" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" OverridesDefaultStyle="True">
-                    <StackPanel Orientation="Horizontal">
-                        <Button Command="{Binding NewCommand}" ToolTip="Add New Blank File" 
+            <StackPanel DockPanel.Dock="Top" Background="Transparent">
+                <StackPanel Orientation="Horizontal" Height="28" HorizontalAlignment="Left">
+                    <Button Command="{Binding NewCommand}" ToolTip="Add New Blank File" 
                                 BorderBrush="Transparent" Background="Transparent" Margin="0,0,2,0" Focusable="False">
-                            <Image Margin="2" Source="Resources/newFile.png"/>
-                        </Button>
-                        <Button Command="{Binding OpenCommand}" ToolTip="Open File from File Explorer"
+                        <Image Margin="2" Source="Resources/newFile.png"/>
+                    </Button>
+                    <Button Command="{Binding OpenCommand}" ToolTip="Open File from File Explorer"
                                 BorderBrush="Transparent" Background="Transparent" Margin="0,0,2,0" Focusable="False">
-                            <Image Margin="2" Source="Resources/openFile.png"/>
-                        </Button>
-                        <Button Command="{Binding SaveCommand}" ToolTip="Save current File" BorderBrush="Transparent" 
+                        <Image Margin="2" Source="Resources/openFile.png"/>
+                    </Button>
+                    <Button Command="{Binding SaveCommand}" ToolTip="Save current File" BorderBrush="Transparent" 
                                 Background="Transparent" Margin="0,0,2,0" Focusable="False">
-                            <Image Margin="2" Source="Resources/saveFile.png"/>
-                        </Button>
-                        <Button Command="{Binding SaveAsCommand}" ToolTip="Save current File As..." BorderBrush="Transparent"
+                        <Image Margin="2" Source="Resources/saveFile.png"/>
+                    </Button>
+                    <Button Command="{Binding SaveAsCommand}" ToolTip="Save current File As..." BorderBrush="Transparent"
                                 Background="Transparent" Margin="0,0,2,0" Focusable="False">
-                            <Image Margin="2" Source="Resources/saveFileAs.png"/>
-                        </Button>
-                        <Button Command="{Binding CloseSelectedNotepadCommand}" ToolTip="Close current File and Remove" 
+                        <Image Margin="2" Source="Resources/saveFileAs.png"/>
+                    </Button>
+                    <Button Command="{Binding CloseSelectedNotepadCommand}" ToolTip="Close current File and Remove" 
                                 BorderBrush="Transparent" Background="Transparent" Margin="0,0,2,0" Focusable="False">
-                            <Image Margin="2" Source="Resources/closeFile.png"/>
-                        </Button>
-                        <Button Command="{Binding CloseAllNotepadsCommand}" ToolTip="Close ALL Files and Remove them" 
+                        <Image Margin="2" Source="Resources/closeFile.png"/>
+                    </Button>
+                    <Button Command="{Binding CloseAllNotepadsCommand}" ToolTip="Close ALL Files and Remove them" 
                                 BorderBrush="Transparent" Background="Transparent" Margin="0,0,2,0" Focusable="False">
-                            <Image Margin="2" Source="Resources/closeAllFiles.png"/>
-                        </Button>
-                        <Button Background="Transparent" Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
-                            <Image Source="Resources/RTBIcons/cut.png"/>
-                        </Button>
-                        <Button Background="Transparent" Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
-                            <Image Source="Resources/RTBIcons/copy.png"/>
-                        </Button>
-                        <Button Background="Transparent" Command="ApplicationCommands.Paste" ToolTip="Paste (From Clipboard)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
-                            <Image Source="Resources/RTBIcons/paste.png"/>
-                        </Button>
-                        <Button Background="Transparent" Command="ApplicationCommands.Undo" ToolTip="Undo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
-                            <Image Source="Resources/RTBIcons/undo.png"/>
-                        </Button>
-                        <Button Background="Transparent" Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
-                            <Image Source="Resources/RTBIcons/redo.png"/>
-                        </Button>
-                        <Button Command="{Binding OpenInNewWindowCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
+                        <Image Margin="2" Source="Resources/closeAllFiles.png"/>
+                    </Button>
+                    <Button Background="Transparent" Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
+                        <Image Source="Resources/RTBIcons/cut.png"/>
+                    </Button>
+                    <Button Background="Transparent" Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
+                        <Image Source="Resources/RTBIcons/copy.png"/>
+                    </Button>
+                    <Button Background="Transparent" Command="ApplicationCommands.Paste" ToolTip="Paste (From Clipboard)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
+                        <Image Source="Resources/RTBIcons/paste.png"/>
+                    </Button>
+                    <Button Background="Transparent" Command="ApplicationCommands.Undo" ToolTip="Undo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
+                        <Image Source="Resources/RTBIcons/undo.png"/>
+                    </Button>
+                    <Button Background="Transparent" Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
+                        <Image Source="Resources/RTBIcons/redo.png"/>
+                    </Button>
+                    <Button Command="{Binding OpenInNewWindowCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
                                 ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))" Margin="0,0,2,0" Focusable="False">
-                            <Image Margin="2" Source="Resources/openInNewWindow.png"/>
-                        </Button>
-                        <Button Command="{Binding PrintFileCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
+                        <Image Margin="2" Source="Resources/openInNewWindow.png"/>
+                    </Button>
+                    <Button Command="{Binding PrintFileCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
                                 ToolTip="Print text" Margin="0,0,2,0" Focusable="False">
-                            <Image Margin="2" Source="Resources/printIcon.png"/>
-                        </Button>
-                        <Button Command="{Binding ShowFindWindowCommand}" IsEnabled="True" Background="Transparent"
-                                ToolTip="Find text in notepad (works okayish, not fully reliable)"
-                                Margin="0,0,2,0" Focusable="False" Width="40">
-                            <TextBlock Text="Find" Margin="2"/>
-                        </Button>
-                    </StackPanel>
-                </ToolBar>
-                <ToolBar Template="{DynamicResource NoCornersToolBar}" HorizontalAlignment="Left" DataContext="{Binding Notepad.DocumentFormat, UpdateSourceTrigger=PropertyChanged}" Height="32">
-                    <StackPanel Orientation="Horizontal">
-                        <ComboBox Width="132" ItemsSource="{Binding Source={StaticResource FontFamilyOptions}}"
+                        <Image Margin="2" Source="Resources/printIcon.png"/>
+                    </Button>
+                    <Button Command="{Binding ShowFindWindowCommand}" IsEnabled="True" Background="Transparent"
+                            ToolTip="Find text in notepad (works okayish, not fully reliable)" Focusable="False" Width="48">
+                        <TextBlock Text="Find" Margin="2"/>
+                    </Button>
+                </StackPanel>
+                <StackPanel Margin="0 5 0 0" Orientation="Horizontal" HorizontalAlignment="Left" 
+                            DataContext="{Binding Notepad.DocumentFormat, UpdateSourceTrigger=PropertyChanged}" Height="28">
+                    <ComboBox Width="132" ItemsSource="{Binding Source={StaticResource FontFamilyOptions}}"
                                   SelectedItem="{Binding Family, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" 
                                   HorizontalAlignment="Left" IsEditable="True">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <ComboBox Width="63" ItemsSource="{Binding Source={StaticResource FontSizeOptions}}"
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <ComboBox Width="63" ItemsSource="{Binding Source={StaticResource FontSizeOptions}}"
                                   SelectedItem="{Binding Size, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedIndex="15" HorizontalAlignment="Left" Margin="5 0 0 0">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <ComboBox ItemsSource="{Binding Source={StaticResource FontStyleOptions}}"
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <ComboBox ItemsSource="{Binding Source={StaticResource FontStyleOptions}}"
                                   SelectedItem="{Binding Style, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedIndex="0" Margin="5 0 0 0" Width="75"/>
-                        <ComboBox ItemsSource="{Binding Source={StaticResource FontWeightOptions}}"
+                    <ComboBox ItemsSource="{Binding Source={StaticResource FontWeightOptions}}"
                                   SelectedItem="{Binding Weight, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedIndex="0" Margin="5,0,0,0"/>
-                        <ComboBox ItemsSource="{Binding Source={StaticResource FontDecorationsOptions}}"
+                    <ComboBox ItemsSource="{Binding Source={StaticResource FontDecorationsOptions}}"
                                   SelectedItem="{Binding Decoration, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedIndex="0" Margin="5,0,0,0"/>
-                        <CheckBox Margin="5,0,0,0" Content="Wrap" IsChecked="{Binding IsWrapped, UpdateSourceTrigger=PropertyChanged}"/>
-                        <CheckBox Margin="5 0 0 0" Content="Spell check" IsChecked="{Binding EnableSpellCheck, UpdateSourceTrigger=PropertyChanged}"/>
-                    </StackPanel>
-                </ToolBar>
-            </ToolBarTray>
+                    <CheckBox Margin="5,0,0,0" Content="Wrap" IsChecked="{Binding IsWrapped, UpdateSourceTrigger=PropertyChanged}"/>
+                    <CheckBox Margin="5 0 0 0" Content="Spell check" IsChecked="{Binding EnableSpellCheck, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+            </StackPanel>
             <Grid Margin="0,5,0,0">
                 <Grid>
                     <Grid HorizontalAlignment="Left" Width="200">
