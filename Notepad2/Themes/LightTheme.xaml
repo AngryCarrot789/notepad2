@@ -3335,7 +3335,7 @@
         </Setter>
     </Style>
     <ControlTemplate x:Key="NoCornersToolBar" TargetType="{x:Type ToolBar}">
-        <Grid x:Name="Grid" Margin="3,1,1,1" SnapsToDevicePixels="true">
+        <Grid x:Name="Grid" Margin="0" SnapsToDevicePixels="true">
             <Grid x:Name="OverflowGrid" HorizontalAlignment="Right">
                 <ToggleButton x:Name="OverflowButton" ClickMode="Press" FocusVisualStyle="{x:Null}" 
                                           IsChecked="{Binding IsOverflowOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
