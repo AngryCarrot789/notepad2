@@ -66,7 +66,6 @@ namespace Notepad2
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
 
-            ViewModel.MainWind = this;
             ViewModel.AnimateAddCallback = this.AnimateControl;
             ViewModel.FindTextCallback = FindAndSelect;
         }

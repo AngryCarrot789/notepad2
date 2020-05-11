@@ -19,7 +19,7 @@
         <ObjectDataProvider x:Key="FontFamilyOptions"
                             ObjectType="{x:Type media:Fonts}"
                             MethodName="get_SystemFontFamilies"/>
-        
+
         <x:Array x:Key="FontSizeOptions"
                  Type="sys:Double">
             <sys:Double>2</sys:Double>
@@ -188,8 +188,14 @@
                     <CheckBox Margin="5 0 0 0" Content="Spell check" IsChecked="{Binding EnableSpellCheck, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </StackPanel>
-            <Grid Margin="0,5,0,0">
-                <Grid>
+            <DockPanel Margin="0,5,0,0">
+                <Expander Header="Information, Statuses and errors" VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
+                    <Grid Height="120">
+                        <ListBox ItemsSource="{Binding InfoStatusErrorsItems, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,55,0"/>
+                        <Button Command="{Binding ClearInfoItemsCommand}" Content="Clear" HorizontalAlignment="Right" Width="50"/>
+                    </Grid>
+                </Expander>
+                <Grid Margin="0 0 0 5">
                     <Grid HorizontalAlignment="Left" Width="200">
                         <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
                                  x:Name="notepadLstBox" 
@@ -201,7 +207,7 @@
                                 <KeyBinding Command="{Binding CloseSelectedNotepadCommand}" Gesture="Del"/>
                             </ListBox.InputBindings>
                         </ListBox>
-                        <Button Command="{Binding ClearListAndNotepadCommand}" BorderThickness="1 0 1 1" 
+                        <Button Command="{Binding CloseAllNotepadsCommand}" BorderThickness="1 0 1 1" 
                                 Content="Clear List" VerticalAlignment="Bottom" Height="40" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"/>
                     </Grid>
                     <Grid Margin="205,0,0,0">
@@ -236,7 +242,8 @@
                                         <TextBox VerticalAlignment="Center"
                                                  BorderBrush="Transparent"
                                                  DataContext="{Binding Document, UpdateSourceTrigger=PropertyChanged}"
-                                                 Text="{Binding FileName, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Margin="99,1,1,2" Height="17"/>
+                                                 Text="{Binding FileName, UpdateSourceTrigger=PropertyChanged}" 
+                                                 Background="Transparent" Margin="99,1,1,2" Height="17"/>
                                         <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="51" Margin="5,3,0,4" Height="13" ToolTip="CTRL + Scrollwheel to zoom. also, this is just the fontsize.">
                                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Zoom:" FontSize="10"/>
                                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}" Margin="31,0,0,0" FontSize="10"/>
@@ -255,7 +262,7 @@
                         </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
+            </DockPanel>
         </DockPanel>
     </Grid>
 </Window>

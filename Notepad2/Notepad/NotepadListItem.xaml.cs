@@ -26,8 +26,7 @@ namespace Notepad2.Notepad
         public Action<NotepadListItem> Close { get; set; }
         public Action<NotepadListItem> Open { get; set; }
         public Action<NotepadListItem> OpenInFileExplorer { get; set; }
-        public ListBox ParentListbox { get; set; }
-
+        public FileItemViewModel Notepad { get => DataContext as FileItemViewModel; }
         public NotepadListItem()
         {
             InitializeComponent();
@@ -80,7 +79,6 @@ namespace Notepad2.Notepad
                         else
                         {
                             string tempFilePath = Path.Combine(Path.GetTempPath(), notepad.Document.FileName);
-                            notepad.Document.FilePath = tempFilePath;
                             File.WriteAllText(tempFilePath, notepad.Document.Text);
                             string[] path = new string[1] { tempFilePath };
                             DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path), DragDropEffects.Copy);
@@ -89,6 +87,14 @@ namespace Notepad2.Notepad
                     }
                     catch { }
                 }
+            }
+        }
+
+        public void SetDraggingStatus(bool isDragging)
+        {
+            if (isDragging)
+            {
+
             }
         }
     }

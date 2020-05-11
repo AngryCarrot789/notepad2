@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using NamespaceHere;
+using Notepad2.InformationStuff;
 using Notepad2.Notepad;
 using Notepad2.Utilities;
 using Notepad2.Views;
@@ -31,6 +32,7 @@ namespace Notepad2.ViewModels
         #region Public Fields
 
         public ObservableCollection<NotepadListItem> NotepadItems { get; set; }
+        public ObservableCollection<InformationListItem> InfoStatusErrorsItems { get; set; }
         public int SelectedIndex
         {
             get => _selectedIndex;
@@ -89,8 +91,7 @@ namespace Notepad2.ViewModels
         public ICommand OpenInNewWindowCommand { get; set; }
         public ICommand PrintFileCommand { get; set; }
         public ICommand ShowFindWindowCommand { get; set; }
-
-        public ICommand ClearListAndNotepadCommand { get; set; }
+        public ICommand ClearInfoItemsCommand { get; set; }
 
         // The ViewModel for the Notepad. This contains a DocumentModel and FormatModel, for holding
         // Styles, Text, FilePath, etc.
@@ -103,8 +104,6 @@ namespace Notepad2.ViewModels
         // ViewModel for the help window (idk why it needs a view model...)
         public HelpViewModel Help { get; set; }
         public FindTextWindow FindWindow { get; set; }
-        public MainWindow MainWind { get; set; }
-
         public Action<NotepadListItem, AnimationFlag> AnimateAddCallback { get; set; }
         public Action<string, string, bool, bool> FindTextCallback { get; set; }
 
@@ -119,6 +118,14 @@ namespace Notepad2.ViewModels
             FindWindow = new FindTextWindow();
             FindWindow.FindNext = FindAndSelect;
             KeydownManager.KeyDown += KeydownManager_KeyDown;
+            InfoStatusErrorsItems = new ObservableCollection<InformationListItem>();
+            Information.AddErrorCallback = AddInfoStatusInfoMessage;
+            Information.Show("Program loaded", InfoTypes.Information);
+        }
+
+        private void AddInfoStatusInfoMessage(InformationModel em)
+        {
+            InfoStatusErrorsItems.Insert(0, new InformationListItem(em));
         }
 
         private void KeydownManager_KeyDown(Key key)
@@ -154,8 +161,7 @@ namespace Notepad2.ViewModels
             OpenInNewWindowCommand = new Command(OpenInNewWindow);
             PrintFileCommand = new Command(PrintFile);
             ShowFindWindowCommand = new Command(OpenFindWindow);
-
-            ClearListAndNotepadCommand = new Command(ClearTextAndList);
+            ClearInfoItemsCommand = new Command(ClearInfoItems);
         }
 
         private void OpenInNewWindow()
@@ -164,6 +170,11 @@ namespace Notepad2.ViewModels
             mWnd.Show();
             mWnd.LoadSettings();
             CloseSelectedNotepad();
+        }
+
+        public void ClearInfoItems()
+        {
+            InfoStatusErrorsItems.Clear();
         }
 
         #region Helpers
@@ -231,6 +242,7 @@ namespace Notepad2.ViewModels
         public void AddNotepadItem(NotepadListItem nli)
         {
             NotepadItems.Add(nli);
+            Information.Show($"Added FileItem: {nli.Notepad.Document.FileName}", InfoTypes.FileIO);
             AnimateAddCallback?.Invoke(nli, AnimationFlag.NotepadItemOPEN);
             UpdateNotepad();
         }
@@ -239,6 +251,7 @@ namespace Notepad2.ViewModels
         {
             //AnimateAddCallback?.Invoke(nli, AnimationFlag.NotepadItemCLOSE);
             NotepadItems.Remove(nli);
+            Information.Show($"Removed FileItem: {nli.Notepad.Document.FileName}", InfoTypes.FileIO);
             UpdateNotepad();
         }
 
@@ -249,18 +262,14 @@ namespace Notepad2.ViewModels
 
         private void CloseAllNotepads()
         {
+            Information.Show($"Cleared {NotepadItems.Count} NotepadItems", InfoTypes.FileIO);
             NotepadItems.Clear();
+            Notepad = new NotepadViewModel();
         }
 
         #endregion
 
         #region Other functions
-
-        private void ClearTextAndList()
-        {
-            NotepadItems.Clear();
-            Notepad = new NotepadViewModel();
-        }
 
         /// <summary>
         /// Sets the main notepad view to the selected notepad item. sometimes even if one is selected, one isnt 'set'. this sets it.
@@ -301,7 +310,6 @@ namespace Notepad2.ViewModels
         public NotepadListItem CreateNotepadItem(string text, string itemName, string itemPath, double itemSize, FormatModel fm)
         {
             NotepadListItem nli = new NotepadListItem();
-            nli.ParentListbox = MainWind.notepadLstBox;
             FileItemViewModel fivm = new FileItemViewModel();
             fivm.Document.Text = text;
             fivm.Document.FileName = itemName;
@@ -324,6 +332,8 @@ namespace Notepad2.ViewModels
 
         #endregion
 
+        #region File IO
+
         #region Opening
 
         public void OpenInFileExplorer(NotepadListItem nli)
@@ -340,13 +350,13 @@ namespace Notepad2.ViewModels
                             FileName = "explorer.exe",
                             Arguments = string.Format("/e, /select, \"{0}\"", folderPath)
                         };
-
+                        Information.Show("Opening File Explorer at selected file location", InfoTypes.FileIO);
                         Process.Start(info);
                     }
 
                     else
                     {
-                        Error.Show("FilePath Doesn't Exist", "FilePath null");
+                        Information.Show("FilePath Doesn't Exist", "FilePath null");
                     }
                 }
             }
@@ -376,14 +386,17 @@ namespace Notepad2.ViewModels
                 ofd.Multiselect = true;
                 if (ofd.ShowDialog() == true)
                 {
-                    foreach (string paths in ofd.FileNames)
+                    int i;
+                    for (i = 0; i < ofd.FileNames.Length; i++)
                     {
+                        string paths = ofd.FileNames[i];
                         OpenNotepadFileFromPath(paths);
                         try { SelectedNotepadViewModel.HasMadeChanges = false; } catch { }
                     }
+                    Information.Show($"Opened {i} files", InfoTypes.FileIO);
                 }
             }
-            catch (Exception e) { Error.Show(e.Message, "Error while opening file from f.explorer"); }
+            catch (Exception e) { Information.Show(e.Message, "Error while opening file from f.explorer"); }
         }
 
         public void OpenNotepadFileFromPath(string path)
@@ -399,9 +412,10 @@ namespace Notepad2.ViewModels
                            Path.GetFileName(path),
                            path,
                            text.Length / 1000.0));
+                    Information.Show($"Opened file: {path}", InfoTypes.FileIO);
                 }
             }
-            catch (Exception e) { Error.Show(e.Message, "Error while opening file from path"); }
+            catch (Exception e) { Information.Show(e.Message, "Error while opening file from path"); }
         }
 
         #endregion
@@ -417,8 +431,8 @@ namespace Notepad2.ViewModels
                     string extension = Path.GetExtension(fivm.Document.FilePath);
                     string folderName = Path.GetDirectoryName(fivm.Document.FilePath);
                     string newFileName =
-                        Path.HasExtension(Path.Combine(folderName, fivm.Document.FileName)) 
-                        ? fivm.Document.FileName 
+                        Path.HasExtension(Path.Combine(folderName, fivm.Document.FileName))
+                        ? fivm.Document.FileName
                         : fivm.Document.FileName + extension;
                     string newFilePath = Path.Combine(folderName, newFileName);
                     if (fivm.Document.FilePath != newFilePath)
@@ -447,7 +461,7 @@ namespace Notepad2.ViewModels
                     SaveNotepadAs(fivm);
                 }
             }
-            catch (Exception e) { Error.Show(e.Message, "Error while saving a (manual) notepad item"); }
+            catch (Exception e) { Information.Show(e.Message, "Error while saving a (manual) notepad item"); }
         }
 
         public void SaveNotepadAs(FileItemViewModel fivm)
@@ -480,11 +494,12 @@ namespace Notepad2.ViewModels
                     fivm.Document.FileSize = fivm.Document.Text.Length / 1000.0;
                 }
             }
-            catch (Exception e) { Error.Show(e.Message, "Error while saving (manual) notepaditem as..."); }
+            catch (Exception e) { Information.Show(e.Message, "Error while saving (manual) notepaditem as..."); }
         }
 
         public void SaveCurrentNotepad()
         {
+            Information.Show($"Attempted to save [{Notepad.Document.FileName}]", InfoTypes.FileIO);
             try
             {
                 if (!CheckNotepadNull())
@@ -495,7 +510,7 @@ namespace Notepad2.ViewModels
                         SaveNotepadAs(new FileItemViewModel(Notepad));
                 }
             }
-            catch (Exception e) { Error.Show(e.Message, "Error while saving currently selected notepad"); }
+            catch (Exception e) { Information.Show(e.Message, "Error while saving currently selected notepad"); }
             UpdateNotepad();
         }
 
@@ -508,7 +523,7 @@ namespace Notepad2.ViewModels
                     SaveNotepadAs(new FileItemViewModel(Notepad));
                 }
             }
-            catch (Exception e) { Error.Show(e.Message, "Error while saving currently selected notepad as..."); }
+            catch (Exception e) { Information.Show(e.Message, "Error while saving currently selected notepad as..."); }
         }
 
         public void SaveAllNotepadItems()
@@ -525,14 +540,17 @@ namespace Notepad2.ViewModels
             try
             {
                 NotepadActions.SaveFile(path, text);
+                Information.Show($"Successfully saved [{Notepad.Document.FileName}]", InfoTypes.FileIO);
                 SelectedNotepadViewModel.HasMadeChanges = false;
             }
-            catch (Exception e) { Error.Show(e.Message, "Error while saving text to file."); }
+            catch (Exception e) { Information.Show(e.Message, "Error while saving text to file."); }
         }
 
         #endregion
 
-        #region Find text
+        #endregion
+
+        #region Finding Text
 
         public void OpenFindWindow()
         {

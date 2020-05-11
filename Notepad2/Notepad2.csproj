@@ -63,6 +63,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\TextChangedToUnsavedIndicatorConverter.cs" />
+    <Compile Include="InformationStuff\InformationListItem.xaml.cs">
+      <DependentUpon>InformationListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InformationStuff\InformationModel.cs" />
+    <Compile Include="InformationStuff\InfoTypes.cs" />
     <Compile Include="Notepad\DocumentModel.cs" />
     <Compile Include="Notepad\FormatModel.cs" />
     <Compile Include="Notepad\NotepadActions.cs" />
@@ -86,7 +91,7 @@
     <Compile Include="Utilities\BaseViewModel.cs" />
     <Compile Include="Utilities\Command.cs" />
     <Compile Include="Utilities\CommandParam.cs" />
-    <Compile Include="Utilities\Error.cs" />
+    <Compile Include="InformationStuff\Information.cs" />
     <Compile Include="Utilities\GlobalVariables.cs" />
     <Compile Include="Utilities\KeydownManager.cs" />
     <Compile Include="Utilities\WordFinder.cs" />
@@ -95,15 +100,16 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\NotepadViewModel.cs" />
     <Compile Include="ViewModels\RichNotepadViewModel.cs" />
-    <Compile Include="Views\ErrorReporterWindow.xaml.cs">
-      <DependentUpon>ErrorReporterWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\FindTextWindow.xaml.cs">
       <DependentUpon>FindTextWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HelpDialog.xaml.cs">
       <DependentUpon>HelpDialog.xaml</DependentUpon>
     </Compile>
+    <Page Include="InformationStuff\InformationListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -135,10 +141,6 @@
     <Page Include="Themes\LightTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ErrorReporterWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FindTextWindow.xaml">
       <SubType>Designer</SubType>
