@@ -33,6 +33,8 @@ namespace Notepad2.Notepad
             InitializeComponent();
         }
 
+        private Point MouseDownPoint;
+
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             switch (int.Parse(((MenuItem)sender).Uid))
@@ -50,13 +52,21 @@ namespace Notepad2.Notepad
 
         private void ElePar_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                MouseDownPoint = e.GetPosition(null);
             if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
                 Close?.Invoke(this);
         }
 
         private void ElePar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && ParentListbox.SelectedItem == this)
+            if (e.LeftButton == MouseButtonState.Pressed)
+                MouseDownPoint = e.GetPosition(null);
+        }
+
+        private void elePar_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (MouseDownPoint != e.GetPosition(null) && e.LeftButton == MouseButtonState.Pressed)
             {
                 if (DataContext is FileItemViewModel notepad)
                 {

@@ -47,6 +47,8 @@ namespace Notepad2
             ViewModel.OpenNotepadFileFromPath(filePath);
             IsDuplicatedWindow = enableSettingsSave;
             Title = "SharpPad";
+
+            TextBox e;
         }
 
         public MainWindow(NotepadListItem fileItem, bool enableSettingsSave)
@@ -63,6 +65,7 @@ namespace Notepad2
             //NotepadActions.richTB = this.mainRTB;
             ViewModel = new MainViewModel();
             this.DataContext = ViewModel;
+
             ViewModel.MainWind = this;
             ViewModel.AnimateAddCallback = this.AnimateControl;
             ViewModel.FindTextCallback = FindAndSelect;
@@ -73,13 +76,13 @@ namespace Notepad2
             switch (int.Parse(((MenuItem)sender).Uid))
             {
                 // light
-                case 0: CurrentApplication.SetTheme(App.Theme.Light); break;
+                case 0: CurrentApplication.SetTheme(Theme.Light); break;
                 // colourful light
-                case 1: CurrentApplication.SetTheme(App.Theme.ColourfulLight); break;
+                case 1: CurrentApplication.SetTheme(Theme.ColourfulLight); break;
                 // dark
-                case 2: CurrentApplication.SetTheme(App.Theme.Dark); break;
+                case 2: CurrentApplication.SetTheme(Theme.Dark); break;
                 // colourful dark
-                case 3: CurrentApplication.SetTheme(App.Theme.ColourfulDark); break;
+                case 3: CurrentApplication.SetTheme(Theme.ColourfulDark); break;
             }
             e.Handled = true;
         }
@@ -187,29 +190,33 @@ namespace Notepad2
             }
             if (!IsDuplicatedWindow)
             {
-                if (WindowState == WindowState.Maximized)
+                try
                 {
-                    // Use the RestoreBounds as the current values will be 0, 0 and the size of the screen
-                    Properties.Settings.Default.Top = RestoreBounds.Top;
-                    Properties.Settings.Default.Left = RestoreBounds.Left;
-                    Properties.Settings.Default.Height = RestoreBounds.Height;
-                    Properties.Settings.Default.Width = RestoreBounds.Width;
-                }
-                else
-                {
-                    Properties.Settings.Default.Top = this.Top;
-                    Properties.Settings.Default.Left = this.Left;
-                    Properties.Settings.Default.Height = this.Height;
-                    Properties.Settings.Default.Width = this.Width;
-                }
+                    if (WindowState == WindowState.Maximized)
+                    {
+                        // Use the RestoreBounds as the current values will be 0, 0 and the size of the screen
+                        Properties.Settings.Default.Top = RestoreBounds.Top;
+                        Properties.Settings.Default.Left = RestoreBounds.Left;
+                        Properties.Settings.Default.Height = RestoreBounds.Height;
+                        Properties.Settings.Default.Width = RestoreBounds.Width;
+                    }
+                    else
+                    {
+                        Properties.Settings.Default.Top = this.Top;
+                        Properties.Settings.Default.Left = this.Left;
+                        Properties.Settings.Default.Height = this.Height;
+                        Properties.Settings.Default.Width = this.Width;
+                    }
 
-                Properties.Settings.Default.DarkTheme = this.DarkThemeEnabled;
-                if (!this.ViewModel.CheckNotepadNull())
-                {
-                    Properties.Settings.Default.DefaultFont = this.ViewModel.Notepad.DocumentFormat.Family.ToString();
-                    Properties.Settings.Default.DefaultFontSize = this.ViewModel.Notepad.DocumentFormat.Size;
+                    Properties.Settings.Default.DarkTheme = this.DarkThemeEnabled;
+                    if (!this.ViewModel.CheckNotepadNull())
+                    {
+                        Properties.Settings.Default.DefaultFont = this.ViewModel.Notepad.DocumentFormat.Family.ToString();
+                        Properties.Settings.Default.DefaultFontSize = this.ViewModel.Notepad.DocumentFormat.Size;
+                    }
+                    Properties.Settings.Default.Save();
                 }
-                Properties.Settings.Default.Save();
+                catch { }
             }
         }
 

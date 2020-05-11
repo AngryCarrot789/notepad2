@@ -9,7 +9,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
         Title="SharpPad (Main Window)" 
-        Height="576" Width="1024" 
+        Height="576" Width="1154.5" 
         KeyDown="Window_KeyDown" KeyUp="Window_KeyUp"
         Style="{DynamicResource CustomWindowStyle}"
         Icon="Resources/sharpPadIcon.png" 
@@ -19,7 +19,7 @@
         <ObjectDataProvider x:Key="FontFamilyOptions"
                             ObjectType="{x:Type media:Fonts}"
                             MethodName="get_SystemFontFamilies"/>
-
+        
         <x:Array x:Key="FontSizeOptions"
                  Type="sys:Double">
             <sys:Double>2</sys:Double>
@@ -49,15 +49,20 @@
             <win:FontWeight>ExtraBold</win:FontWeight>
         </x:Array>
 
+        <x:Array x:Key="FontDecorationsOptions" Type="sys:String">
+            <sys:String>None</sys:String>
+            <sys:String>Underline</sys:String>
+            <sys:String>Strikethrough</sys:String>
+            <sys:String>OverLine</sys:String>
+            <sys:String>Baseline</sys:String>
+        </x:Array>
+
         <x:Array x:Key="FontStyleOptions" Type="win:FontStyle">
             <win:FontStyle>Normal</win:FontStyle>
             <win:FontStyle>Italic</win:FontStyle>
             <win:FontStyle>Oblique</win:FontStyle>
         </x:Array>
     </Window.Resources>
-    <Window.InputBindings>
-        <KeyBinding Command="{Binding CloseSelectedNotepadCommand}" Gesture="Del"/>
-    </Window.InputBindings>
     <Grid>
         <Menu VerticalAlignment="Top" HorizontalAlignment="Stretch" Grid.ColumnSpan="3">
             <MenuItem Header="File">
@@ -95,147 +100,166 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <StackPanel Orientation="Horizontal" Margin="0,18,0,0" Height="32" VerticalAlignment="Top">
-            <Button Command="{Binding NewCommand}" ToolTip="Add New Blank File" 
-                        BorderBrush="Transparent" Background="Transparent" Margin="0,0,2,0" Focusable="False">
-                <Image Margin="2" Source="Resources/newFile.png"/>
-            </Button>
-            <Button Command="{Binding OpenCommand}" ToolTip="Open File from File Explorer"
-                        BorderBrush="Transparent" Background="Transparent" Margin="0,0,2,0" Focusable="False">
-                <Image Margin="2" Source="Resources/openFile.png"/>
-            </Button>
-            <Button Command="{Binding SaveCommand}" ToolTip="Save current File" BorderBrush="Transparent" 
-                        Background="Transparent" Margin="0,0,2,0" Focusable="False">
-                <Image Margin="2" Source="Resources/saveFile.png"/>
-            </Button>
-            <Button Command="{Binding SaveAsCommand}" ToolTip="Save current File As..." BorderBrush="Transparent"
-                        Background="Transparent" Margin="0,0,2,0" Focusable="False">
-                <Image Margin="2" Source="Resources/saveFileAs.png"/>
-            </Button>
-            <Button Command="{Binding CloseSelectedNotepadCommand}" ToolTip="Close current File and Remove" 
-                        BorderBrush="Transparent" Background="Transparent" Margin="0,0,2,0" Focusable="False">
-                <Image Margin="2" Source="Resources/closeFile.png"/>
-            </Button>
-            <Button Command="{Binding CloseAllNotepadsCommand}" ToolTip="Close ALL Files and Remove them" 
-                        BorderBrush="Transparent" Background="Transparent" Margin="0,0,2,0" Focusable="False">
-                <Image Margin="2" Source="Resources/closeAllFiles.png"/>
-            </Button>
-            <Button Background="Transparent" Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
-                <Image Source="Resources/RTBIcons/cut.png"/>
-            </Button>
-            <Button Background="Transparent" Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
-                <Image Source="Resources/RTBIcons/copy.png"/>
-            </Button>
-            <Button Background="Transparent" Command="ApplicationCommands.Paste" ToolTip="Paste (From Clipboard)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
-                <Image Source="Resources/RTBIcons/paste.png"/>
-            </Button>
-            <Button Background="Transparent" Command="ApplicationCommands.Undo" ToolTip="Undo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
-                <Image Source="Resources/RTBIcons/undo.png"/>
-            </Button>
-            <Button Background="Transparent" Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
-                <Image Source="Resources/RTBIcons/redo.png"/>
-            </Button>
-            <Button Command="{Binding OpenInNewWindowCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
-                        ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))" Margin="0,0,2,0" Focusable="False">
-                <Image Margin="2" Source="Resources/openInNewWindow.png"/>
-            </Button>
-            <Button Command="{Binding PrintFileCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
-                        ToolTip="Print text" Margin="0,0,2,0" Focusable="False">
-                <Image Margin="2" Source="Resources/printIcon.png"/>
-            </Button>
-            <Button Command="{Binding ShowFindWindowCommand}" IsEnabled="True" Background="Transparent"
-                    ToolTip="Find text in notepad (works okayish, not fully reliable)"
-                    Margin="0,0,2,0" Focusable="False" Width="40">
-                <TextBlock Text="Find" Margin="2"/>
-            </Button>
-        </StackPanel>
-        <Grid Margin="5,55,0,0" Height="24" VerticalAlignment="Top">
-            <StackPanel Orientation="Horizontal" DataContext="{Binding Notepad.DocumentFormat, UpdateSourceTrigger=PropertyChanged}">
-                <ComboBox Width="132" ItemsSource="{Binding Source={StaticResource FontFamilyOptions}}"
-                          SelectedItem="{Binding Family, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" HorizontalAlignment="Left" IsEditable="True" Height="24">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <ComboBox Width="63" ItemsSource="{Binding Source={StaticResource FontSizeOptions}}"
-                          SelectedItem="{Binding Size, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedIndex="15" HorizontalAlignment="Left" Height="24" Margin="5 0 0 0">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <ComboBox ItemsSource="{Binding Source={StaticResource FontStyleOptions}}"
-                          SelectedItem="{Binding Style, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedIndex="0" Margin="5 0 0 0" Width="75"/>
-                <ComboBox ItemsSource="{Binding Source={StaticResource FontWeightOptions}}"
-                          SelectedItem="{Binding Weight, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedIndex="0" Margin="5,0,0,0"/>
-                <CheckBox Margin="5,0,0,0" Content="Wrap" IsChecked="{Binding Wrapping, UpdateSourceTrigger=PropertyChanged}"/>
-            </StackPanel>
-        </Grid>
-
-        <Grid Margin="5,84,5,5">
-            <Grid HorizontalAlignment="Left" Width="200">
-                <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
-                     x:Name="notepadLstBox" 
-                     SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
-                     HorizontalContentAlignment="Stretch" 
-                     AllowDrop="True" 
-                     Drop="ListBox_Drop" Margin="0,0,0,40"/>
-                <Button Command="{Binding ClearListAndNotepadCommand}" BorderThickness="1 0 1 1" Content="Clear List" VerticalAlignment="Bottom" Height="40" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"/>
-            </Grid>
-            <Grid Margin="205,0,0,0">
-                <Grid Margin="0,0,0,0" DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}">
-                    <Grid>
-                        <Border Background="Transparent" Margin="0,0,0,20" BorderThickness="0">
+        <DockPanel Margin="5,18,5,5">
+            <ToolBarTray DockPanel.Dock="Top" Background="Transparent">
+                <ToolBar Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" OverridesDefaultStyle="True">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Command="{Binding NewCommand}" ToolTip="Add New Blank File" 
+                                BorderBrush="Transparent" Background="Transparent" Margin="0,0,2,0" Focusable="False">
+                            <Image Margin="2" Source="Resources/newFile.png"/>
+                        </Button>
+                        <Button Command="{Binding OpenCommand}" ToolTip="Open File from File Explorer"
+                                BorderBrush="Transparent" Background="Transparent" Margin="0,0,2,0" Focusable="False">
+                            <Image Margin="2" Source="Resources/openFile.png"/>
+                        </Button>
+                        <Button Command="{Binding SaveCommand}" ToolTip="Save current File" BorderBrush="Transparent" 
+                                Background="Transparent" Margin="0,0,2,0" Focusable="False">
+                            <Image Margin="2" Source="Resources/saveFile.png"/>
+                        </Button>
+                        <Button Command="{Binding SaveAsCommand}" ToolTip="Save current File As..." BorderBrush="Transparent"
+                                Background="Transparent" Margin="0,0,2,0" Focusable="False">
+                            <Image Margin="2" Source="Resources/saveFileAs.png"/>
+                        </Button>
+                        <Button Command="{Binding CloseSelectedNotepadCommand}" ToolTip="Close current File and Remove" 
+                                BorderBrush="Transparent" Background="Transparent" Margin="0,0,2,0" Focusable="False">
+                            <Image Margin="2" Source="Resources/closeFile.png"/>
+                        </Button>
+                        <Button Command="{Binding CloseAllNotepadsCommand}" ToolTip="Close ALL Files and Remove them" 
+                                BorderBrush="Transparent" Background="Transparent" Margin="0,0,2,0" Focusable="False">
+                            <Image Margin="2" Source="Resources/closeAllFiles.png"/>
+                        </Button>
+                        <Button Background="Transparent" Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
+                            <Image Source="Resources/RTBIcons/cut.png"/>
+                        </Button>
+                        <Button Background="Transparent" Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
+                            <Image Source="Resources/RTBIcons/copy.png"/>
+                        </Button>
+                        <Button Background="Transparent" Command="ApplicationCommands.Paste" ToolTip="Paste (From Clipboard)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
+                            <Image Source="Resources/RTBIcons/paste.png"/>
+                        </Button>
+                        <Button Background="Transparent" Command="ApplicationCommands.Undo" ToolTip="Undo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
+                            <Image Source="Resources/RTBIcons/undo.png"/>
+                        </Button>
+                        <Button Background="Transparent" Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
+                            <Image Source="Resources/RTBIcons/redo.png"/>
+                        </Button>
+                        <Button Command="{Binding OpenInNewWindowCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
+                                ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))" Margin="0,0,2,0" Focusable="False">
+                            <Image Margin="2" Source="Resources/openInNewWindow.png"/>
+                        </Button>
+                        <Button Command="{Binding PrintFileCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
+                                ToolTip="Print text" Margin="0,0,2,0" Focusable="False">
+                            <Image Margin="2" Source="Resources/printIcon.png"/>
+                        </Button>
+                        <Button Command="{Binding ShowFindWindowCommand}" IsEnabled="True" Background="Transparent"
+                                ToolTip="Find text in notepad (works okayish, not fully reliable)"
+                                Margin="0,0,2,0" Focusable="False" Width="40">
+                            <TextBlock Text="Find" Margin="2"/>
+                        </Button>
+                    </StackPanel>
+                </ToolBar>
+                <ToolBar HorizontalAlignment="Left" DataContext="{Binding Notepad.DocumentFormat, UpdateSourceTrigger=PropertyChanged}" Height="32">
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox Width="132" ItemsSource="{Binding Source={StaticResource FontFamilyOptions}}"
+                                  SelectedItem="{Binding Family, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" 
+                                  HorizontalAlignment="Left" IsEditable="True">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox Width="63" ItemsSource="{Binding Source={StaticResource FontSizeOptions}}"
+                                  SelectedItem="{Binding Size, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedIndex="15" HorizontalAlignment="Left" Margin="5 0 0 0">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ComboBox ItemsSource="{Binding Source={StaticResource FontStyleOptions}}"
+                                  SelectedItem="{Binding Style, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedIndex="0" Margin="5 0 0 0" Width="75"/>
+                        <ComboBox ItemsSource="{Binding Source={StaticResource FontWeightOptions}}"
+                                  SelectedItem="{Binding Weight, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedIndex="0" Margin="5,0,0,0"/>
+                        <ComboBox ItemsSource="{Binding Source={StaticResource FontDecorationsOptions}}"
+                                  SelectedItem="{Binding Decoration, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedIndex="0" Margin="5,0,0,0"/>
+                        <CheckBox Margin="5,0,0,0" Content="Wrap" IsChecked="{Binding IsWrapped, UpdateSourceTrigger=PropertyChanged}"/>
+                        <CheckBox Margin="5 0 0 0" Content="Spell check" IsChecked="{Binding EnableSpellCheck, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </ToolBar>
+            </ToolBarTray>
+            <Grid>
+                <Grid>
+                    <Grid HorizontalAlignment="Left" Width="200">
+                        <ListBox ItemsSource="{Binding NotepadItems, UpdateSourceTrigger=PropertyChanged}"
+                                 x:Name="notepadLstBox" 
+                                 SelectedIndex="{Binding SelectedIndex, UpdateSourceTrigger=PropertyChanged}"
+                                 HorizontalContentAlignment="Stretch" 
+                                 AllowDrop="True" 
+                                 Drop="ListBox_Drop" Margin="0,0,0,40">
+                            <ListBox.InputBindings>
+                                <KeyBinding Command="{Binding CloseSelectedNotepadCommand}" Gesture="Del"/>
+                            </ListBox.InputBindings>
+                        </ListBox>
+                        <Button Command="{Binding ClearListAndNotepadCommand}" BorderThickness="1 0 1 1" 
+                                Content="Clear List" VerticalAlignment="Bottom" Height="40" BorderBrush="{DynamicResource ControlBrightDefaultBorderBrush}"/>
+                    </Grid>
+                    <Grid Margin="205,0,0,0">
+                        <Grid Margin="0,0,0,0" DataContext="{Binding Notepad, UpdateSourceTrigger=PropertyChanged}">
                             <Grid>
-                                <TextBox MouseWheel="TextBox_MouseWheel"
-                                         x:Name="MainTextBox"
-                                         FontFamily="{Binding   DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
-                                         FontSize="{Binding     DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
-                                         FontStyle="{Binding    DocumentFormat.Style, UpdateSourceTrigger=PropertyChanged}"
-                                         FontWeight="{Binding   DocumentFormat.Weight, UpdateSourceTrigger=PropertyChanged}"
-                                         TextWrapping="{Binding DocumentFormat.Wrap, UpdateSourceTrigger=PropertyChanged}"
-                                         Text="{Binding         Document.Text, UpdateSourceTrigger=PropertyChanged}"
-                                         Focusable="True" LostFocus="MainTextBox_LostFocus"
-                                         AcceptsReturn="True"
-                                         AcceptsTab="True"
-                                         HorizontalScrollBarVisibility="Visible"
-                                         VerticalScrollBarVisibility="Visible"
-                                         Language="en"
-                                         SpellCheck.IsEnabled="True"
-                                         SpellCheck.SpellingReform="Postreform"/>
-                            </Grid>
-                        </Border>
-                        <DockPanel Height="20" VerticalAlignment="Bottom">
-                            <Grid MinWidth="200">
-                                <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1 1 0 1"/>
-                                <TextBlock Text="Name:" Margin="60,2,0,2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                <TextBox VerticalAlignment="Center"
+                                <Border Background="Transparent" Margin="0,0,0,20" BorderThickness="0">
+                                    <Grid>
+                                        <TextBox MouseWheel="TextBox_MouseWheel"
+                                                 x:Name="MainTextBox"
+                                                 FontFamily="{Binding           DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
+                                                 FontSize="{Binding             DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
+                                                 FontStyle="{Binding            DocumentFormat.Style, UpdateSourceTrigger=PropertyChanged}"
+                                                 FontWeight="{Binding           DocumentFormat.Weight, UpdateSourceTrigger=PropertyChanged}"
+                                                 TextDecorations="{Binding      DocumentFormat.Decoration, UpdateSourceTrigger=PropertyChanged}"
+                                                 TextWrapping="{Binding         DocumentFormat.Wrap, UpdateSourceTrigger=PropertyChanged}"
+                                                 Text="{Binding                 Document.Text, UpdateSourceTrigger=PropertyChanged}"
+                                                 SpellCheck.IsEnabled="{Binding DocumentFormat.EnableSpellCheck, UpdateSourceTrigger=PropertyChanged}"
+                                                 Focusable="True" LostFocus="MainTextBox_LostFocus"
+                                                 AcceptsReturn="True"
+                                                 AcceptsTab="True"
+                                                 HorizontalScrollBarVisibility="Visible"
+                                                 VerticalScrollBarVisibility="Visible"
+                                                 Language="en"
+                                                 SpellCheck.SpellingReform="Postreform">
+                                        </TextBox>
+                                    </Grid>
+                                </Border>
+                                <DockPanel Height="20" VerticalAlignment="Bottom">
+                                    <Grid MinWidth="200">
+                                        <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1 1 0 1"/>
+                                        <TextBlock Text="Name:" Margin="60,2,0,2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <TextBox VerticalAlignment="Center"
                                                  BorderBrush="Transparent"
-                                                 DataContext="{Binding Document}"
-                                                 Text="{Binding FileName}" Background="Transparent" Margin="99,1,1,2" Height="17"/>
-                                <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="51" Margin="5,3,0,4" Height="13" ToolTip="CTRL + Scrollwheel to zoom. also, this is just the fontsize.">
-                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Zoom:" FontSize="10"/>
-                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}" Margin="31,0,0,0" FontSize="10"/>
-                                </Grid>
+                                                 DataContext="{Binding Document, UpdateSourceTrigger=PropertyChanged}"
+                                                 Text="{Binding FileName, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" Margin="99,1,1,2" Height="17"/>
+                                        <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="51" Margin="5,3,0,4" Height="13" ToolTip="CTRL + Scrollwheel to zoom. also, this is just the fontsize.">
+                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Zoom:" FontSize="10"/>
+                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}" Margin="31,0,0,0" FontSize="10"/>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid Grid.Column="1">
+                                        <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="0 1 1 1"/>
+                                        <TextBlock Text="Path:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <TextBox VerticalAlignment="Center" Background="Transparent"
+                                                 DataContext="{Binding Document, UpdateSourceTrigger=PropertyChanged}" Margin="31,1,2,2"
+                                                 BorderBrush="Transparent" Height="17"
+                                                 Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </Grid>
+                                </DockPanel>
                             </Grid>
-                            <Grid Grid.Column="1">
-                                <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="0 1 1 1"/>
-                                <TextBlock Text="Path:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                <TextBox VerticalAlignment="Center"
-                               DataContext="{Binding Document}"
-                                     BorderBrush="Transparent"
-                               Text="{Binding FilePath}" Background="Transparent" Margin="31,1,2,2" Height="17"/>
-                            </Grid>
-                        </DockPanel>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>
-        </Grid>
+        </DockPanel>
     </Grid>
 </Window>

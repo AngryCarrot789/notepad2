@@ -3257,7 +3257,7 @@
         <Setter Property="CornerRadius" Value="0"/>
     </Style>
     <Style TargetType="{x:Type ToolBar}">
-        <Setter Property="Background" Value="{StaticResource ControlDefaultBackground}"/>
+        <Setter Property="Background" Value="{StaticResource ContainerBackground}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ControlDefaultBorderBrush}"/>
         <Setter Property="Foreground" Value="{StaticResource ControlDefaultForeground}"/>
         <Setter Property="Template">
@@ -3339,6 +3339,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+
     <ControlTemplate x:Key="NoCornersToolBar" TargetType="{x:Type ToolBar}">
         <Grid x:Name="Grid" Margin="0" SnapsToDevicePixels="true">
             <Grid x:Name="OverflowGrid" HorizontalAlignment="Right">

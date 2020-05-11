@@ -20,6 +20,13 @@ namespace Notepad2.Notepad
             set { RaisePropertyChanged(ref _weight, value); }
         }
 
+        private TextDecorationCollection _decoration;
+        public TextDecorationCollection Decoration
+        {
+            get => _decoration;
+            set => RaisePropertyChanged(ref _decoration, value);
+        }
+
         private FontFamily _family;
         public FontFamily Family
         {
@@ -34,15 +41,25 @@ namespace Notepad2.Notepad
             set
             {
                 RaisePropertyChanged(ref _wrap, value);
-                isWrapped = value == TextWrapping.Wrap ? true : false;
             }
         }
 
         private bool _isWrapped;
-        public bool isWrapped
+        public bool IsWrapped
         {
             get { return _isWrapped; }
-            set { RaisePropertyChanged(ref _isWrapped, value); }
+            set
+            {
+                RaisePropertyChanged(ref _isWrapped, value);
+                Wrap = value ? TextWrapping.Wrap : TextWrapping.NoWrap;
+            }
+        }
+
+        private bool _enableSpellChecking;
+        public bool EnableSpellCheck
+        {
+            get => _enableSpellChecking;
+            set => RaisePropertyChanged(ref _enableSpellChecking, value);
         }
 
         private double _size;

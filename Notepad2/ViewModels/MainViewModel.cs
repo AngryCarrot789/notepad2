@@ -4,6 +4,7 @@ using Notepad2.Notepad;
 using Notepad2.Utilities;
 using Notepad2.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -24,7 +25,6 @@ namespace Notepad2.ViewModels
         private int _selectedIndex;
         private bool _normalTextBoxSelected;
         private int _textEditorsSelectedIndex;
-        private bool _wrapping;
 
         #endregion
 
@@ -74,15 +74,6 @@ namespace Notepad2.ViewModels
                     TextBoxSelected = true;
                 else if (value > 0)
                     TextBoxSelected = false;
-            }
-        }
-        public bool Wrapping
-        {
-            get => _wrapping;
-            set
-            {
-                RaisePropertyChanged(ref _wrapping, value);
-                SetWrapping(value);
             }
         }
 
@@ -265,14 +256,6 @@ namespace Notepad2.ViewModels
 
         #region Other functions
 
-        public void SetWrapping(bool setWrap)
-        {
-            if (setWrap)
-                Notepad.DocumentFormat.Wrap = TextWrapping.Wrap;
-            else
-                Notepad.DocumentFormat.Wrap = TextWrapping.NoWrap;
-        }
-
         private void ClearTextAndList()
         {
             NotepadItems.Clear();
@@ -309,7 +292,8 @@ namespace Notepad2.ViewModels
             {
                 Family = font,
                 Size = fontSize,
-                Wrap = TextWrapping.Wrap
+                IsWrapped = true,
+                EnableSpellCheck = true
             };
             return CreateNotepadItem(text, itemName, itemPath, itemSize, fm);
         }
