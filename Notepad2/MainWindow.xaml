@@ -102,7 +102,7 @@
         </Menu>
         <DockPanel Margin="5,18,5,5">
             <ToolBarTray DockPanel.Dock="Top" Background="Transparent">
-                <ToolBar Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" OverridesDefaultStyle="True">
+                <ToolBar Margin="0 0 5 0" Template="{DynamicResource NoCornersToolBar}" Height="32" VerticalAlignment="Top" HorizontalAlignment="Left" OverridesDefaultStyle="True">
                     <StackPanel Orientation="Horizontal">
                         <Button Command="{Binding NewCommand}" ToolTip="Add New Blank File" 
                                 BorderBrush="Transparent" Background="Transparent" Margin="0,0,2,0" Focusable="False">
@@ -158,7 +158,7 @@
                         </Button>
                     </StackPanel>
                 </ToolBar>
-                <ToolBar HorizontalAlignment="Left" DataContext="{Binding Notepad.DocumentFormat, UpdateSourceTrigger=PropertyChanged}" Height="32">
+                <ToolBar Template="{DynamicResource NoCornersToolBar}" HorizontalAlignment="Left" DataContext="{Binding Notepad.DocumentFormat, UpdateSourceTrigger=PropertyChanged}" Height="32">
                     <StackPanel Orientation="Horizontal">
                         <ComboBox Width="132" ItemsSource="{Binding Source={StaticResource FontFamilyOptions}}"
                                   SelectedItem="{Binding Family, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" 
