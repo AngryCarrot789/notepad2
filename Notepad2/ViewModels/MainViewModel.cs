@@ -105,7 +105,6 @@ namespace Notepad2.ViewModels
         public HelpViewModel Help { get; set; }
         public FindTextWindow FindWindow { get; set; }
         public Action<NotepadListItem, AnimationFlag> AnimateAddCallback { get; set; }
-        public Action<string, string, bool, bool> FindTextCallback { get; set; }
 
         public MainViewModel()
         {
@@ -116,7 +115,6 @@ namespace Notepad2.ViewModels
             SetupCommands();
 
             FindWindow = new FindTextWindow();
-            FindWindow.FindNext = FindAndSelect;
             KeydownManager.KeyDown += KeydownManager_KeyDown;
             InfoStatusErrorsItems = new ObservableCollection<InformationListItem>();
             Information.AddErrorCallback = AddInfoStatusInfoMessage;
@@ -555,11 +553,6 @@ namespace Notepad2.ViewModels
         public void OpenFindWindow()
         {
             FindWindow.Show();
-        }
-
-        public void FindAndSelect(string TextToFind, bool MatchCase, bool SearchDownOrUp)
-        {
-            FindTextCallback?.Invoke(TextToFind, Notepad.Document.Text, MatchCase, SearchDownOrUp);
         }
 
         #endregion

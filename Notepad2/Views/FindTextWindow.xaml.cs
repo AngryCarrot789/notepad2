@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Notepad2.Finding;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Documents;
@@ -11,12 +12,13 @@ namespace Notepad2.Views
     /// </summary>
     public partial class FindTextWindow : Window
     {
-        public Action<string, bool, bool> FindNext { get; set; }
-
-        public List<int> FoundTextIndexes;
+        //public List<FindResult> FoundText
+        //{
+        //    gwt 
+        //}
         public int CurrentFindIndex;
         public bool HasAlreadySearched;
-        public string FindingText;
+        public string FindingText { get => FindText.Text; set => FindText.Text = value; }
 
         public FindTextWindow()
         {
@@ -27,7 +29,14 @@ namespace Notepad2.Views
         {
             Find();
         }
-
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Escape: this.Hide(); break;
+                case Key.Enter: Find(); break;
+            }
+        }
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
@@ -41,28 +50,7 @@ namespace Notepad2.Views
 
         public void Find()
         {
-            if (FindingText != FindText.Text)
-            {
-                HasAlreadySearched = false;
-                CurrentFindIndex = 0;
-            }
-            FindNext?.Invoke(FindText.Text, matchCaseCBx.IsChecked ?? false, directionCBx.IsChecked ?? false);
-            FindingText = FindText.Text;
-        }
-
-        public void SetPreviewText(string text)
-        {
-            PreviewText.Text = text;
-        }
-
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case Key.Escape: this.Hide(); break;
-
-                case Key.Enter: Find(); break;
-            }
+            //FoundText = CharacterFinder.FindTextOccurrences()
         }
     }
 }

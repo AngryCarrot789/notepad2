@@ -8,7 +8,8 @@
         KeyDown="Window_KeyDown"
         mc:Ignorable="d" 
         Style="{DynamicResource CustomToolWindowStyle}"
-        Title="Find" Height="149.334" Width="380">
+        Title="Find" Height="400" Width="380"
+        Topmost="True">
     <Grid>
         <TextBlock HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top"><Run Text="F" TextDecorations="Underline"/><Run Text="ind what:"/></TextBlock>
         <TextBox Focusable="True" x:Name="FindText" Padding="2" Height="24" Margin="69,10,90,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
@@ -18,24 +19,14 @@
         <Button x:Name="CancelButton" HorizontalAlignment="Right" Margin="0,39,10,0" VerticalAlignment="Top" Width="75" Height="24" Click="CancelButton_Click">
             <TextBlock><Run Text="C" TextDecorations="Underline"/><Run Text="ancel"/></TextBlock>
         </Button>
-        <Grid Margin="10,60,90,10">
-            <TextBlock Text="" x:Name="PreviewText" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10 0 10 0" TextAlignment="Center">
-                <TextBlock.OpacityMask>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                        <GradientStop Color="Transparent" Offset="1"/>
-                        <GradientStop Offset="0.5" Color="#B2FFFFFF"/>
-                        <GradientStop/>
-                    </LinearGradientBrush>
-                </TextBlock.OpacityMask>
-            </TextBlock>
-        </Grid>
         <CheckBox Content="Match Case" x:Name="matchCaseCBx"
                   ToolTip="If you want to find the exact text, including upper and lower cases, check this."
                   HorizontalAlignment="Left" Margin="10,39,0,0" 
                   VerticalAlignment="Top" Height="16"/>
         <CheckBox Content="Direction DOWN" x:Name="directionCBx"
-            ToolTip="If you want to find the exact text, including upper and lower cases, check this."
-            HorizontalAlignment="Left" Margin="95,39,0,0" 
-            VerticalAlignment="Top" Height="16"/>
+                  ToolTip="If you want to find the exact text, including upper and lower cases, check this."
+                  HorizontalAlignment="Left" Margin="95,39,0,0" 
+                  VerticalAlignment="Top" Height="16"/>
+        <ListBox x:Name="foundItems" Margin="10,68,10,10"/>
     </Grid>
 </Window>

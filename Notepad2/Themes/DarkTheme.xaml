@@ -1440,8 +1440,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContextMenu}">
-                    <Border x:Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2">
-                        <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Hidden">
+                    <Border x:Name="Border" 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="2">
+                        <ScrollViewer x:Name="ScrollViewer" 
+                                      VerticalScrollBarVisibility="Hidden">
                             <ItemsPresenter />
                         </ScrollViewer>
                     </Border>

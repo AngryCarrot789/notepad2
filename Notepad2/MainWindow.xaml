@@ -150,7 +150,7 @@
                                 ToolTip="Print text" Margin="0,0,2,0" Focusable="False">
                         <Image Margin="2" Source="Resources/printIcon.png"/>
                     </Button>
-                    <Button Command="{Binding ShowFindWindowCommand}" IsEnabled="True" Background="Transparent"
+                    <Button Command="{Binding ShowFindWindowCommand}" Background="Transparent" IsEnabled="False"
                             ToolTip="Find text in notepad (works okayish, not fully reliable)" Focusable="False" Width="48">
                         <TextBlock Text="Find" Margin="2"/>
                     </Button>

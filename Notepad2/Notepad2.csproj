@@ -63,6 +63,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\TextChangedToUnsavedIndicatorConverter.cs" />
+    <Compile Include="Finding\CharacterFinder.cs" />
+    <Compile Include="Finding\FindResult.cs" />
     <Compile Include="InformationStuff\InformationListItem.xaml.cs">
       <DependentUpon>InformationListItem.xaml</DependentUpon>
     </Compile>
@@ -94,7 +96,6 @@
     <Compile Include="InformationStuff\Information.cs" />
     <Compile Include="Utilities\GlobalVariables.cs" />
     <Compile Include="Utilities\KeydownManager.cs" />
-    <Compile Include="Utilities\WordFinder.cs" />
     <Compile Include="ViewModels\FileItemViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

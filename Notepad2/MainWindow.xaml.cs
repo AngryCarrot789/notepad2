@@ -67,7 +67,6 @@ namespace Notepad2
             this.DataContext = ViewModel;
 
             ViewModel.AnimateAddCallback = this.AnimateControl;
-            ViewModel.FindTextCallback = FindAndSelect;
         }
 
         private void ChangeTheme(object sender, RoutedEventArgs e)
@@ -88,33 +87,6 @@ namespace Notepad2
 
         public string CurrentlySelectedText { get; set; }
         public int CurrentSelectingPosition { get; set; }
-        public void FindAndSelect(string pSearchText, string totalText, bool pMatchCase, bool pSearchDown)
-        {
-            if (!ViewModel.FindWindow.HasAlreadySearched)
-            {
-                ViewModel.FindWindow.FoundTextIndexes = totalText.AllIndexesOf(pSearchText);
-                ViewModel.FindWindow.HasAlreadySearched = true;
-            }
-            if (ViewModel.FindWindow.HasAlreadySearched)
-            {
-                //int firstIndex = MainTextBox.Text.ToLower().IndexOf(pSearchText);
-                MainTextBox.Select(ViewModel.FindWindow.FoundTextIndexes[ViewModel.FindWindow.CurrentFindIndex], pSearchText.Length);
-                int caretIndex = MainTextBox.CaretIndex;
-                int before = caretIndex - pSearchText.Length - 8;
-                int after = caretIndex + 8;
-                if (before >= 0 && after + 8 < totalText.Length)
-                {
-                    try
-                    {
-                        string charsBetweenWord = totalText.Substring(before, after);
-                        ViewModel.FindWindow.SetPreviewText(charsBetweenWord);
-                    }
-                    catch { }
-                }
-                ViewModel.FindWindow.CurrentFindIndex++;
-            }
-        }
-
         public void LoadSettings()
         {
             this.Top = Properties.Settings.Default.Top;
@@ -268,8 +240,8 @@ namespace Notepad2
 
         private void MainTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (CurrentSelectingPosition != 0 && !string.IsNullOrEmpty(CurrentlySelectedText))
-                MainTextBox.Select(CurrentSelectingPosition, CurrentlySelectedText.Length);
+            //if (CurrentSelectingPosition != 0 && !string.IsNullOrEmpty(CurrentlySelectedText))
+            //    MainTextBox.Select(CurrentSelectingPosition, CurrentlySelectedText.Length);
         }
     }
 }
