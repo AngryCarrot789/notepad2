@@ -8,6 +8,7 @@ the items on the left are a separate control (NotepadListitems) , and their data
 
 ## Errors:
 I added a feature to open the selected notepad in another window. It's a bit broken, and by a bit i mean very broken. Try not to use it; closing the original mainwindow closes all other windows because of some error i couldnt fix because of a vs2017 bug not letting "ExitOnLastWindow" or something, work. and some other things too. I added a Main Window thing to the titlebar, so that you know which window is which. but overall, dont use it :) use 2 different windows but different "applications", aka double click the icon, and then use the drag and drop feature with the NotepadItems :)
+Also, using Find can crash the program because i have no clue why tbh. might fix soon
 
 ## Latest Updates
 - Added a RichTextBox bitt to it (still WIP, but you can have a look at it if you want; the 2 text editors are stuffed in a tabcontrol)#
