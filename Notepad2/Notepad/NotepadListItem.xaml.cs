@@ -27,6 +27,24 @@ namespace Notepad2.Notepad
         public Action<NotepadListItem> Open { get; set; }
         public Action<NotepadListItem> OpenInFileExplorer { get; set; }
         public FileItemViewModel Notepad { get => DataContext as FileItemViewModel; }
+
+        public static string[] PresetExtensions = new string[13]
+        {
+            ".txt",
+            ".text",
+            ".cs",
+            ".c",
+            ".cpp",
+            ".h",
+            ".xaml",
+            ".xml",
+            ".htm",
+            ".html",
+            ".css",
+            ".js",
+            ".exe",
+        };
+
         public NotepadListItem()
         {
             InitializeComponent();
@@ -105,6 +123,31 @@ namespace Notepad2.Notepad
             if (File.Exists(Notepad.Document.FilePath))
                 File.Delete(Notepad.Document.FilePath);
             Close?.Invoke(this);
+        }
+
+        private void SetFileExtensionsClicks(object sender, RoutedEventArgs e)
+        {
+            string notepadName = Notepad.Document.FileName;
+            string extension = ((MenuItem)sender).Uid;
+            bool hasExtension = false;
+            foreach (string extensionThing in PresetExtensions)
+            {
+                if (notepadName.Contains(extensionThing))
+                {
+                    hasExtension = true;
+                    break;
+                }
+            }
+            if (hasExtension)
+            {
+                string[] dotSplits = notepadName.Split('.');
+                string curExtension = dotSplits[dotSplits.Count() - 1];
+                int noCharToRemove = curExtension.Length + 1;
+                string fileNameNoExtension = notepadName.Substring(0, notepadName.Length - noCharToRemove);
+                Notepad.Document.FileName = fileNameNoExtension + extension;
+            }
+            else
+                Notepad.Document.FileName += extension;
         }
     }
 }

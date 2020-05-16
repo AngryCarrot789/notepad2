@@ -469,18 +469,22 @@ namespace Notepad2.ViewModels
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter =
                         "Plain Text (.txt)|*.txt|" +
+                        "Text..? ish (.text)|*.text|" +
+                        "C# File (.cs)|*.cs|" +
+                        "C File (.c)|*.c|" +
+                        "C++ File (.cpp)|*.cpp|" +
+                        "C/C++ Header File (.h)|*.h|" +
+                        "XAML File (.xaml)|*.xaml|" +
+                        "XML File (.xml)|*.xml|" +
                         "HTM File (.htm)|*.htm|" +
                         "HTML File (.html)|*.html|" +
                         "CSS File (.css)|*.css|" +
                         "JS File (.js)|*.js|" +
-                        "CS File (.cs)|*.cs|" +
-                        "C++ File (.cpp)|*.cpp|" +
-                        "C/C++ Header File (.h)|*.h|" +
+                        "EXE File (.exe)|*.exe|" +
                         "All files|*.*";
                 sfd.Title = "Select Files to save";
                 sfd.FileName = fivm.Document.FileName;
                 sfd.FilterIndex = 1;
-                sfd.DefaultExt = "txt";
                 sfd.RestoreDirectory = true;
 
                 if (sfd.ShowDialog() == true)
