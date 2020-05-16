@@ -41,6 +41,7 @@ namespace Notepad2.Notepad
                 case 0: Open?.Invoke(this); break;
                 case 1: Close?.Invoke(this); break;
                 case 2: OpenInFileExplorer?.Invoke(this); break;
+                case 3: DeleteFile(); break;
             }
         }
 
@@ -74,15 +75,19 @@ namespace Notepad2.Notepad
                         if (File.Exists(notepad.Document.FilePath))
                         {
                             string[] path1 = new string[1] { notepad.Document.FilePath };
+                            SetDraggingStatus(true);
                             DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path1), DragDropEffects.Copy);
+                            SetDraggingStatus(false);
                         }
                         else
                         {
                             string tempFilePath = Path.Combine(Path.GetTempPath(), notepad.Document.FileName);
                             File.WriteAllText(tempFilePath, notepad.Document.Text);
                             string[] path = new string[1] { tempFilePath };
+                            SetDraggingStatus(true);
                             DragDrop.DoDragDrop(this, new DataObject(DataFormats.FileDrop, path), DragDropEffects.Copy);
                             File.Delete(tempFilePath);
+                            SetDraggingStatus(false);
                         }
                     }
                     catch { }
@@ -92,10 +97,14 @@ namespace Notepad2.Notepad
 
         public void SetDraggingStatus(bool isDragging)
         {
-            if (isDragging)
-            {
+            BorderThickness = isDragging ? new Thickness(2) : new Thickness(0);
+        }
 
-            }
+        public void DeleteFile()
+        {
+            if (File.Exists(Notepad.Document.FilePath))
+                File.Delete(Notepad.Document.FilePath);
+            Close?.Invoke(this);
         }
     }
 }
