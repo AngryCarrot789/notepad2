@@ -1,20 +1,12 @@
-﻿using Notepad2.Utilities;
+﻿using Notepad2.InformationStuff;
+using Notepad2.Utilities;
 using Notepad2.ViewModels;
-using Notepad2.Views;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 
 namespace Notepad2.Notepad
 {
@@ -27,23 +19,6 @@ namespace Notepad2.Notepad
         public Action<NotepadListItem> Open { get; set; }
         public Action<NotepadListItem> OpenInFileExplorer { get; set; }
         public FileItemViewModel Notepad { get => DataContext as FileItemViewModel; }
-
-        public static string[] PresetExtensions = new string[13]
-        {
-            ".txt",
-            ".text",
-            ".cs",
-            ".c",
-            ".cpp",
-            ".h",
-            ".xaml",
-            ".xml",
-            ".htm",
-            ".html",
-            ".css",
-            ".js",
-            ".exe",
-        };
 
         public NotepadListItem()
         {
@@ -115,12 +90,20 @@ namespace Notepad2.Notepad
 
         public void SetDraggingStatus(bool isDragging)
         {
-            BorderThickness = isDragging ? new Thickness(2) : new Thickness(0);
+            if (isDragging)
+            {
+                BorderThickness = new Thickness(2);
+                Information.Show($"Started dragging", "DragDrop");
+            }
+            else
+            {
+                BorderThickness = new Thickness(0);
+            }
         }
 
         public void DeleteFile()
         {
-            if (File.Exists(Notepad.Document.FilePath))
+            if (File.Exists(Notepad.Document.FilePath)) 
                 File.Delete(Notepad.Document.FilePath);
             Close?.Invoke(this);
         }
@@ -130,7 +113,7 @@ namespace Notepad2.Notepad
             string notepadName = Notepad.Document.FileName;
             string extension = ((MenuItem)sender).Uid;
             bool hasExtension = false;
-            foreach (string extensionThing in PresetExtensions)
+            foreach (string extensionThing in GlobalPreferences.PRESET_EXTENSIONS)
             {
                 if (notepadName.Contains(extensionThing))
                 {

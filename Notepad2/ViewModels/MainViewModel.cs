@@ -161,10 +161,13 @@ namespace Notepad2.ViewModels
 
         private void OpenInNewWindow()
         {
-            MainWindow mWnd = new MainWindow(SelectedNotepadItem, false);
-            mWnd.Show();
-            mWnd.LoadSettings();
-            CloseSelectedNotepad();
+            if (SelectedNotepadItem != null)
+            {
+                MainWindow mWnd = new MainWindow(SelectedNotepadItem, false);
+                mWnd.Show();
+                mWnd.LoadSettings();
+                CloseSelectedNotepad();
+            }
         }
 
         public void ClearInfoItems()
@@ -228,10 +231,13 @@ namespace Notepad2.ViewModels
 
         public void AddNotepadItem(NotepadListItem nli)
         {
-            NotepadItems.Add(nli);
-            Information.Show($"Added FileItem: {nli.Notepad.Document.FileName}", InfoTypes.FileIO);
-            AnimateAddCallback?.Invoke(nli, AnimationFlag.NotepadItemOPEN);
-            UpdateNotepad();
+            if (nli != null)
+            {
+                NotepadItems.Add(nli);
+                Information.Show($"Added FileItem: {nli.Notepad.Document.FileName}", InfoTypes.FileIO);
+                AnimateAddCallback?.Invoke(nli, AnimationFlag.NotepadItemOPEN);
+                UpdateNotepad();
+            }
         }
 
         public void CloseNotepadItem(NotepadListItem nli)
@@ -244,7 +250,8 @@ namespace Notepad2.ViewModels
 
         private void CloseSelectedNotepad()
         {
-            CloseNotepadItem(SelectedNotepadItem);
+            if (SelectedNotepadItem != null)
+                CloseNotepadItem(SelectedNotepadItem);
         }
 
         private void CloseAllNotepads()
@@ -263,7 +270,8 @@ namespace Notepad2.ViewModels
         /// </summary>
         private void UpdateNotepad()
         {
-            OpenNotepadItem(SelectedNotepadItem);
+            if (SelectedNotepadItem != null)
+                OpenNotepadItem(SelectedNotepadItem);
         }
 
         #endregion
