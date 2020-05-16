@@ -10,7 +10,12 @@ namespace Notepad2.Notepad
         public string Text
         {
             get { return _text; }
-            set { RaisePropertyChanged(ref _text, value); TextChanged?.Invoke(); }
+            set
+            {
+                RaisePropertyChanged(ref _text, value); 
+                TextChanged?.Invoke();
+                FileSize = value.Length / 1000.0d;
+            }
         }
 
         private string _filePath;

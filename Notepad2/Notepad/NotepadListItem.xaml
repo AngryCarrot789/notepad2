@@ -16,6 +16,7 @@
              BorderThickness="0">
     <UserControl.Resources>
         <converters:TextChangedToUnsavedIndicatorConverter x:Key="tchanunsave"/>
+        <converters:FileSizeToColourConverter x:Key="fileSizeToColour"/>
     </UserControl.Resources>
     <UserControl.ContextMenu>
         <ContextMenu>
@@ -26,20 +27,20 @@
             <MenuItem Header="Delete File" Uid="3" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}"/>
             <Separator Style="{DynamicResource SeparatorStyle1}"/>
             <MenuItem Header="Set File Extension" Template="{DynamicResource DropDownMenuItemStyle}">
-                <MenuItem Header="PlainText "         Uid=".txt " Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="PlainText "         Uid=".txt" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
                 <MenuItem Header="Text..? ish"        Uid=".text" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="C#File "            Uid=".cs  " Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="C File "            Uid=".c   " Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="C++ File "          Uid=".cpp " Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="C/C++ Header File " Uid=".h   " Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="C#File "            Uid=".cs" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="C File "            Uid=".c" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="C++ File "          Uid=".cpp" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="C/C++ Header File " Uid=".h" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
                 <MenuItem Header="XAML File "         Uid=".xaml" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="XML File "          Uid=".xml " Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="HTM File "          Uid=".htm " Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="XML File "          Uid=".xml" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="HTM File "          Uid=".htm" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
                 <MenuItem Header="HTML File "         Uid=".html" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="CSS File "          Uid=".css " Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="JS  File "          Uid=".js  " Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="EXE File "          Uid=".exe " Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-                <MenuItem Header="All files"          Uid=".    " Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="CSS File "          Uid=".css" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="JS  File "          Uid=".js" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="EXE File "          Uid=".exe" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="All files"          Uid="." Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
 
             </MenuItem>
         </ContextMenu>
@@ -51,10 +52,16 @@
                    MaxHeight="60"
                    TextWrapping="Wrap"
                    FontSize="14" HorizontalAlignment="Left" Width="150" />
-        <TextBlock Text="{Binding Document.Text.Length, UpdateSourceTrigger=PropertyChanged}" Margin="36,0,0,3" VerticalAlignment="Bottom" FontSize="11" TextAlignment="Left" HorizontalAlignment="Left" Width="64" Height="15"/>
-        <TextBlock Text="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,16,4" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="59" TextAlignment="Right"/>
-        <TextBlock Margin="4,0,0,3" VerticalAlignment="Bottom" FontSize="11" Height="15" HorizontalAlignment="Left" Width="32"><Run Text="Chars"/><Run Text=":"/></TextBlock>
-        <TextBlock Text="KB" Margin="0,0,3,4" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="12" TextAlignment="Right"/>
+        <Grid Margin="4,0,2,3" Height="15" VerticalAlignment="Bottom">
+            <Grid.Background>
+                <SolidColorBrush Color="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource fileSizeToColour}}" Opacity="0.2"/>
+            </Grid.Background>
+            <TextBlock Text="Chars:" VerticalAlignment="Bottom" FontSize="11" Height="15" HorizontalAlignment="Left" Width="32"/>
+            <TextBlock Text="{Binding Document.Text.Length, UpdateSourceTrigger=PropertyChanged}" Margin="32,0,0,0" VerticalAlignment="Bottom" FontSize="11" TextAlignment="Left" HorizontalAlignment="Left" Width="62" Height="15"/>
+            <TextBlock Text="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,16,1" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="59" TextAlignment="Right"/>
+            <TextBlock Text="KB" Margin="0,0,3,1" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="12" TextAlignment="Right"/>
+        </Grid>
+
         <Button Background="Transparent" BorderBrush="Transparent" Content="X" HorizontalAlignment="Right" Margin="0,3,3,0" VerticalAlignment="Top" Width="18" Height="18" Click="Button_Click" FontSize="10"/>
         <TextBlock Text="{Binding Path=HasMadeChanges, Converter={StaticResource tchanunsave}}" HorizontalAlignment="Left" Margin="4,0,0,18" VerticalAlignment="Bottom" Width="50" FontSize="10"/>
     </Grid>

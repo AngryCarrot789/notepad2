@@ -62,6 +62,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\FileSizeToColourConverter.cs" />
     <Compile Include="Converters\TextChangedToUnsavedIndicatorConverter.cs" />
     <Compile Include="Finding\CharacterFinder.cs" />
     <Compile Include="Finding\FindResult.cs" />
@@ -94,7 +95,7 @@
     <Compile Include="Utilities\Command.cs" />
     <Compile Include="Utilities\CommandParam.cs" />
     <Compile Include="InformationStuff\Information.cs" />
-    <Compile Include="Utilities\GlobalVariables.cs" />
+    <Compile Include="Utilities\GlobalPreferences.cs" />
     <Compile Include="Utilities\KeydownManager.cs" />
     <Compile Include="ViewModels\FileItemViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />

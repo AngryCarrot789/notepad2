@@ -9,7 +9,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
         Title="SharpPad (Main Window)" 
-        Height="576" Width="1154.5" 
+        Height="576" Width="1024" 
         KeyDown="Window_KeyDown" KeyUp="Window_KeyUp"
         Style="{DynamicResource CustomWindowStyle}"
         Icon="Resources/sharpPadIcon.png" 
@@ -74,9 +74,6 @@
                 <Separator Style="{DynamicResource SeparatorStyle1}" />
                 <MenuItem Header="Close Selected Notepad" Command="{Binding CloseSelectedNotepadCommand}" InputGestureText="Del" Template="{DynamicResource SingleDropDownMenuItem}"/>
             </MenuItem>
-            <MenuItem Header="Help">
-                <MenuItem Header="About" Command="{Binding Help.HelpCommand}" Template="{DynamicResource SingleDropDownMenuItem}"/>
-            </MenuItem>
             <MenuItem Header="Theme">
                 <MenuItem Header="Light" Template="{DynamicResource SingleDropDownMenuItem}" Click="ChangeTheme" Uid="0">
                     <MenuItem.Icon>
@@ -98,6 +95,16 @@
                         <Rectangle Stroke="#FF2C7FF5" Fill="#FF1B1B1B" StrokeThickness="2" StrokeLineJoin="Round" BitmapEffect="{StaticResource NormalShadow}"/>
                     </MenuItem.Icon>
                 </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Windows">
+                <MenuItem Header="Open selected file in New Window &#xD;&#xA;(warning: this is somewhat buggy)" Command="{Binding OpenInNewWindowCommand}" Template="{DynamicResource SingleDropDownMenuItem}" ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/openInNewWindow.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="About" Command="{Binding Help.HelpCommand}" Template="{DynamicResource SingleDropDownMenuItem}"/>
             </MenuItem>
         </Menu>
         <DockPanel Margin="5,18,5,5">
@@ -142,17 +149,13 @@
                     <Button Background="Transparent" Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
                         <Image Source="Resources/RTBIcons/redo.png"/>
                     </Button>
-                    <Button Command="{Binding OpenInNewWindowCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
-                                ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW. IDK HOW TO FIX PLS HELP SOME GOOD C# DEV :))" Margin="0,0,2,0" Focusable="False">
-                        <Image Margin="2" Source="Resources/openInNewWindow.png"/>
-                    </Button>
                     <Button Command="{Binding PrintFileCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
                                 ToolTip="Print text" Margin="0,0,2,0" Focusable="False">
                         <Image Margin="2" Source="Resources/printIcon.png"/>
                     </Button>
                     <Button Command="{Binding ShowFindWindowCommand}" Background="Transparent" IsEnabled="False"
-                            ToolTip="Find text in notepad (works okayish, not fully reliable)" Focusable="False" Width="48">
-                        <TextBlock Text="Find" Margin="2"/>
+                            ToolTip="Find text in notepad (works okayish, not fully reliable)" Focusable="False" Width="100">
+                        <TextBlock Text="Find (Broken)" Margin="2"/>
                     </Button>
                 </StackPanel>
                 <StackPanel Margin="0 5 0 0" Orientation="Horizontal" HorizontalAlignment="Left" 

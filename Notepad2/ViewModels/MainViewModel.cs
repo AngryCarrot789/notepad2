@@ -5,7 +5,6 @@ using Notepad2.Notepad;
 using Notepad2.Utilities;
 using Notepad2.Views;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -103,7 +102,6 @@ namespace Notepad2.ViewModels
 
         // ViewModel for the help window (idk why it needs a view model...)
         public HelpViewModel Help { get; set; }
-        public FindTextWindow FindWindow { get; set; }
         public Action<NotepadListItem, AnimationFlag> AnimateAddCallback { get; set; }
 
         public MainViewModel()
@@ -114,7 +112,6 @@ namespace Notepad2.ViewModels
             TextEditorsSelectedIndex = 0;
             SetupCommands();
 
-            FindWindow = new FindTextWindow();
             KeydownManager.KeyDown += KeydownManager_KeyDown;
             InfoStatusErrorsItems = new ObservableCollection<InformationListItem>();
             Information.AddErrorCallback = AddInfoStatusInfoMessage;
@@ -180,7 +177,7 @@ namespace Notepad2.ViewModels
         /// <summary>
         /// Returns true if null
         /// </summary>
-        /// <returns></returns>
+        /// <returns>a bool. xdddd</returns>
         public bool CheckNotepadNull()
         {
             return Notepad == null || Notepad.Document == null || Notepad.DocumentFormat == null;
@@ -203,17 +200,9 @@ namespace Notepad2.ViewModels
         public bool Shutdown()
         {
             foreach (NotepadListItem nli in NotepadItems)
-            {
-                // if (nli's datacontext is a fileitemviewmode, it's called fivm.
                 if (nli != null && nli.DataContext is FileItemViewModel fivm)
-                {
                     if (fivm != null && fivm.HasMadeChanges)
-                    {
                         return true;
-                    }
-                }
-            }
-
             return false;
         }
 
@@ -234,7 +223,7 @@ namespace Notepad2.ViewModels
 
         public void NewNotepad()
         {
-            AddNotepadItem(CreateDefaultStyleNotepadItem("", $"new{NotepadItems.Count()}.txt", null, 0));
+            AddNotepadItem(CreateDefaultStyleNotepadItem("", $"new{NotepadItems.Count()}.txt", null));
         }
 
         public void AddNotepadItem(NotepadListItem nli)
@@ -281,13 +270,11 @@ namespace Notepad2.ViewModels
 
         #region Create
 
-        public NotepadListItem CreateDefaultStyleNotepadItem(string text, string itemName, string itemPath, double itemSize)
+        public NotepadListItem CreateDefaultStyleNotepadItem(string text, string itemName, string itemPath)
         {
-            FontFamily font;
-            if (string.IsNullOrEmpty(Properties.Settings.Default.DefaultFont))
-                font = new FontFamily("Consolas"); //default font
-            else
-                font = new FontFamily(Properties.Settings.Default.DefaultFont);
+            FontFamily font = string.IsNullOrEmpty(Properties.Settings.Default.DefaultFont)
+                ? new FontFamily("Consolas")
+                : new FontFamily(Properties.Settings.Default.DefaultFont);
             double fontSize = 16; //default fontsize
 
             if (Properties.Settings.Default.DefaultFontSize > 0)
@@ -300,19 +287,18 @@ namespace Notepad2.ViewModels
                 Family = font,
                 Size = fontSize,
                 IsWrapped = true,
-                EnableSpellCheck = true
+                EnableSpellCheck = false
             };
-            return CreateNotepadItem(text, itemName, itemPath, itemSize, fm);
+            return CreateNotepadItem(text, itemName, itemPath, fm);
         }
 
-        public NotepadListItem CreateNotepadItem(string text, string itemName, string itemPath, double itemSize, FormatModel fm)
+        public NotepadListItem CreateNotepadItem(string text, string itemName, string itemPath, FormatModel fm)
         {
             NotepadListItem nli = new NotepadListItem();
             FileItemViewModel fivm = new FileItemViewModel();
             fivm.Document.Text = text;
             fivm.Document.FileName = itemName;
             fivm.Document.FilePath = itemPath;
-            fivm.Document.FileSize = itemSize;
 
             fivm.DocumentFormat = fm;
 
@@ -408,8 +394,7 @@ namespace Notepad2.ViewModels
                         CreateDefaultStyleNotepadItem(
                            text,
                            Path.GetFileName(path),
-                           path,
-                           text.Length / 1000.0));
+                           path));
                     Information.Show($"Opened file: {path}", InfoTypes.FileIO);
                 }
             }
@@ -443,7 +428,6 @@ namespace Notepad2.ViewModels
                             File.Move(fivm.Document.FilePath, newFilePath);
                             fivm.Document.FileName = newFileName;
                             fivm.Document.FilePath = newFilePath;
-                            fivm.Document.FileSize = fivm.Document.Text.Length / 1000.0;
                         }
                     }
                     else
@@ -451,7 +435,6 @@ namespace Notepad2.ViewModels
                         SaveFile(fivm.Document.FilePath, fivm.Document.Text);
                         fivm.Document.FileName = newFileName;
                         fivm.Document.FilePath = newFilePath;
-                        fivm.Document.FileSize = fivm.Document.Text.Length / 1000.0;
                     }
                 }
                 else
@@ -493,7 +476,6 @@ namespace Notepad2.ViewModels
                     SaveFile(newFilePath, fivm.Document.Text);
                     fivm.Document.FileName = Path.GetFileName(newFilePath);
                     fivm.Document.FilePath = newFilePath;
-                    fivm.Document.FileSize = fivm.Document.Text.Length / 1000.0;
                 }
             }
             catch (Exception e) { Information.Show(e.Message, "Error while saving (manual) notepaditem as..."); }
@@ -556,7 +538,7 @@ namespace Notepad2.ViewModels
 
         public void OpenFindWindow()
         {
-            FindWindow.Show();
+
         }
 
         #endregion

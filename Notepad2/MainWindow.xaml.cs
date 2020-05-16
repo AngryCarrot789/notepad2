@@ -23,9 +23,6 @@ namespace Notepad2
         public App CurrentApplication { get; set; }
         public MainViewModel ViewModel { get; set; }
         private double AnimationSpeedSeconds = 0.2;
-
-        // Find Window
-
         public MainWindow()
         {
             InitializeComponent();
@@ -47,8 +44,6 @@ namespace Notepad2
             ViewModel.OpenNotepadFileFromPath(filePath);
             IsDuplicatedWindow = enableSettingsSave;
             Title = "SharpPad";
-
-            TextBox e;
         }
 
         public MainWindow(NotepadListItem fileItem, bool enableSettingsSave)
@@ -73,13 +68,9 @@ namespace Notepad2
         {
             switch (int.Parse(((MenuItem)sender).Uid))
             {
-                // light
                 case 0: CurrentApplication.SetTheme(Theme.Light); break;
-                // colourful light
                 case 1: CurrentApplication.SetTheme(Theme.ColourfulLight); break;
-                // dark
                 case 2: CurrentApplication.SetTheme(Theme.Dark); break;
-                // colourful dark
                 case 3: CurrentApplication.SetTheme(Theme.ColourfulDark); break;
             }
             e.Handled = true;
@@ -147,17 +138,9 @@ namespace Notepad2
                     MessageBoxImage.Information);
 
                 if (mbr == MessageBoxResult.Yes)
-                {
                     ViewModel.SaveAllNotepadItems();
-                }
                 if (mbr == MessageBoxResult.Cancel)
-                {
                     e.Cancel = true;
-                }
-                else if (mbr == MessageBoxResult.No)
-                {
-                    //nothin ;)
-                }
             }
             if (!IsDuplicatedWindow)
             {
@@ -178,7 +161,6 @@ namespace Notepad2
                         Properties.Settings.Default.Height = this.Height;
                         Properties.Settings.Default.Width = this.Width;
                     }
-
                     Properties.Settings.Default.DarkTheme = this.DarkThemeEnabled;
                     if (!this.ViewModel.CheckNotepadNull())
                     {
@@ -200,13 +182,11 @@ namespace Notepad2
                     foreach (string path in droppedItemArray)
                     {
                         string text = File.ReadAllText(path);
-
                         ViewModel.AddNotepadItem(
                             ViewModel.CreateDefaultStyleNotepadItem(
                                 text,
                                 Path.GetFileName(path),
-                                path,
-                                text.Length / 1000.0));
+                                path));
                     }
                 }
             }
@@ -216,15 +196,11 @@ namespace Notepad2
         {
             if (KeydownManager.Keydown(Key.LeftCtrl))
             {
-                int fontChange = (e.Delta / 100);
+                int fontChange = e.Delta / 100;
                 if (ViewModel.Notepad.DocumentFormat.Size > 1)
-                {
                     ViewModel.Notepad.DocumentFormat.Size += fontChange;
-                }
                 if (ViewModel.Notepad.DocumentFormat.Size == 1 && fontChange >= 1)
-                {
                     ViewModel.Notepad.DocumentFormat.Size += fontChange;
-                }
             }
         }
 
