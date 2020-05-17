@@ -7,12 +7,10 @@
              xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
              xmlns:converters="clr-namespace:Notepad2.Converters" 
              MouseDown="ElePar_MouseDown" 
-             MouseMove="elePar_MouseMove"
-             MouseLeftButtonDown="ElePar_MouseLeftButtonDown"
              Focusable="True"
              mc:Ignorable="d" 
-             d:DesignWidth="177" d:DesignHeight="56" 
-             MaxHeight="180" x:Name="elePar"
+             d:DesignWidth="185" d:DesignHeight="56" 
+             MaxHeight="180"
              BorderThickness="0">
     <UserControl.Resources>
         <converters:TextChangedToUnsavedIndicatorConverter x:Key="tchanunsave"/>
@@ -23,9 +21,9 @@
             <MenuItem Header="Open"  Uid="0" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}"/>
             <MenuItem Header="Close" Uid="1" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}"/>
             <MenuItem Header="Open in File Explorer" Uid="2" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}"/>
-            <Separator Style="{DynamicResource SeparatorStyle1}"/>
+            <Separator Style="{DynamicResource MenuItemSeparator}"/>
             <MenuItem Header="Delete File" Uid="3" Click="MenuItem_Click" Template="{DynamicResource SingleDropDownMenuItem}"/>
-            <Separator Style="{DynamicResource SeparatorStyle1}"/>
+            <Separator Style="{DynamicResource MenuItemSeparator}"/>
             <MenuItem Header="Set File Extension" Template="{DynamicResource DropDownMenuItemStyle}">
                 <MenuItem Header="PlainText "         Uid=".txt" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
                 <MenuItem Header="Text..? ish"        Uid=".text" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
@@ -41,28 +39,46 @@
                 <MenuItem Header="JS  File "          Uid=".js" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
                 <MenuItem Header="EXE File "          Uid=".exe" Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
                 <MenuItem Header="All files"          Uid="." Click="SetFileExtensionsClicks" Template="{DynamicResource SingleDropDownMenuItem}"/>
-
             </MenuItem>
         </ContextMenu>
     </UserControl.ContextMenu>
     <Grid Background="Transparent">
-        <TextBlock Text="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" 
+        <Rectangle Margin="0,4" 
+                   HorizontalAlignment="Left" 
+                   Width="7" 
+                   MouseMove="elePar_MouseMove" 
+                   MouseLeftButtonDown="ElePar_MouseLeftButtonDown" 
+                   Cursor="Hand"
+                   ToolTip="Initiate DragDrop, allowing you to drop this item on your desktop or something">
+            <Rectangle.Fill>
+                <DrawingBrush TileMode="Tile" Viewbox="0,0,4,4" Viewport="0,0,4,4" ViewportUnits="Absolute" ViewboxUnits="Absolute">
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+                            <GeometryDrawing Brush="{DynamicResource ControlBrightDefaultBackground}" Geometry="M 1 1 L 1 3 L 3 3 L 3 1 z"/>
+                            <GeometryDrawing Brush="{DynamicResource ControlBrightDefaultBorderBrush}" Geometry="M 0 0 L 0 2 L 2 2 L 2 0 z"/>
+                        </DrawingGroup>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Grid Margin="10,0,0,0">
+            <TextBlock Text="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" 
                    Background="Transparent"
                    Margin="2,2,0,31" 
                    MaxHeight="60"
                    TextWrapping="Wrap"
-                   FontSize="14" HorizontalAlignment="Left" Width="150" />
-        <Grid Margin="4,0,2,3" Height="15" VerticalAlignment="Bottom">
-            <Grid.Background>
-                <SolidColorBrush Color="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource fileSizeToColour}}" Opacity="0.2"/>
-            </Grid.Background>
-            <TextBlock Text="Chars:" VerticalAlignment="Bottom" FontSize="11" Height="15" HorizontalAlignment="Left" Width="32"/>
-            <TextBlock Text="{Binding Document.Text.Length, UpdateSourceTrigger=PropertyChanged}" Margin="32,0,0,0" VerticalAlignment="Bottom" FontSize="11" TextAlignment="Left" HorizontalAlignment="Left" Width="62" Height="15"/>
-            <TextBlock Text="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,16,1" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="59" TextAlignment="Right"/>
-            <TextBlock Text="KB" Margin="0,0,3,1" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="12" TextAlignment="Right"/>
+                   FontSize="14" HorizontalAlignment="Left" Width="145" />
+            <Grid Margin="4,0,2,3" Height="15" VerticalAlignment="Bottom">
+                <Grid.Background>
+                    <SolidColorBrush Color="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource fileSizeToColour}}" Opacity="0.2"/>
+                </Grid.Background>
+                <TextBlock Text="Chars:" VerticalAlignment="Bottom" FontSize="11" Height="15" HorizontalAlignment="Left" Width="32"/>
+                <TextBlock Text="{Binding Document.Text.Length, UpdateSourceTrigger=PropertyChanged}" Margin="32,0,0,0" VerticalAlignment="Bottom" FontSize="11" TextAlignment="Left" HorizontalAlignment="Left" Width="62" Height="15"/>
+                <TextBlock Text="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,16,1" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="59" TextAlignment="Right"/>
+                <TextBlock Text="KB" Margin="0,0,3,1" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right" Width="12" TextAlignment="Right"/>
+            </Grid>
+            <Button Background="Transparent" BorderBrush="Transparent" Content="X" HorizontalAlignment="Right" Margin="0,3,3,0" VerticalAlignment="Top" Width="18" Height="18" Click="Button_Click" FontSize="10" BorderThickness="1"/>
+            <TextBlock Text="{Binding Path=HasMadeChanges, Converter={StaticResource tchanunsave}}" HorizontalAlignment="Left" Margin="4,0,0,18" VerticalAlignment="Bottom" Width="50" FontSize="10"/>
         </Grid>
-
-        <Button Background="Transparent" BorderBrush="Transparent" Content="X" HorizontalAlignment="Right" Margin="0,3,3,0" VerticalAlignment="Top" Width="18" Height="18" Click="Button_Click" FontSize="10"/>
-        <TextBlock Text="{Binding Path=HasMadeChanges, Converter={StaticResource tchanunsave}}" HorizontalAlignment="Left" Margin="4,0,0,18" VerticalAlignment="Bottom" Width="50" FontSize="10"/>
     </Grid>
 </UserControl>

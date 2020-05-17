@@ -31,7 +31,7 @@ namespace Notepad2.ViewModels
         #region Public Fields
 
         public ObservableCollection<NotepadListItem> NotepadItems { get; set; }
-        public ObservableCollection<InformationListItem> InfoStatusErrorsItems { get; set; }
+        public ObservableCollection<InformationModel> InfoStatusErrorsItems { get; set; }
         public int SelectedIndex
         {
             get => _selectedIndex;
@@ -113,14 +113,14 @@ namespace Notepad2.ViewModels
             SetupCommands();
 
             KeydownManager.KeyDown += KeydownManager_KeyDown;
-            InfoStatusErrorsItems = new ObservableCollection<InformationListItem>();
-            Information.AddErrorCallback = AddInfoStatusInfoMessage;
+            InfoStatusErrorsItems = new ObservableCollection<InformationModel>();
+            Information.InformationAdded += Information_InformationAdded;
             Information.Show("Program loaded", InfoTypes.Information);
         }
 
-        private void AddInfoStatusInfoMessage(InformationModel em)
+        private void Information_InformationAdded(InformationModel e)
         {
-            InfoStatusErrorsItems.Insert(0, new InformationListItem(em));
+            InfoStatusErrorsItems.Insert(0, e);
         }
 
         private void KeydownManager_KeyDown(Key key)
@@ -163,10 +163,25 @@ namespace Notepad2.ViewModels
         {
             if (SelectedNotepadItem != null)
             {
-                MainWindow mWnd = new MainWindow(SelectedNotepadItem, false);
-                mWnd.Show();
-                mWnd.LoadSettings();
-                CloseSelectedNotepad();
+                if (File.Exists(Notepad.Document.FilePath))
+                {
+                    MainWindow mWnd = new MainWindow(Notepad.Document.FilePath, false);
+                    mWnd.LoadSettings();
+                    mWnd.Show();
+                    Information.Show($"Opened {Notepad.Document.FileName} in another window", InfoTypes.Information);
+                    CloseSelectedNotepad();
+                }
+                else
+                {
+                    string tempFilePath = Path.Combine(Path.GetTempPath(), Notepad.Document.FileName);
+                    File.WriteAllText(tempFilePath, Notepad.Document.Text);
+                    MainWindow mWnd = new MainWindow(tempFilePath, false);
+                    mWnd.LoadSettings();
+                    mWnd.Show();
+                    Information.Show($"Opened {Notepad.Document.FileName} in another window", InfoTypes.Information);
+                    CloseSelectedNotepad();
+                    File.Delete(tempFilePath);
+                }
             }
         }
 
@@ -192,11 +207,13 @@ namespace Notepad2.ViewModels
             PrintDialog printDialog = new PrintDialog();
             if (printDialog.ShowDialog() == true)
             {
-                FlowDocument flowDocument = new FlowDocument();
-                flowDocument.PagePadding = new Thickness(50);
-                flowDocument.Blocks.Add(new Paragraph(new Run(file.Document.Text)));
+                FlowDocument flowDocument = new FlowDocument
+                {
+                    PagePadding = new Thickness(50)
+                };
 
-                printDialog.PrintDocument((((IDocumentPaginatorSource)flowDocument).DocumentPaginator), "Using Paginator");
+                flowDocument.Blocks.Add(new Paragraph(new Run(file.Document.Text)));
+                printDialog.PrintDocument(((IDocumentPaginatorSource)flowDocument).DocumentPaginator, "Printed from SharpPad");
             }
         }
 

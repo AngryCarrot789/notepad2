@@ -15,7 +15,7 @@ namespace Notepad2.Utilities
         public static Color ALERT_FILE_TOO_BIG_COLOUR = Colors.Red;
 
         public static string[] PRESET_EXTENSIONS = new string[13]
-{
+        {
             ".txt",
             ".text",
             ".cs",
@@ -28,7 +28,7 @@ namespace Notepad2.Utilities
             ".html",
             ".css",
             ".js",
-            ".exe",
-};
+            ".exe"
+        };
     }
 }

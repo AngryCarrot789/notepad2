@@ -1,4 +1,5 @@
 ﻿using Notepad2.Notepad;
+using Notepad2.Themes;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using Notepad2.Views;
@@ -9,7 +10,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
-using static Notepad2.App;
 
 namespace Notepad2
 {
@@ -20,7 +20,6 @@ namespace Notepad2
     {
         public bool IsDuplicatedWindow { get; set; }
         public bool DarkThemeEnabled { get; set; }
-        public App CurrentApplication { get; set; }
         public MainViewModel ViewModel { get; set; }
         private double AnimationSpeedSeconds = 0.2;
         public MainWindow()
@@ -68,10 +67,10 @@ namespace Notepad2
         {
             switch (int.Parse(((MenuItem)sender).Uid))
             {
-                case 0: CurrentApplication.SetTheme(Theme.Light); break;
-                case 1: CurrentApplication.SetTheme(Theme.ColourfulLight); break;
-                case 2: CurrentApplication.SetTheme(Theme.Dark); break;
-                case 3: CurrentApplication.SetTheme(Theme.ColourfulDark); break;
+                case 0: ThemesController.SetTheme(ThemeTypes.Light); break;
+                case 1: ThemesController.SetTheme(ThemeTypes.ColourfulLight); break;
+                case 2: ThemesController.SetTheme(ThemeTypes.Dark); break;
+                case 3: ThemesController.SetTheme(ThemeTypes.ColourfulDark); break;
             }
             e.Handled = true;
         }
@@ -87,9 +86,9 @@ namespace Notepad2
             this.DarkThemeEnabled = Properties.Settings.Default.DarkTheme;
 
             if (DarkThemeEnabled)
-                SetTheme(Theme.Dark);
+                SetTheme(ThemeTypes.Dark);
             else
-                SetTheme(Theme.Light);
+                SetTheme(ThemeTypes.Light);
         }
 
         public void AnimateControl(NotepadListItem nli, AnimationFlag af)
@@ -122,9 +121,9 @@ namespace Notepad2
             }
         }
 
-        public void SetTheme(Theme theme)
+        public void SetTheme(ThemeTypes theme)
         {
-            if (CurrentApplication != null) CurrentApplication.SetTheme(theme);
+            ThemesController.SetTheme(theme);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -164,8 +163,11 @@ namespace Notepad2
                     Properties.Settings.Default.DarkTheme = this.DarkThemeEnabled;
                     if (!this.ViewModel.CheckNotepadNull())
                     {
-                        Properties.Settings.Default.DefaultFont = this.ViewModel.Notepad.DocumentFormat.Family.ToString();
-                        Properties.Settings.Default.DefaultFontSize = this.ViewModel.Notepad.DocumentFormat.Size;
+                        if (ViewModel.Notepad.DocumentFormat != null)
+                        {
+                            Properties.Settings.Default.DefaultFont = this.ViewModel.Notepad.DocumentFormat.Family.ToString();
+                            Properties.Settings.Default.DefaultFontSize = this.ViewModel.Notepad.DocumentFormat.Size;
+                        }
                     }
                     Properties.Settings.Default.Save();
                 }

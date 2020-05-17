@@ -66,13 +66,33 @@
     <Grid>
         <Menu VerticalAlignment="Top" HorizontalAlignment="Stretch" Grid.ColumnSpan="3">
             <MenuItem Header="File">
-                <MenuItem Header="New" Command="{Binding NewCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + N"/>
-                <MenuItem Header="Open" Command="{Binding OpenCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + O"/>
-                <MenuItem Header="Save" Command="{Binding SaveCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + S"/>
-                <MenuItem Header="Save as..." Command="{Binding SaveAsCommand}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <MenuItem Header="New" Command="{Binding NewCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + N">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/newFile.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Open" Command="{Binding OpenCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + O">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/openFile.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Save" Command="{Binding SaveCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + S">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/saveFile.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Save as..." Command="{Binding SaveAsCommand}" Template="{DynamicResource SingleDropDownMenuItem}">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/saveFileAs.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="Save all" Command="{Binding SaveAllCommand}" Template="{DynamicResource SingleDropDownMenuItem}" InputGestureText="Ctrl + Shift + S"/>
-                <Separator Style="{DynamicResource SeparatorStyle1}" />
-                <MenuItem Header="Close Selected Notepad" Command="{Binding CloseSelectedNotepadCommand}" InputGestureText="Del" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                <Separator Style="{DynamicResource MenuItemSeparator}" />
+                <MenuItem Header="Close Selected Notepad" Command="{Binding CloseSelectedNotepadCommand}" InputGestureText="Del" Template="{DynamicResource SingleDropDownMenuItem}">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/closeFile.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Theme">
                 <MenuItem Header="Light" Template="{DynamicResource SingleDropDownMenuItem}" Click="ChangeTheme" Uid="0">
@@ -97,14 +117,18 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Windows">
-                <MenuItem Header="Open selected file in New Window &#xD;&#xA;(warning: this is somewhat buggy)" Command="{Binding OpenInNewWindowCommand}" Template="{DynamicResource SingleDropDownMenuItem}" ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW">
+                <MenuItem Header="Open selected file in New Window &#xD;&#xA;(warning: this is slightly buggy)" Command="{Binding OpenInNewWindowCommand}" Template="{DynamicResource SingleDropDownMenuItem}" ToolTip="Open current File in New Window (EXPERIMENTAL-ISH: WILL CLOSE ALL WINDOWS IF YOU CLOSE THE MAIN WINDOW">
                     <MenuItem.Icon>
                         <Image Source="Resources/openInNewWindow.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Help">
-                <MenuItem Header="About" Command="{Binding Help.HelpCommand}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+            <MenuItem Header="Help" Cursor="Help">
+                <MenuItem Header="About" Command="{Binding Help.HelpCommand}" Template="{DynamicResource SingleDropDownMenuItem}" Cursor="Help">
+                    <MenuItem.Icon>
+                        <TextBlock Text="?" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
         <DockPanel Margin="5,18,5,5">
@@ -135,19 +159,19 @@
                         <Image Margin="2" Source="Resources/closeAllFiles.png"/>
                     </Button>
                     <Button Background="Transparent" Command="ApplicationCommands.Cut" ToolTip="Cut (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
-                        <Image Source="Resources/RTBIcons/cut.png"/>
+                        <Image Source="Resources/cut.png"/>
                     </Button>
                     <Button Background="Transparent" Command="ApplicationCommands.Copy" ToolTip="Copy (Selected Text)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
-                        <Image Source="Resources/RTBIcons/copy.png"/>
+                        <Image Source="Resources/copy.png"/>
                     </Button>
                     <Button Background="Transparent" Command="ApplicationCommands.Paste" ToolTip="Paste (From Clipboard)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
-                        <Image Source="Resources/RTBIcons/paste.png"/>
+                        <Image Source="Resources/paste.png"/>
                     </Button>
                     <Button Background="Transparent" Command="ApplicationCommands.Undo" ToolTip="Undo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
-                        <Image Source="Resources/RTBIcons/undo.png"/>
+                        <Image Source="Resources/undo.png"/>
                     </Button>
                     <Button Background="Transparent" Command="ApplicationCommands.Redo" ToolTip="Redo (Last Edit)" CommandTarget="{Binding ElementName=MainTextBox}" Margin="0,0,2,0" Focusable="False">
-                        <Image Source="Resources/RTBIcons/redo.png"/>
+                        <Image Source="Resources/redo.png"/>
                     </Button>
                     <Button Command="{Binding PrintFileCommand}" IsEnabled="True" BorderBrush="Transparent" Background="Transparent"
                                 ToolTip="Print text" Margin="0,0,2,0" Focusable="False">
@@ -194,7 +218,15 @@
             <DockPanel Margin="0,5,0,0">
                 <Expander Header="Information, Statuses and errors" VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
                     <Grid Height="120">
-                        <ListBox ItemsSource="{Binding InfoStatusErrorsItems, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,55,0"/>
+                        <ListView ItemsSource="{Binding InfoStatusErrorsItems, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,55,0">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Time" Width="150" DisplayMemberBinding="{Binding Time}"/>
+                                    <GridViewColumn Header="Type" Width="100" DisplayMemberBinding="{Binding Type}"/>
+                                    <GridViewColumn Header="Message" Width="auto" DisplayMemberBinding="{Binding Message}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
                         <Button Command="{Binding ClearInfoItemsCommand}" Content="Clear" HorizontalAlignment="Right" Width="50"/>
                     </Grid>
                 </Expander>
@@ -239,24 +271,25 @@
                                     </Grid>
                                 </Border>
                                 <DockPanel Height="20" VerticalAlignment="Bottom">
-                                    <Grid MinWidth="200">
-                                        <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1 1 0 1"/>
+                                    <Grid MinWidth="200" Width="232">
+                                        <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1" Margin="57,0,0,0"/>
+                                        <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="1 1 0 1" Margin="0,0,175,0"/>
                                         <TextBlock Text="Name:" Margin="60,2,0,2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         <TextBox VerticalAlignment="Center"
                                                  BorderBrush="Transparent"
                                                  DataContext="{Binding Document, UpdateSourceTrigger=PropertyChanged}"
                                                  Text="{Binding FileName, UpdateSourceTrigger=PropertyChanged}" 
-                                                 Background="Transparent" Margin="99,1,1,2" Height="17"/>
+                                                 Background="Transparent" Margin="99,1,9,2" Height="17"/>
                                         <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Width="51" Margin="5,3,0,4" Height="13" ToolTip="CTRL + Scrollwheel to zoom. also, this is just the fontsize.">
                                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Zoom:" FontSize="10"/>
                                             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}" Margin="31,0,0,0" FontSize="10"/>
                                         </Grid>
                                     </Grid>
-                                    <Grid Grid.Column="1">
+                                    <Grid>
                                         <Border Background="{DynamicResource BackgroundColour}" BorderBrush="{DynamicResource ControlDefaultBorderBrush}" BorderThickness="0 1 1 1"/>
-                                        <TextBlock Text="Path:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Path:" HorizontalAlignment="Left" Margin="2 0 0 0" VerticalAlignment="Center"/>
                                         <TextBox VerticalAlignment="Center" Background="Transparent"
-                                                 DataContext="{Binding Document, UpdateSourceTrigger=PropertyChanged}" Margin="31,1,2,2"
+                                                 DataContext="{Binding Document, UpdateSourceTrigger=PropertyChanged}" Margin="33,1,2,2"
                                                  BorderBrush="Transparent" Height="17"
                                                  Text="{Binding FilePath, UpdateSourceTrigger=PropertyChanged}"/>
                                     </Grid>
