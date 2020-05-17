@@ -11,9 +11,9 @@ Here's a snapshot of the program, showing the infolist at the bottom, multiple n
 - Added even more colourful icons, better than the other ones
 - Added a Drag and Drop feature to the Notepaditems. you can drag them to a folder, and it creates a file with the specified extension at that location. can also be used to transfer notepaditems between different windows
 - Added a light theme, and also colourful themes too (4 themes in total: colourful light and dark, and normal light and dark)
-- Can open selected notepad in another window (VERY BROKEN, DONT USE. BREAKS THINGS). Update: I disabled this as it's too broken 
+- Can open selected notepad in another window (bugs may occour, so be careful with it)
 - Auto-prompts you to save unsaved/edited work/files when you exit. Click no to just exit
-- Improved some other things ive forgotten about :/
+- Added ability to change fonts/fontsizes/wrapping, etc. affects all of the text in the selected NotepadItem because this isn't a rich text editor. 
 
 ## Errors:
 I added a feature to open the selected notepad in another window. It's a bit broken. Try not to use it; closing the original mainwindow closes all other windows because of some error i couldnt fix. and some other things too. I added MainWindow to the titlebar, so that you know which window is which.
