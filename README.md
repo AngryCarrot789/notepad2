@@ -2,6 +2,7 @@
 Window's notepad is blindingly light themed, so i decided to make my own dark theme version with tabs and many other (probably useless) features. It uses WPF and MVVM (no MVVM Light or any nuget packages, i did it all myself). It's fairly robust, but it works. 
 BTW, if you want to, you could improve the "messyness" of the code, cus i just splat things randomly into classes and never clean them up (most of the times). And, i dont think this program 100% follow the MVVM standards (maybe 90%), but who cares anyway ;)
 Here's a snapshot of the program, showing the infolist at the bottom, multiple NotepadListItems and loads of text.
+
 ![](sharpPadPicture.png)
 
 ## Info on how to use this program
