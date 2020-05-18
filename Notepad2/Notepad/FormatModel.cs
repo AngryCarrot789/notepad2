@@ -55,13 +55,6 @@ namespace Notepad2.Notepad
             }
         }
 
-        private bool _enableSpellChecking;
-        public bool EnableSpellCheck
-        {
-            get => _enableSpellChecking;
-            set => RaisePropertyChanged(ref _enableSpellChecking, value);
-        }
-
         private double _size;
         public double Size
         {

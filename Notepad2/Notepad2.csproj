@@ -44,6 +44,7 @@
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -99,6 +100,7 @@
     <Compile Include="InformationStuff\Information.cs" />
     <Compile Include="Utilities\GlobalPreferences.cs" />
     <Compile Include="Utilities\KeydownManager.cs" />
+    <Compile Include="Utilities\ScrollViewerHelper.cs" />
     <Compile Include="ViewModels\FileItemViewModel.cs" />
     <Compile Include="ViewModels\HelpViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

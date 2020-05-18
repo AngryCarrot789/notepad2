@@ -300,19 +300,15 @@ namespace Notepad2.ViewModels
             FontFamily font = string.IsNullOrEmpty(Properties.Settings.Default.DefaultFont)
                 ? new FontFamily("Consolas")
                 : new FontFamily(Properties.Settings.Default.DefaultFont);
-            double fontSize = 16; //default fontsize
-
-            if (Properties.Settings.Default.DefaultFontSize > 0)
-                fontSize = Properties.Settings.Default.DefaultFontSize;
-            else
-                fontSize = 16; //default fontsize
-
+            double fontSize = 
+                Properties.Settings.Default.DefaultFontSize > 0 
+                ? Properties.Settings.Default.DefaultFontSize 
+                : 16;
             FormatModel fm = new FormatModel()
             {
                 Family = font,
                 Size = fontSize,
-                IsWrapped = true,
-                EnableSpellCheck = false
+                IsWrapped = true
             };
             return CreateNotepadItem(text, itemName, itemPath, fm);
         }

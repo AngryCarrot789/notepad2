@@ -6,6 +6,7 @@ using Notepad2.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -204,6 +205,15 @@ namespace Notepad2
                 if (ViewModel.Notepad.DocumentFormat.Size == 1 && fontChange >= 1)
                     ViewModel.Notepad.DocumentFormat.Size += fontChange;
             }
+            //if (KeydownManager.ShiftPressed)
+            //{
+            //    bool scrollLeft = (e.Delta / 100) > 1;
+            //    ScrollViewer sv = (((TextBox)sender).Parent as ScrollViewer);
+            //    if (scrollLeft)
+            //        sv.LineRight();
+            //    else
+            //        sv.LineLeft();
+            //}
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -214,12 +224,6 @@ namespace Notepad2
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
             KeydownManager.SetKeyUp(e.Key);
-        }
-
-        private void MainTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            //if (CurrentSelectingPosition != 0 && !string.IsNullOrEmpty(CurrentlySelectedText))
-            //    MainTextBox.Select(CurrentSelectingPosition, CurrentlySelectedText.Length);
         }
     }
 }

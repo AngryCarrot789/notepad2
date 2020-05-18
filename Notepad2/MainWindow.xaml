@@ -3,23 +3,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" Closing="Window_Closing" ResizeMode="CanResizeWithGrip"
         xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
         xmlns:win="clr-namespace:System.Windows;assembly=PresentationCore"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
-        Title="SharpPad (Main Window)" 
-        Height="576" Width="1024" 
-        KeyDown="Window_KeyDown" KeyUp="Window_KeyUp"
+        xmlns:utils="clr-namespace:Notepad2.Utilities"
+        mc:Ignorable="d" 
+        Title="SharpPad (Main Window)"
+        Height="576" Width="1024"
+        Closing="Window_Closing" 
+        KeyDown="Window_KeyDown" 
+        KeyUp="Window_KeyUp"
         Style="{DynamicResource CustomWindowStyle}"
-        Icon="Resources/sharpPadIcon.png" 
-        BorderBrush="{DynamicResource ControlDefaultBackground}">
+        BorderBrush="{DynamicResource ControlDefaultBackground}"
+        Icon="Resources/sharpPadIcon.png">
     <Window.Resources>
         <DropShadowBitmapEffect x:Key="NormalShadow" ShadowDepth="2" Softness="0.2" Opacity="0.64"/>
         <ObjectDataProvider x:Key="FontFamilyOptions"
                             ObjectType="{x:Type media:Fonts}"
                             MethodName="get_SystemFontFamilies"/>
-
         <x:Array x:Key="FontSizeOptions"
                  Type="sys:Double">
             <sys:Double>2</sys:Double>
@@ -203,16 +204,15 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                     <ComboBox ItemsSource="{Binding Source={StaticResource FontStyleOptions}}"
-                                  SelectedItem="{Binding Style, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedIndex="0" Margin="5 0 0 0" Width="75"/>
+                              SelectedItem="{Binding Style, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedIndex="0" Margin="5 0 0 0" Width="75"/>
                     <ComboBox ItemsSource="{Binding Source={StaticResource FontWeightOptions}}"
-                                  SelectedItem="{Binding Weight, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedIndex="0" Margin="5,0,0,0"/>
+                              SelectedItem="{Binding Weight, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedIndex="0" Margin="5,0,0,0"/>
                     <ComboBox ItemsSource="{Binding Source={StaticResource FontDecorationsOptions}}"
-                                  SelectedItem="{Binding Decoration, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedIndex="0" Margin="5,0,0,0"/>
+                              SelectedItem="{Binding Decoration, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedIndex="0" Margin="5,0,0,0"/>
                     <CheckBox Margin="5,0,0,0" Content="Wrap" IsChecked="{Binding IsWrapped, UpdateSourceTrigger=PropertyChanged}"/>
-                    <CheckBox Margin="5 0 0 0" Content="Spell check" IsChecked="{Binding EnableSpellCheck, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </StackPanel>
             <DockPanel Margin="0,5,0,0">
@@ -250,8 +250,7 @@
                             <Grid>
                                 <Border Background="Transparent" Margin="0,0,0,20" BorderThickness="0">
                                     <Grid>
-                                        <TextBox MouseWheel="TextBox_MouseWheel"
-                                                 x:Name="MainTextBox"
+                                        <TextBox x:Name="MainTextBox"
                                                  FontFamily="{Binding           DocumentFormat.Family, UpdateSourceTrigger=PropertyChanged}"
                                                  FontSize="{Binding             DocumentFormat.Size, UpdateSourceTrigger=PropertyChanged}"
                                                  FontStyle="{Binding            DocumentFormat.Style, UpdateSourceTrigger=PropertyChanged}"
@@ -259,14 +258,30 @@
                                                  TextDecorations="{Binding      DocumentFormat.Decoration, UpdateSourceTrigger=PropertyChanged}"
                                                  TextWrapping="{Binding         DocumentFormat.Wrap, UpdateSourceTrigger=PropertyChanged}"
                                                  Text="{Binding                 Document.Text, UpdateSourceTrigger=PropertyChanged}"
-                                                 SpellCheck.IsEnabled="{Binding DocumentFormat.EnableSpellCheck, UpdateSourceTrigger=PropertyChanged}"
-                                                 Focusable="True" LostFocus="MainTextBox_LostFocus"
+                                                 ScrollViewer.PanningMode="Both"
+                                                 Focusable="True" 
                                                  AcceptsReturn="True"
                                                  AcceptsTab="True"
                                                  HorizontalScrollBarVisibility="Visible"
                                                  VerticalScrollBarVisibility="Visible"
                                                  Language="en"
-                                                 SpellCheck.SpellingReform="Postreform">
+                                                 SpellCheck.SpellingReform="Postreform"
+                                                 MouseWheel="TextBox_MouseWheel"
+                                                 utils:ScrollViewerHelper.ShiftWheelScrollsHorizontally="True"
+                                                 Visibility="Visible">
+                                            <TextBox.ContextMenu>
+                                                <ContextMenu OverridesDefaultStyle="False">
+                                                    <MenuItem Header="Cut"   Command="ApplicationCommands.Cut" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                                    <MenuItem Header="Copy"  Command="ApplicationCommands.Copy" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                                    <MenuItem Header="Paste" Command="ApplicationCommands.Paste" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                                    <Separator Style="{DynamicResource MenuItemSeparator}"/>
+                                                    <MenuItem Header="Undo"  Command="ApplicationCommands.Undo" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                                    <MenuItem Header="Redo" InputGestureText="Ctrl+Shift+Z or Ctrl+Y" Command="ApplicationCommands.Redo" CommandTarget="{Binding ElementName=MainTextBox}" Template="{DynamicResource SingleDropDownMenuItem}"/>
+                                                </ContextMenu>
+                                            </TextBox.ContextMenu>
+                                            <TextBox.InputBindings>
+                                                <KeyBinding Key="Z" Modifiers="Ctrl+Shift" Command="ApplicationCommands.Redo"/>
+                                            </TextBox.InputBindings>
                                         </TextBox>
                                     </Grid>
                                 </Border>

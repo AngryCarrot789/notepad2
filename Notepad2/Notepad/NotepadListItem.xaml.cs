@@ -7,6 +7,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Shapes;
+using Path = System.IO.Path;
 
 namespace Notepad2.Notepad
 {
@@ -45,19 +47,17 @@ namespace Notepad2.Notepad
 
         private void ElePar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
-                MouseDownPoint = e.GetPosition(null);
             if (e.ChangedButton == MouseButton.Middle && e.ButtonState == MouseButtonState.Pressed)
                 Close?.Invoke(this);
         }
 
-        private void ElePar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void gripLeftMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
                 MouseDownPoint = e.GetPosition(null);
         }
 
-        private void elePar_MouseMove(object sender, MouseEventArgs e)
+        private void gripMouseMove(object sender, MouseEventArgs e)
         {
             if (MouseDownPoint != e.GetPosition(null) && e.LeftButton == MouseButtonState.Pressed)
             {
@@ -74,7 +74,7 @@ namespace Notepad2.Notepad
                         }
                         else
                         {
-                            string tempFilePath = Path.Combine(Path.GetTempPath(), notepad.Document.FileName);
+                            string tempFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), notepad.Document.FileName);
                             File.WriteAllText(tempFilePath, notepad.Document.Text);
                             string[] path = new string[1] { tempFilePath };
                             SetDraggingStatus(true);
@@ -130,7 +130,9 @@ namespace Notepad2.Notepad
                 Notepad.Document.FileName = fileNameNoExtension + extension;
             }
             else
+            {
                 Notepad.Document.FileName += extension;
+            }
         }
     }
 }

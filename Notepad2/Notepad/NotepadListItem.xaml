@@ -6,10 +6,12 @@
              xmlns:local="clr-namespace:Notepad2.Notepad"
              xmlns:viewmodels="clr-namespace:Notepad2.ViewModels"
              xmlns:converters="clr-namespace:Notepad2.Converters" 
+             Foreground="{DynamicResource ControlDefaultForeground}"
              MouseDown="ElePar_MouseDown" 
              Focusable="True"
              mc:Ignorable="d" 
-             d:DesignWidth="185" d:DesignHeight="56" 
+             d:DesignWidth="185" 
+             d:DesignHeight="56" 
              MaxHeight="180"
              BorderThickness="0">
     <UserControl.Resources>
@@ -44,12 +46,12 @@
     </UserControl.ContextMenu>
     <Grid Background="Transparent">
         <Rectangle Margin="0,4" 
+                   x:Name="grip"
                    HorizontalAlignment="Left" 
                    Width="7" 
-                   MouseMove="elePar_MouseMove" 
-                   MouseLeftButtonDown="ElePar_MouseLeftButtonDown" 
-                   Cursor="Hand"
-                   ToolTip="Initiate DragDrop, allowing you to drop this item on your desktop or something">
+                   MouseMove="gripMouseMove" 
+                   MouseLeftButtonDown="gripLeftMouseButtonDown"
+                   ToolTip="Initiate DragDrop, allowing you to drop this item on your desktop or something" Cursor="SizeAll">
             <Rectangle.Fill>
                 <DrawingBrush TileMode="Tile" Viewbox="0,0,4,4" Viewport="0,0,4,4" ViewportUnits="Absolute" ViewboxUnits="Absolute">
                     <DrawingBrush.Drawing>
@@ -63,11 +65,11 @@
         </Rectangle>
         <Grid Margin="10,0,0,0">
             <TextBlock Text="{Binding Document.FileName, UpdateSourceTrigger=PropertyChanged}" 
-                   Background="Transparent"
-                   Margin="2,2,0,31" 
-                   MaxHeight="60"
-                   TextWrapping="Wrap"
-                   FontSize="14" HorizontalAlignment="Left" Width="145" />
+                       Background="Transparent"
+                       Margin="2,2,0,31" 
+                       MaxHeight="60"
+                       TextWrapping="Wrap"
+                       FontSize="14" HorizontalAlignment="Left" Width="145" />
             <Grid Margin="4,0,2,3" Height="15" VerticalAlignment="Bottom">
                 <Grid.Background>
                     <SolidColorBrush Color="{Binding Document.FileSize, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource fileSizeToColour}}" Opacity="0.2"/>
