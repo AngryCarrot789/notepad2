@@ -1,9 +1,11 @@
 ﻿using Notepad2.InformationStuff;
+using Notepad2.RecyclingBin;
 using Notepad2.Utilities;
 using Notepad2.ViewModels;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -103,8 +105,9 @@ namespace Notepad2.Notepad
 
         public void DeleteFile()
         {
-            if (File.Exists(Notepad.Document.FilePath)) 
-                File.Delete(Notepad.Document.FilePath);
+            string fileName = Notepad.Document.FilePath;
+            if (File.Exists(Notepad.Document.FilePath))
+                Task.Run(() => RecycleBin.SilentSend(fileName));
             Close?.Invoke(this);
         }
 

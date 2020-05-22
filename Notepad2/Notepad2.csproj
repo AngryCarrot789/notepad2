@@ -78,6 +78,10 @@
     <Compile Include="Notepad\NotepadListItem.xaml.cs">
       <DependentUpon>NotepadListItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RecyclingBin\FileOperationFlags.cs" />
+    <Compile Include="RecyclingBin\FileOperationType.cs" />
+    <Compile Include="RecyclingBin\RecycleBin.cs" />
+    <Compile Include="RecyclingBin\SHFILEOPSTRUCT.cs" />
     <Compile Include="Themes\ColourfulDarkTheme.xaml.cs">
       <DependentUpon>ColourfulDarkTheme.xaml</DependentUpon>
     </Compile>
